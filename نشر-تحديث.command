@@ -53,12 +53,12 @@ if git push origin main; then
   echo -e "${GREEN}  ✅ تم النشر بنجاح! الموقع هيتحدث خلال 30 ثانية${NC}"
   echo ""
   echo -e "${GREEN}  🌐 رابط موقعك:${NC}"
-  echo -e "${GREEN}     https://charming-flan-31815d.netlify.app${NC}"
+  echo -e "${GREEN}     https://mohamed-photography-pro.netlify.app${NC}"
   echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
   
   # فتح الموقع تلقائياً
   sleep 2
-  open "https://charming-flan-31815d.netlify.app"
+  open "https://mohamed-photography-pro.netlify.app"
 else
   echo ""
   echo -e "${RED}❌ حصل خطأ في الرفع. تأكد من الإنترنت وحاول تاني.${NC}"
