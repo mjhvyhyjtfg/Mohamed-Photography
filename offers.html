@@ -34,25 +34,29 @@
 /* Admin trigger button */
 .admin-trigger {
   position: fixed;
-  bottom: 30px;
-  right: 30px;
-  width: 52px; height: 52px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.1);
-  display: flex; align-items: center; justify-content: center;
+  top: 90px;
+  left: 20px;
+  height: 44px;
+  padding: 0 18px;
+  border-radius: 100px;
+  background: linear-gradient(135deg, var(--crimson), var(--crimson-dark));
+  border: none;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
   cursor: pointer;
   z-index: 990;
   transition: var(--transition-spring);
-  backdrop-filter: blur(8px);
+  box-shadow: 0 4px 20px rgba(192,57,43,0.4);
+  color: white;
+  font-family: var(--font-arabic);
+  font-size: 0.85rem;
+  font-weight: 700;
+  white-space: nowrap;
 }
 .admin-trigger:hover {
-  background: rgba(192,57,43,0.2);
-  border-color: rgba(192,57,43,0.4);
-  transform: scale(1.1);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(192,57,43,0.55);
 }
-.admin-trigger svg { width: 20px; height: 20px; color: rgba(255,255,255,0.5); }
-.admin-trigger:hover svg { color: var(--crimson-light); }
+.admin-trigger svg { width: 16px; height: 16px; color: white; }
 
 /* ══ PASSWORD MODAL ══ */
 .modal-overlay {
@@ -696,10 +700,11 @@
 
 <!-- ═══ ADMIN TRIGGER (invisible gear) ═══ -->
 <button class="admin-trigger" id="adminTrigger" title="لوحة التحكم" aria-label="لوحة التحكم">
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-    <circle cx="12" cy="12" r="3"/>
-    <path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/>
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <line x1="12" y1="5" x2="12" y2="19"/>
+    <line x1="5" y1="12" x2="19" y2="12"/>
   </svg>
+  إضافة عرض
 </button>
 
 <!-- ═══ WhatsApp Float ═══ -->
