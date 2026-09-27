@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
         preloader.classList.add('hidden');
         document.body.style.overflow = '';
         triggerHeroAnimations();
-      }, 1800);
+      }, 500);
     });
     document.body.style.overflow = 'hidden';
   }
