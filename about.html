@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>عني | Mohamed Photography</title>
+  <meta name="description" content="تعرف على Mohamed — مصور فوتوغرافي احترافي بخبرة 8 سنوات. قصتي مع التصوير، معداتي، شهاداتي." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Cairo:wght@300;400;500;600;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+  <style>
+.page-hero {
+  padding: calc(var(--nav-height) + 90px) 0 80px;
+  background: var(--black-mid);
+  position: relative; overflow: hidden;
+}
+.page-hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 30% 50%, rgba(192,57,43,0.1) 0%, transparent 60%);
+}
+.about-page-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 6rem; align-items: center;
+  position: relative; z-index: 2;
+}
+.about-page-img-wrap { position: relative; }
+.about-page-img {
+  width: 100%; border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg), 0 0 80px rgba(192,57,43,0.12);
+  object-fit: cover; aspect-ratio: 3/4;
+  transition: transform 0.6s ease;
+}
+.about-page-img-wrap:hover .about-page-img { transform: scale(1.02); }
+.about-float-card {
+  position: absolute; bottom: -24px; left: -24px;
+  background: var(--black-card); border: 1px solid var(--black-border);
+  border-radius: var(--radius-lg); padding: 1.25rem 1.5rem;
+  box-shadow: var(--shadow-lg);
+  animation: floatBadge 3s ease-in-out infinite;
+}
+.float-stat { display: flex; align-items: baseline; gap: 4px; }
+.float-num { font-family: var(--font-display); font-size: 2rem; font-weight: 700; color: var(--crimson-light); }
+.float-label { font-size: 0.8rem; color: var(--white-50); }
+.about-page-content {}
+.about-page-content .section-title { margin-bottom: 1rem; }
+.about-page-content p { color: var(--white-60, rgba(255,255,255,0.6)); line-height: 2; margin-bottom: 1.2rem; font-size: 0.95rem; }
+.about-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 1.5rem 0; }
+.about-tag {
+  padding: 6px 16px; border-radius: 100px;
+  border: 1px solid var(--black-border);
+  background: var(--black-card);
+  font-size: 0.8rem; color: var(--white-70);
+  transition: var(--transition);
+}
+.about-tag:hover { border-color: rgba(192,57,43,0.3); color: var(--crimson-light); }
+
+/* Timeline */
+.timeline-section { padding: 100px 0; background: var(--black); }
+.timeline { position: relative; padding-right: 2rem; }
+.timeline::before {
+  content: ''; position: absolute;
+  top: 0; right: 0; bottom: 0; width: 2px;
+  background: linear-gradient(to bottom, var(--crimson), rgba(192,57,43,0.1));
+}
+.timeline-item {
+  position: relative; padding-right: 2.5rem;
+  margin-bottom: 3rem;
+  opacity: 0; transform: translateX(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.timeline-item.visible { opacity: 1; transform: translateX(0); }
+.timeline-dot {
+  position: absolute; right: -7px; top: 6px;
+  width: 16px; height: 16px; border-radius: 50%;
+  background: var(--crimson);
+  border: 3px solid var(--black);
+  box-shadow: 0 0 12px var(--crimson-glow);
+}
+.timeline-year {
+  font-size: 0.75rem; color: var(--crimson-light);
+  letter-spacing: 2px; text-transform: uppercase; font-weight: 700;
+  margin-bottom: 6px;
+}
+.timeline-title {
+  font-family: var(--font-display); font-size: 1.2rem; font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+.timeline-desc { font-size: 0.88rem; color: var(--white-50); line-height: 1.8; }
+
+/* Equipment */
+.equipment-section { padding: 100px 0; background: var(--black-mid); }
+.equipment-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem;
+}
+.equip-card {
+  background: var(--black-card); border: 1px solid var(--black-border);
+  border-radius: var(--radius-lg); padding: 1.75rem 1.5rem;
+  text-align: center; transition: var(--transition-slow);
+}
+.equip-card:hover {
+  border-color: rgba(192,57,43,0.3); transform: translateY(-6px);
+  box-shadow: var(--shadow-lg);
+}
+.equip-icon {
+  font-size: 2.5rem; margin-bottom: 0.75rem; display: block;
+}
+.equip-name { font-size: 0.88rem; font-weight: 700; margin-bottom: 4px; }
+.equip-model { font-size: 0.78rem; color: var(--white-50); }
+
+/* Values */
+.values-section { padding: 100px 0; background: var(--black); }
+.values-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+.value-card {
+  background: var(--black-card); border: 1px solid var(--black-border);
+  border-radius: var(--radius-lg); padding: 2.5rem 2rem;
+  position: relative; overflow: hidden; transition: var(--transition-slow);
+}
+.value-card::before {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--crimson), var(--crimson-light));
+  transform: scaleX(0); transform-origin: right; transition: transform var(--transition-slow);
+}
+.value-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); }
+.value-card:hover::before { transform: scaleX(1); transform-origin: left; }
+.value-icon { font-size: 2.5rem; margin-bottom: 1rem; display: block; }
+.value-title { font-family: var(--font-display); font-size: 1.15rem; font-weight: 700; margin-bottom: 0.75rem; }
+.value-desc { font-size: 0.88rem; color: var(--white-50); line-height: 1.9; }
+
+/* Awards */
+.awards-section { padding: 100px 0; background: var(--black-mid); }
+.awards-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+.award-card {
+  background: var(--black-card); border: 1px solid var(--black-border);
+  border-radius: var(--radius-lg); padding: 2rem;
+  display: flex; gap: 1.25rem; align-items: flex-start;
+  transition: var(--transition-slow);
+}
+.award-card:hover { border-color: rgba(192,57,43,0.25); transform: translateY(-4px); }
+.award-icon-wrap {
+  width: 48px; height: 48px; border-radius: var(--radius);
+  background: var(--crimson-subtle); border: 1px solid rgba(192,57,43,0.2);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  font-size: 1.5rem;
+}
+.award-year { font-size: 0.72rem; color: var(--crimson-light); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; }
+.award-title { font-size: 0.92rem; font-weight: 700; margin-bottom: 4px; }
+.award-org { font-size: 0.78rem; color: var(--white-50); }
+
+/* Before/After */
+.before-after-section { padding: 100px 0; background: var(--black); }
+.ba-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; }
+.ba-slider-wrap {
+  border-radius: var(--radius-lg); overflow: hidden;
+  position: relative; aspect-ratio: 4/3;
+  cursor: col-resize; user-select: none;
+  box-shadow: var(--shadow-lg);
+}
+.ba-before, .ba-after {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+}
+.ba-before { background: linear-gradient(135deg, #1a1a1a, #2d2d2d); }
+.ba-after { background: linear-gradient(135deg, #1a0808, #2d0c0c); clip-path: inset(0 50% 0 0); transition: none; }
+.ba-ph {
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  pointer-events: none;
+}
+.ba-ph svg { width: 48px; height: 48px; }
+.ba-ph span { font-size: 0.78rem; letter-spacing: 2px; text-transform: uppercase; opacity: 0.5; }
+.ba-before .ba-ph svg { color: rgba(255,255,255,0.3); }
+.ba-after .ba-ph svg { color: rgba(192,57,43,0.6); }
+.ba-divider {
+  position: absolute; top: 0; bottom: 0; width: 3px;
+  background: var(--crimson); left: 50%; transform: translateX(-50%);
+  z-index: 10; transition: none;
+}
+.ba-handle {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 44px; height: 44px; border-radius: 50%;
+  background: var(--crimson); border: 3px solid white;
+  box-shadow: var(--shadow-crimson);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 11;
+}
+.ba-handle svg { width: 20px; height: 20px; color: white; }
+.ba-label-before, .ba-label-after {
+  position: absolute; bottom: 14px;
+  background: rgba(0,0,0,0.7); color: white;
+  font-size: 0.72rem; letter-spacing: 1px; text-transform: uppercase;
+  padding: 4px 12px; border-radius: 100px; z-index: 12;
+}
+.ba-label-before { right: 16px; }
+.ba-label-after { left: 16px; }
+.ba-title { padding: 1rem 0 0; font-size: 0.88rem; color: var(--white-70); text-align: center; }
+
+@media (max-width:1024px) {
+  .about-page-grid { grid-template-columns:1fr; gap:3rem; }
+  .equipment-grid { grid-template-columns:repeat(2,1fr); }
+  .values-grid { grid-template-columns:repeat(2,1fr); }
+  .awards-grid { grid-template-columns:1fr; }
+  .ba-grid { grid-template-columns:1fr; }
+}
+@media (max-width:640px) {
+  .equipment-grid { grid-template-columns:repeat(2,1fr); }
+  .values-grid { grid-template-columns:1fr; }
+}
+  </style>
+</head>
+<body>
+
+<div id="preloader">
+  <div class="preloader-inner">
+    <div class="lens-ring"></div><div class="lens-ring ring2"></div><div class="lens-ring ring3"></div>
+    <div class="aperture">
+      <div class="aperture-blade"></div><div class="aperture-blade"></div>
+      <div class="aperture-blade"></div><div class="aperture-blade"></div>
+      <div class="aperture-blade"></div><div class="aperture-blade"></div>
+    </div>
+    <p class="preloader-text">Mohamed Photography</p>
+  </div>
+</div>
+
+<nav id="navbar" class="navbar">
+  <div class="nav-container">
+    <a href="index.html" class="nav-logo">
+      <span class="logo-icon">⬡</span>
+      <span class="logo-text">Mohamed <em>Photography</em></span>
+    </a>
+    <button class="nav-toggle" id="navToggle"><span></span><span></span><span></span></button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html" class="nav-link">الرئيسية</a></li>
+      <li><a href="about.html" class="nav-link active">عني</a></li>
+      <li><a href="gallery.html" class="nav-link">المعرض</a></li>
+      <li><a href="services.html" class="nav-link">الخدمات</a></li>
+      <li><a href="videos.html" class="nav-link">الفيديوهات</a></li>
+      <li><a href="offers.html" class="nav-link">العروض</a></li>
+      <li><a href="contact.html" class="nav-link nav-cta">احجز الآن</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="page-hero">
+  <div class="container">
+    <div class="about-page-grid">
+      <div class="about-page-img-wrap">
+        <img src="gallery_portrait.jpg" alt="Mohamed — مصور فوتوغرافي" class="about-page-img" />
+        <div class="about-float-card">
+          <div class="float-stat">
+            <span class="float-num">8+</span>
+            <span class="float-label">سنوات خبرة</span>
+          </div>
+          <div style="font-size:0.72rem;color:var(--white-50);margin-top:4px">مصور محترف منذ 2016</div>
+        </div>
+      </div>
+      <div class="about-page-content">
+        <div class="section-tag">عني</div>
+        <h1 class="section-title">أنا محمد<br/><span class="accent-text">شغفي عدستي</span></h1>
+        <p>بدأت رحلتي مع التصوير وأنا في المرحلة الجامعية، كنت أحمل كاميرا بسيطة وأحاول أن أفهم معنى الضوء. مع الوقت، تحول الهواية إلى حرفة، والحرفة إلى فن، والفن إلى رسالة.</p>
+        <p>اليوم، بعد أكثر من 8 سنوات من التصوير الاحترافي وأكثر من 500 جلسة ومناسبة، ما زلت أشعر بنفس الإثارة عندما أضغط على زر التصوير. لأن كل صورة هي لحظة لن تعود، وأنا هنا أخلّدها.</p>
+        <p>تخصصت في تصوير الأفراح والبورتريه والتصوير التجاري، مع شغف خاص بتصوير الطبيعة والمناظر الطبيعية.</p>
+        <div class="about-tags">
+          <span class="about-tag">📸 Portrait</span>
+          <span class="about-tag">💒 Wedding</span>
+          <span class="about-tag">🎬 Cinematic</span>
+          <span class="about-tag">🏔️ Landscape</span>
+          <span class="about-tag">🎨 Fine Art</span>
+          <span class="about-tag">💼 Commercial</span>
+        </div>
+        <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-top:1.5rem">
+          <a href="contact.html" class="btn btn-primary">احجز جلسة معي</a>
+          <a href="gallery.html" class="btn btn-outline">شوف أعمالي</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TIMELINE -->
+<section class="timeline-section">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">رحلتي</div>
+      <h2 class="section-title">المحطات الكبرى</h2>
+      <p class="section-subtitle">من هواية بسيطة إلى مصور محترف</p>
+    </div>
+    <div style="max-width:700px;margin:0 auto">
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-year">2016</div>
+          <div class="timeline-title">البداية — أول كاميرا 📷</div>
+          <div class="timeline-desc">اشتريت أول كاميرا Canon EOS 1300D من مصروفي، وبدأت أصور كل شيء حولي. كانت البداية الحقيقية لشغفي بعالم التصوير.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-year">2017</div>
+          <div class="timeline-title">أول جلسة تصوير مدفوعة 💰</div>
+          <div class="timeline-desc">صورت أول جلسة بورتريه بأجر مادي لصديق، وكانت لحظة فارقة أدركت فيها أن التصوير يمكن أن يكون مصدر رزق حقيقي.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-year">2019</div>
+          <div class="timeline-title">أول حفل زفاف احترافي 💒</div>
+          <div class="timeline-desc">تلقيت أول عرض تصوير زفاف كامل ليوم كامل. كانت تجربة مكثفة علمتني أهمية التخطيط والتواجد في اللحظة المناسبة.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-year">2021</div>
+          <div class="timeline-title">إطلاق الاستوديو الخاص 🏠</div>
+          <div class="timeline-desc">افتتحت استوديو تصوير مجهز بإضاءة احترافية، وبدأت تقديم جلسات البورتريه والتصوير التجاري في بيئة خاضعة للتحكم الكامل.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-year">2023</div>
+          <div class="timeline-title">500+ عميل سعيد 🎉</div>
+          <div class="timeline-desc">وصلت إلى 500 عميل سعيد عبر مختلف الخدمات، وأصبحت واحداً من المصورين المعروفين في المنطقة بخدمات متكاملة وجودة عالية.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-year">2024</div>
+          <div class="timeline-title">المرحلة الجديدة — التوسع 🚀</div>
+          <div class="timeline-desc">إطلاق موقع احترافي متكامل، وتوسيع خدمات تصوير الفيديو السينمائي، وبدء العمل مع علامات تجارية كبرى في التصوير الإعلاني.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BEFORE/AFTER -->
+<section class="before-after-section">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">التعديل والريتش</div>
+      <h2 class="section-title">قبل وبعد التعديل</h2>
+      <p class="section-subtitle">اسحب السلايدر لمشاهدة الفرق الحقيقي في معالجة الصور</p>
+    </div>
+    <div class="ba-grid">
+      <!-- Slider 1 -->
+      <div>
+        <div class="ba-slider-wrap" id="ba1">
+          <div class="ba-before">
+            <div class="ba-ph">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+              <span>قبل التعديل</span>
+            </div>
+          </div>
+          <div class="ba-after" id="ba1-after">
+            <div class="ba-ph">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+              <span>بعد التعديل</span>
+            </div>
+          </div>
+          <div class="ba-divider" id="ba1-div"></div>
+          <div class="ba-handle" id="ba1-handle">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/><polyline points="9 18 3 12 9 6" transform="scale(-1,1) translate(-24,0)"/></svg>
+          </div>
+          <span class="ba-label-before">قبل</span>
+          <span class="ba-label-after">بعد</span>
+        </div>
+        <div class="ba-title">بورتريه — تعديل الألوان والإضاءة وإزالة التشتت</div>
+      </div>
+      <!-- Slider 2 -->
+      <div>
+        <div class="ba-slider-wrap" id="ba2">
+          <div class="ba-before" style="background:linear-gradient(135deg,#111,#222)">
+            <div class="ba-ph">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+              <span>قبل التعديل</span>
+            </div>
+          </div>
+          <div class="ba-after" id="ba2-after" style="background:linear-gradient(135deg,#200808,#380d0d)">
+            <div class="ba-ph">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+              <span>بعد التعديل</span>
+            </div>
+          </div>
+          <div class="ba-divider" id="ba2-div"></div>
+          <div class="ba-handle" id="ba2-handle">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/><polyline points="9 18 3 12 9 6" transform="scale(-1,1) translate(-24,0)"/></svg>
+          </div>
+          <span class="ba-label-before">قبل</span>
+          <span class="ba-label-after">بعد</span>
+        </div>
+        <div class="ba-title">تصوير أفراح — Cinematic Color Grading</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EQUIPMENT -->
+<section class="equipment-section">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">معداتي</div>
+      <h2 class="section-title">الأدوات التي أعمل بها</h2>
+      <p class="section-subtitle">أستخدم أحدث المعدات الاحترافية لضمان أعلى جودة</p>
+    </div>
+    <div class="equipment-grid">
+      <div class="equip-card"><span class="equip-icon">📷</span><div class="equip-name">كاميرا رئيسية</div><div class="equip-model">Canon EOS R5</div></div>
+      <div class="equip-card"><span class="equip-icon">📸</span><div class="equip-name">كاميرا احتياطية</div><div class="equip-model">Canon EOS R6 II</div></div>
+      <div class="equip-card"><span class="equip-icon">🔭</span><div class="equip-name">عدسة بورتريه</div><div class="equip-model">Canon 85mm f/1.4L</div></div>
+      <div class="equip-card"><span class="equip-icon">🔭</span><div class="equip-name">عدسة زوم</div><div class="equip-model">Canon 24-70mm f/2.8L</div></div>
+      <div class="equip-card"><span class="equip-icon">💡</span><div class="equip-name">إضاءة استوديو</div><div class="equip-model">Godox AD600 Pro</div></div>
+      <div class="equip-card"><span class="equip-icon">🎬</span><div class="equip-name">فيديو</div><div class="equip-model">DJI RS3 Pro Gimbal</div></div>
+      <div class="equip-card"><span class="equip-icon">🚁</span><div class="equip-name">درون</div><div class="equip-model">DJI Mavic 3 Pro</div></div>
+      <div class="equip-card"><span class="equip-icon">🖥️</span><div class="equip-name">المعالجة</div><div class="equip-model">Adobe Lightroom + Capture One</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- VALUES -->
+<section class="values-section">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">فلسفتي</div>
+      <h2 class="section-title">ما الذي يميزني؟</h2>
+    </div>
+    <div class="values-grid">
+      <div class="value-card"><span class="value-icon">🎯</span><h3 class="value-title">الدقة في التفاصيل</h3><p class="value-desc">لا تفوتني لحظة عابرة. أكون دائماً جاهزاً ومتهيئاً لالتقاط أي تفصيلة مهمة في المناسبة.</p></div>
+      <div class="value-card"><span class="value-icon">🎨</span><h3 class="value-title">البصمة الفنية</h3><p class="value-desc">لكل صورة أصنعها طابع خاص. أسلوبي يجمع بين الكلاسيكية والعصرية بتناسق فريد لا تجده في مكان آخر.</p></div>
+      <div class="value-card"><span class="value-icon">🤝</span><h3 class="value-title">الراحة والاحترام</h3><p class="value-desc">بعمل على إرياح عملائي قبل وأثناء الجلسة. لأن الصورة الحقيقية تظهر فقط حين يشعر الشخص بالطمأنينة.</p></div>
+      <div class="value-card"><span class="value-icon">⚡</span><h3 class="value-title">الالتزام بالمواعيد</h3><p class="value-desc">الوقت ثمين. أسلّم كل الصور في الموعد المتفق عليه تماماً. الاحترافية تبدأ من احترام وقت العميل.</p></div>
+      <div class="value-card"><span class="value-icon">💎</span><h3 class="value-title">الجودة لا التسوية</h3><p class="value-desc">لا أسلّم صورة واحدة إلا بعد مراجعتها بعناية. كل صورة تمثلني أمام عملائي ولن أتنازل عن جودتها.</p></div>
+      <div class="value-card"><span class="value-icon">🔄</span><h3 class="value-title">الدعم بعد التسليم</h3><p class="value-desc">علاقتي مع العميل لا تنتهي بتسليم الصور. أنا متاح للمراجعات والاستفسارات في أي وقت بعد الجلسة.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- AWARDS -->
+<section class="awards-section">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">الإنجازات</div>
+      <h2 class="section-title">شهادات وجوائز</h2>
+    </div>
+    <div class="awards-grid">
+      <div class="award-card"><div class="award-icon-wrap">🏆</div><div><div class="award-year">2023</div><div class="award-title">أفضل مصور أفراح</div><div class="award-org">جائزة المصورين العرب</div></div></div>
+      <div class="award-card"><div class="award-icon-wrap">🎓</div><div><div class="award-year">2022</div><div class="award-title">شهادة Adobe Certified Professional</div><div class="award-org">Adobe Inc.</div></div></div>
+      <div class="award-card"><div class="award-icon-wrap">⭐</div><div><div class="award-year">2022</div><div class="award-title">تقييم 5 نجوم لـ 200+ عميل</div><div class="award-org">Google Business</div></div></div>
+      <div class="award-card"><div class="award-icon-wrap">📰</div><div><div class="award-year">2021</div><div class="award-title">ظهور في مجلة Photography Egypt</div><div class="award-org">Photography Egypt Magazine</div></div></div>
+      <div class="award-card"><div class="award-icon-wrap">🎖️</div><div><div class="award-year">2020</div><div class="award-title">دورة تصوير متقدمة</div><div class="award-org">Canon Professional Academy</div></div></div>
+      <div class="award-card"><div class="award-icon-wrap">🌟</div><div><div class="award-year">2019</div><div class="award-title">أفضل مصور شاب صاعد</div><div class="award-org">محافظة القاهرة</div></div></div>
+    </div>
+    <div class="text-center mt-4">
+      <a href="contact.html" class="btn btn-primary">احجز معي الآن</a>
+    </div>
+  </div>
+</section>
+
+<a href="https://wa.me/201121044291?text=مرحباً، أريد الاستفسار عن خدمات التصوير" class="whatsapp-float" target="_blank" aria-label="واتساب">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  <span class="wa-tooltip">تواصل الآن</span>
+</a>
+
+<script src="js/main.js"></script>
+<script>
+// Before/After Sliders
+function initBASlider(id) {
+  const wrap = document.getElementById(id);
+  if (!wrap) return;
+  const after = document.getElementById(id + '-after');
+  const div = document.getElementById(id + '-div');
+  const handle = document.getElementById(id + '-handle');
+  let dragging = false;
+
+  function setPos(x) {
+    const rect = wrap.getBoundingClientRect();
+    let pct = Math.min(Math.max((x - rect.left) / rect.width * 100, 2), 98);
+    // Since RTL, invert for Arabic
+    after.style.clipPath = `inset(0 ${pct}% 0 0)`;
+    div.style.left = (100 - pct) + '%';
+    handle.style.left = (100 - pct) + '%';
+  }
+
+  wrap.addEventListener('mousedown', (e) => { dragging = true; setPos(e.clientX); });
+  window.addEventListener('mousemove', (e) => { if (dragging) setPos(e.clientX); });
+  window.addEventListener('mouseup', () => { dragging = false; });
+  wrap.addEventListener('touchstart', (e) => { dragging = true; setPos(e.touches[0].clientX); });
+  window.addEventListener('touchmove', (e) => { if (dragging) setPos(e.touches[0].clientX); });
+  window.addEventListener('touchend', () => { dragging = false; });
+
+  // Init at 50%
+  setPos(wrap.getBoundingClientRect().left + wrap.getBoundingClientRect().width / 2);
+}
+initBASlider('ba1');
+initBASlider('ba2');
+
+// Timeline reveal
+const timelineItems = document.querySelectorAll('.timeline-item');
+const tlObs = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => entry.target.classList.add('visible'), i * 120);
+      tlObs.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.15 });
+timelineItems.forEach(item => tlObs.observe(item));
+</script>
+</body>
+</html>

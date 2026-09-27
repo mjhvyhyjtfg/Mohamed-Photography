@@ -1,0 +1,1332 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>العروض والبروموهات | Mohamed Photography</title>
+  <meta name="description" content="عروض وخصومات خاصة من Mohamed Photography على خدمات التصوير الاحترافي." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Cairo:wght@300;400;500;600;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+  <style>
+
+/* ══════════════════════════════════════════
+   OFFERS PAGE STYLES
+══════════════════════════════════════════ */
+
+.page-hero {
+  padding: calc(var(--nav-height) + 80px) 0 70px;
+  text-align: center;
+  background: var(--black-mid);
+  position: relative;
+  overflow: hidden;
+}
+.page-hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 50% 100%, rgba(192,57,43,0.12) 0%, transparent 65%);
+}
+.page-hero .section-title { margin-bottom: 0.5rem; }
+.page-hero p { color: var(--white-50); max-width: 500px; margin: 0 auto 1rem; }
+
+/* Admin trigger button */
+.admin-trigger {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  z-index: 990;
+  transition: var(--transition-spring);
+  backdrop-filter: blur(8px);
+}
+.admin-trigger:hover {
+  background: rgba(192,57,43,0.2);
+  border-color: rgba(192,57,43,0.4);
+  transform: scale(1.1);
+}
+.admin-trigger svg { width: 20px; height: 20px; color: rgba(255,255,255,0.5); }
+.admin-trigger:hover svg { color: var(--crimson-light); }
+
+/* ══ PASSWORD MODAL ══ */
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.85);
+  backdrop-filter: blur(12px);
+  z-index: 10000;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; visibility: hidden;
+  transition: var(--transition-slow);
+}
+.modal-overlay.active { opacity: 1; visibility: visible; }
+
+.modal-box {
+  background: var(--black-card);
+  border: 1px solid var(--black-border);
+  border-radius: var(--radius-xl);
+  padding: 3rem;
+  width: 90%;
+  max-width: 440px;
+  transform: scale(0.9) translateY(20px);
+  transition: var(--transition-spring);
+  position: relative;
+}
+.modal-overlay.active .modal-box { transform: scale(1) translateY(0); }
+
+.modal-close-btn {
+  position: absolute; top: 16px; left: 16px;
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: white; font-size: 1.1rem;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: var(--transition);
+}
+.modal-close-btn:hover { background: var(--crimson); }
+
+.modal-icon {
+  width: 60px; height: 60px;
+  border-radius: var(--radius-lg);
+  background: var(--crimson-subtle);
+  border: 1px solid rgba(192,57,43,0.25);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 1.5rem;
+}
+.modal-icon svg { width: 28px; height: 28px; color: var(--crimson-light); }
+
+.modal-box h3 {
+  font-family: var(--font-display);
+  font-size: 1.4rem; font-weight: 700;
+  text-align: center; margin-bottom: 0.5rem;
+}
+.modal-box p {
+  text-align: center; color: var(--white-50);
+  font-size: 0.88rem; margin-bottom: 2rem; line-height: 1.7;
+}
+
+.pw-input-wrap { position: relative; margin-bottom: 1rem; }
+.pw-input {
+  width: 100%;
+  background: var(--black-soft);
+  border: 1px solid var(--black-border);
+  border-radius: var(--radius);
+  padding: 14px 50px 14px 18px;
+  font-family: var(--font-arabic);
+  font-size: 1rem; color: var(--white);
+  outline: none; transition: var(--transition);
+  letter-spacing: 4px;
+  text-align: center;
+}
+.pw-input:focus { border-color: var(--crimson); box-shadow: 0 0 0 3px rgba(192,57,43,0.15); }
+.pw-input.error { border-color: #e74c3c; animation: shake 0.4s ease; }
+.pw-toggle {
+  position: absolute; top: 50%; left: 14px; transform: translateY(-50%);
+  cursor: pointer; color: var(--white-50);
+  background: none; border: none; padding: 4px;
+  display: flex; align-items: center;
+}
+.pw-toggle svg { width: 18px; height: 18px; }
+.pw-error {
+  font-size: 0.82rem; color: #e74c3c; text-align: center;
+  min-height: 1.2rem; margin-bottom: 0.75rem;
+}
+
+@keyframes shake {
+  0%,100% { transform: translateX(0); }
+  20% { transform: translateX(-8px); }
+  40% { transform: translateX(8px); }
+  60% { transform: translateX(-6px); }
+  80% { transform: translateX(6px); }
+}
+
+/* ══ ADMIN PANEL ══ */
+.admin-panel {
+  position: fixed; top: 0; right: 0;
+  width: min(480px, 100vw);
+  height: 100vh;
+  background: #0d0d0d;
+  border-left: 1px solid var(--black-border);
+  z-index: 9990;
+  display: flex; flex-direction: column;
+  transform: translateX(100%);
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: -20px 0 60px rgba(0,0,0,0.6);
+}
+.admin-panel.open { transform: translateX(0); }
+
+.admin-header {
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid var(--black-border);
+  display: flex; align-items: center; justify-content: space-between;
+  flex-shrink: 0;
+}
+.admin-header h3 {
+  font-family: var(--font-display);
+  font-size: 1.1rem; font-weight: 700;
+  display: flex; align-items: center; gap: 10px;
+}
+.admin-header h3 span {
+  width: 8px; height: 8px;
+  border-radius: 50%; background: #25d366;
+  display: inline-block;
+  animation: pulse 2s ease-in-out infinite;
+}
+.admin-close {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.08);
+  color: white; font-size: 1.1rem;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: var(--transition);
+}
+.admin-close:hover { background: var(--crimson); }
+
+.admin-body {
+  flex: 1; overflow-y: auto; padding: 1.5rem 2rem;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(192,57,43,0.3) transparent;
+}
+.admin-body::-webkit-scrollbar { width: 4px; }
+.admin-body::-webkit-scrollbar-thumb { background: rgba(192,57,43,0.3); border-radius: 4px; }
+
+/* Add offer form */
+.add-offer-toggle {
+  display: flex; align-items: center; justify-content: space-between;
+  background: var(--crimson-subtle);
+  border: 1px dashed rgba(192,57,43,0.35);
+  border-radius: var(--radius-lg);
+  padding: 1rem 1.25rem;
+  cursor: pointer;
+  margin-bottom: 1.5rem;
+  transition: var(--transition);
+}
+.add-offer-toggle:hover { background: rgba(192,57,43,0.12); }
+.add-offer-toggle span {
+  font-size: 0.92rem; font-weight: 600; color: var(--crimson-light);
+  display: flex; align-items: center; gap: 8px;
+}
+.add-offer-toggle .toggle-icon {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: var(--crimson);
+  display: flex; align-items: center; justify-content: center;
+  color: white; font-size: 1.1rem;
+  transition: transform var(--transition-spring);
+  flex-shrink: 0;
+}
+.add-offer-toggle.open .toggle-icon { transform: rotate(45deg); }
+
+.add-offer-form {
+  background: var(--black-soft);
+  border: 1px solid var(--black-border);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  display: none;
+}
+.add-offer-form.visible { display: block; animation: fadeInDown 0.3s ease; }
+
+.field-label {
+  font-size: 0.78rem; font-weight: 600; color: var(--white-50);
+  letter-spacing: 1px; text-transform: uppercase;
+  margin-bottom: 6px; display: block;
+}
+.field-input, .field-select, .field-textarea {
+  width: 100%;
+  background: var(--black-card);
+  border: 1px solid var(--black-border);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  font-family: var(--font-arabic);
+  font-size: 0.88rem; color: var(--white);
+  outline: none; transition: var(--transition);
+  margin-bottom: 1rem;
+}
+.field-input:focus, .field-select:focus, .field-textarea:focus {
+  border-color: var(--crimson);
+  box-shadow: 0 0 0 2px rgba(192,57,43,0.15);
+}
+.field-input::placeholder, .field-textarea::placeholder { color: rgba(255,255,255,0.25); }
+.field-textarea { min-height: 70px; resize: vertical; }
+.field-select option { background: var(--black-card); }
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+
+/* Countdown type toggle */
+.countdown-type-tabs {
+  display: grid; grid-template-columns: 1fr 1fr 1fr;
+  background: var(--black-card);
+  border: 1px solid var(--black-border);
+  border-radius: var(--radius-sm);
+  padding: 3px; gap: 3px;
+  margin-bottom: 1rem;
+}
+.cd-tab {
+  padding: 8px; border-radius: 4px;
+  font-family: var(--font-arabic);
+  font-size: 0.78rem; font-weight: 600;
+  color: var(--white-50); cursor: pointer;
+  transition: var(--transition); text-align: center;
+  border: none; background: none;
+}
+.cd-tab.active { background: var(--crimson); color: white; }
+
+.countdown-config { display: none; }
+.countdown-config.visible { display: block; }
+
+/* Manual days/hours/mins picker */
+.duration-picker {
+  display: grid; grid-template-columns: 1fr 1fr 1fr;
+  gap: 0.5rem; margin-bottom: 1rem;
+}
+.duration-unit { text-align: center; }
+.duration-unit label {
+  font-size: 0.7rem; color: var(--white-50);
+  text-transform: uppercase; letter-spacing: 1px;
+  margin-bottom: 4px; display: block;
+}
+.duration-input {
+  width: 100%;
+  background: var(--black-card);
+  border: 1px solid var(--black-border);
+  border-radius: var(--radius-sm);
+  padding: 10px 6px;
+  font-family: var(--font-arabic);
+  font-size: 1rem; color: var(--white);
+  outline: none; text-align: center;
+  transition: var(--transition);
+}
+.duration-input:focus { border-color: var(--crimson); }
+
+/* Features list input */
+.features-list { display: flex; flex-direction: column; gap: 6px; margin-bottom: 0.5rem; }
+.feature-item-row {
+  display: flex; align-items: center; gap: 6px;
+}
+.feature-item-row input {
+  flex: 1;
+  background: var(--black-card);
+  border: 1px solid var(--black-border);
+  border-radius: var(--radius-sm);
+  padding: 8px 12px;
+  font-family: var(--font-arabic);
+  font-size: 0.82rem; color: var(--white);
+  outline: none; transition: var(--transition);
+}
+.feature-item-row input:focus { border-color: var(--crimson); }
+.remove-feature-btn {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: rgba(231,76,60,0.15);
+  border: 1px solid rgba(231,76,60,0.2);
+  color: #e74c3c; font-size: 1rem;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: var(--transition); flex-shrink: 0;
+}
+.remove-feature-btn:hover { background: #e74c3c; color: white; }
+
+.add-feature-btn {
+  font-size: 0.78rem; color: var(--crimson-light);
+  border: 1px dashed rgba(192,57,43,0.3);
+  background: transparent;
+  border-radius: var(--radius-sm);
+  padding: 6px 12px;
+  cursor: pointer; transition: var(--transition);
+  font-family: var(--font-arabic);
+  width: 100%;
+}
+.add-feature-btn:hover { background: var(--crimson-subtle); }
+
+.badge-select-group {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 0.5rem; margin-bottom: 1rem;
+}
+.badge-option {
+  padding: 8px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--black-border);
+  background: var(--black-card);
+  font-size: 0.78rem; color: var(--white-50);
+  cursor: pointer; text-align: center;
+  transition: var(--transition); font-family: var(--font-arabic);
+}
+.badge-option.selected { border-color: var(--crimson); background: var(--crimson-subtle); color: var(--crimson-light); }
+
+.save-offer-btn {
+  width: 100%; padding: 12px;
+  background: linear-gradient(135deg, var(--crimson), var(--crimson-dark));
+  border: none; border-radius: var(--radius);
+  color: white; font-family: var(--font-arabic);
+  font-size: 0.92rem; font-weight: 700;
+  cursor: pointer; transition: var(--transition-spring);
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.save-offer-btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-crimson); }
+
+/* Existing offers in admin */
+.admin-offers-list { display: flex; flex-direction: column; gap: 0.75rem; }
+.admin-offer-item {
+  background: var(--black-card);
+  border: 1px solid var(--black-border);
+  border-radius: var(--radius);
+  padding: 1rem 1.25rem;
+  display: flex; align-items: center; gap: 12px;
+  transition: var(--transition);
+}
+.admin-offer-item:hover { border-color: rgba(192,57,43,0.25); }
+
+.admin-offer-thumb {
+  width: 44px; height: 44px;
+  border-radius: var(--radius-sm);
+  background: var(--crimson-subtle);
+  border: 1px solid rgba(192,57,43,0.2);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  font-size: 1.2rem;
+}
+.admin-offer-info { flex: 1; min-width: 0; }
+.admin-offer-title {
+  font-size: 0.88rem; font-weight: 600;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  margin-bottom: 3px;
+}
+.admin-offer-meta { font-size: 0.74rem; color: var(--white-50); }
+.admin-offer-meta .cd-status { color: var(--crimson-light); }
+.admin-offer-meta .cd-status.expired { color: #e74c3c; }
+.admin-offer-meta .cd-status.no-cd { color: var(--white-30, rgba(255,255,255,0.3)); }
+
+.admin-offer-actions { display: flex; gap: 6px; flex-shrink: 0; }
+.action-btn {
+  width: 32px; height: 32px;
+  border-radius: 50%; border: 1px solid var(--black-border);
+  background: rgba(255,255,255,0.04);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: var(--transition);
+}
+.action-btn svg { width: 14px; height: 14px; color: var(--white-50); }
+.action-btn.delete:hover { background: rgba(231,76,60,0.15); border-color: rgba(231,76,60,0.3); }
+.action-btn.delete:hover svg { color: #e74c3c; }
+.action-btn.toggle-vis:hover { background: var(--crimson-subtle); border-color: rgba(192,57,43,0.3); }
+.action-btn.toggle-vis:hover svg { color: var(--crimson-light); }
+.admin-offer-item.hidden-offer { opacity: 0.4; }
+
+.empty-state {
+  text-align: center; padding: 3rem 1rem;
+  color: var(--white-30, rgba(255,255,255,0.3));
+}
+.empty-state svg { width: 48px; height: 48px; margin: 0 auto 1rem; display: block; opacity: 0.3; }
+.empty-state p { font-size: 0.88rem; }
+
+/* ══ PUBLIC OFFERS SECTION ══ */
+.offers-section { padding: 60px 0 100px; background: var(--black); }
+
+.offers-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.75rem;
+}
+
+.offer-card {
+  background: var(--black-card);
+  border: 1px solid var(--black-border);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  transition: var(--transition-slow);
+  position: relative;
+  animation: fadeInUp 0.5s ease both;
+}
+.offer-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-lg), 0 0 40px rgba(192,57,43,0.1);
+  border-color: rgba(192,57,43,0.3);
+}
+.offer-card.hot {
+  border-color: var(--crimson);
+  box-shadow: 0 0 40px rgba(192,57,43,0.15);
+}
+
+/* Badge ribbon */
+.offer-ribbon {
+  position: absolute; top: 18px; left: -28px;
+  transform: rotate(-45deg);
+  color: white; font-size: 0.68rem; font-weight: 700;
+  padding: 5px 36px;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+.offer-ribbon.badge-hot { background: linear-gradient(135deg, var(--crimson), var(--crimson-dark)); }
+.offer-ribbon.badge-new { background: linear-gradient(135deg, #2ecc71, #27ae60); }
+.offer-ribbon.badge-limited { background: linear-gradient(135deg, #f39c12, #d35400); }
+.offer-ribbon.badge-free { background: linear-gradient(135deg, #9b59b6, #6c3483); }
+
+.offer-header {
+  background: linear-gradient(135deg, rgba(192,57,43,0.07), transparent);
+  padding: 1.75rem 2rem 1.5rem;
+  border-bottom: 1px solid var(--black-border);
+}
+.offer-discount {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-size: 1.8rem; font-weight: 700;
+  color: var(--crimson-light);
+  background: var(--crimson-subtle);
+  border: 1px solid rgba(192,57,43,0.25);
+  border-radius: var(--radius);
+  padding: 3px 14px;
+  margin-bottom: 0.6rem;
+}
+.offer-title {
+  font-family: var(--font-display);
+  font-size: 1.15rem; font-weight: 700;
+  margin-bottom: 0.4rem; line-height: 1.3;
+}
+
+/* Per-offer countdown */
+.offer-countdown {
+  display: flex; align-items: center; gap: 6px;
+  margin-top: 0.75rem;
+}
+.offer-countdown-label {
+  font-size: 0.7rem; color: var(--white-50);
+  text-transform: uppercase; letter-spacing: 1px;
+  margin-left: 4px;
+}
+.cd-unit-sm {
+  background: var(--black-soft);
+  border: 1px solid rgba(192,57,43,0.2);
+  border-radius: 5px;
+  padding: 4px 8px;
+  text-align: center;
+  min-width: 38px;
+}
+.cd-num-sm {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1rem; font-weight: 700;
+  color: var(--crimson-light); line-height: 1;
+}
+.cd-lbl-sm {
+  display: block;
+  font-size: 0.58rem; color: var(--white-50);
+  text-transform: uppercase; letter-spacing: 0.5px;
+  margin-top: 1px;
+}
+.cd-sep { color: var(--crimson); font-weight: 700; font-size: 0.9rem; }
+.offer-expired-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(231,76,60,0.12);
+  border: 1px solid rgba(231,76,60,0.25);
+  color: #e74c3c;
+  font-size: 0.75rem; font-weight: 600;
+  padding: 5px 12px; border-radius: 100px;
+  margin-top: 0.75rem;
+}
+.offer-no-countdown {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 0.72rem; color: var(--white-40, rgba(255,255,255,0.4));
+  margin-top: 0.5rem;
+}
+
+.offer-body { padding: 1.5rem 2rem 2rem; }
+.offer-desc {
+  font-size: 0.86rem; color: rgba(255,255,255,0.6);
+  line-height: 1.8; margin-bottom: 1.25rem;
+}
+.offer-features {
+  list-style: none; display: flex; flex-direction: column; gap: 0.55rem;
+  margin-bottom: 1.5rem;
+}
+.offer-features li {
+  font-size: 0.84rem; color: var(--white-70);
+  display: flex; align-items: center; gap: 8px;
+}
+.offer-features li::before {
+  content: '✓'; color: var(--crimson-light); font-weight: 700; flex-shrink: 0;
+}
+.offer-price-row {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 1.25rem; flex-wrap: wrap;
+}
+.offer-new-price {
+  font-family: var(--font-display);
+  font-size: 1.6rem; font-weight: 700; color: var(--crimson-light);
+}
+.offer-old-price {
+  font-size: 1rem; color: rgba(255,255,255,0.35);
+  text-decoration: line-through;
+}
+.offer-saving {
+  font-size: 0.76rem; color: #2ecc71; font-weight: 600;
+  background: rgba(46,204,113,0.1);
+  border-radius: 100px; padding: 3px 10px;
+}
+
+.no-offers-msg {
+  grid-column: 1 / -1; text-align: center;
+  padding: 5rem 2rem; color: rgba(255,255,255,0.3);
+}
+.no-offers-msg svg {
+  width: 64px; height: 64px; margin: 0 auto 1rem; display: block; opacity: 0.25;
+}
+.no-offers-msg h3 { font-size: 1.2rem; margin-bottom: 0.5rem; color: rgba(255,255,255,0.5); }
+.no-offers-msg p { font-size: 0.88rem; }
+
+/* Bottom CTA */
+.offers-cta-bar {
+  text-align: center; margin-top: 3.5rem;
+  padding-top: 2.5rem;
+  border-top: 1px solid var(--black-border);
+}
+.offers-cta-bar p { color: var(--white-50); font-size: 0.9rem; margin-bottom: 1.25rem; }
+
+/* Toast */
+.admin-toast {
+  position: fixed; top: 80px; left: 50%; transform: translateX(-50%) translateY(-80px);
+  background: var(--black-card);
+  border: 1px solid var(--black-border);
+  border-radius: var(--radius-lg);
+  padding: 1rem 1.5rem;
+  display: flex; align-items: center; gap: 10px;
+  box-shadow: var(--shadow-lg); z-index: 99999;
+  transition: transform var(--transition-spring), opacity var(--transition);
+  opacity: 0; white-space: nowrap;
+}
+.admin-toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+.admin-toast .toast-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.admin-toast .toast-dot.green { background: #2ecc71; }
+.admin-toast .toast-dot.red { background: #e74c3c; }
+.admin-toast span { font-size: 0.88rem; color: var(--white-70); }
+
+/* Confirm delete modal */
+.confirm-delete-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.7); backdrop-filter: blur(6px);
+  z-index: 99998; display: flex; align-items: center; justify-content: center;
+  opacity: 0; visibility: hidden; transition: var(--transition);
+}
+.confirm-delete-overlay.active { opacity: 1; visibility: visible; }
+.confirm-box {
+  background: var(--black-card); border: 1px solid rgba(231,76,60,0.2);
+  border-radius: var(--radius-xl); padding: 2.5rem;
+  max-width: 380px; width: 90%; text-align: center;
+  transform: scale(0.9); transition: var(--transition-spring);
+}
+.confirm-delete-overlay.active .confirm-box { transform: scale(1); }
+.confirm-box h4 { font-family: var(--font-display); font-size: 1.3rem; margin-bottom: 0.5rem; }
+.confirm-box p { font-size: 0.88rem; color: var(--white-50); margin-bottom: 2rem; line-height: 1.7; }
+.confirm-actions { display: flex; gap: 0.75rem; }
+.confirm-actions .btn { flex: 1; justify-content: center; padding: 12px; border-radius: var(--radius); font-size: 0.9rem; }
+.btn-delete-confirm { background: linear-gradient(135deg,#e74c3c,#c0392b); color:white; border:none; cursor:pointer; font-family:var(--font-arabic); font-weight:600; }
+.btn-cancel-confirm { background: transparent; color: var(--white-70); border: 1px solid var(--black-border); cursor:pointer; font-family:var(--font-arabic); font-weight:600; }
+.btn-delete-confirm:hover { opacity:0.9; }
+.btn-cancel-confirm:hover { background:var(--white-10); }
+
+@media (max-width:1024px) { .offers-grid { grid-template-columns:repeat(2,1fr); } }
+@media (max-width:640px) {
+  .offers-grid { grid-template-columns:1fr; }
+  .admin-panel { width: 100vw; }
+}
+  </style>
+</head>
+<body>
+
+<!-- ═══ PRELOADER ═══ -->
+<div id="preloader">
+  <div class="preloader-inner">
+    <div class="lens-ring"></div><div class="lens-ring ring2"></div><div class="lens-ring ring3"></div>
+    <div class="aperture">
+      <div class="aperture-blade"></div><div class="aperture-blade"></div>
+      <div class="aperture-blade"></div><div class="aperture-blade"></div>
+      <div class="aperture-blade"></div><div class="aperture-blade"></div>
+    </div>
+    <p class="preloader-text">Mohamed Photography</p>
+  </div>
+</div>
+
+<!-- ═══ NAVBAR ═══ -->
+<nav id="navbar" class="navbar">
+  <div class="nav-container">
+    <a href="index.html" class="nav-logo">
+      <span class="logo-icon">⬡</span>
+      <span class="logo-text">Mohamed <em>Photography</em></span>
+    </a>
+    <button class="nav-toggle" id="navToggle"><span></span><span></span><span></span></button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html" class="nav-link">الرئيسية</a></li>
+      <li><a href="gallery.html" class="nav-link">المعرض</a></li>
+      <li><a href="services.html" class="nav-link">الخدمات</a></li>
+      <li><a href="videos.html" class="nav-link">الفيديوهات</a></li>
+      <li><a href="offers.html" class="nav-link active">العروض</a></li>
+      <li><a href="contact.html" class="nav-link nav-cta">احجز الآن</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section class="page-hero">
+  <div class="container" style="position:relative;z-index:2">
+    <div class="section-tag">🔥 عروض حصرية</div>
+    <h1 class="section-title">العروض والبروموهات</h1>
+    <p>استفد من عروضنا الحصرية المحدودة وسجّل لحظاتك بأسعار مميزة</p>
+  </div>
+</section>
+
+<!-- ═══ OFFERS SECTION ═══ -->
+<section class="offers-section">
+  <div class="container">
+    <div class="offers-grid" id="offersGrid">
+      <!-- Rendered by JS -->
+    </div>
+    <div class="offers-cta-bar">
+      <p>هل لديك استفسار أو تريد عرضاً مخصصاً لمناسبتك؟</p>
+      <a href="https://wa.me/201121044291?text=أريد الاستفسار عن عروض التصوير" class="btn btn-whatsapp btn-lg" target="_blank">
+        <svg viewBox="0 0 24 24" fill="currentColor" style="width:20px;height:20px"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        تواصل عبر واتساب
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ADMIN TRIGGER (invisible gear) ═══ -->
+<button class="admin-trigger" id="adminTrigger" title="لوحة التحكم" aria-label="لوحة التحكم">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+    <circle cx="12" cy="12" r="3"/>
+    <path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/>
+  </svg>
+</button>
+
+<!-- ═══ WhatsApp Float ═══ -->
+<a href="https://wa.me/201121044291?text=مرحباً، أريد الاستفسار عن خدمات التصوير" class="whatsapp-float" target="_blank" aria-label="واتساب">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  <span class="wa-tooltip">تواصل الآن</span>
+</a>
+
+<!-- ═══ PASSWORD MODAL ═══ -->
+<div class="modal-overlay" id="pwModal">
+  <div class="modal-box">
+    <button class="modal-close-btn" id="pwModalClose">×</button>
+    <div class="modal-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+      </svg>
+    </div>
+    <h3>لوحة التحكم</h3>
+    <p>أدخل كلمة السر للوصول إلى لوحة إدارة العروض</p>
+    <div class="pw-input-wrap">
+      <input type="password" class="pw-input" id="pwInput" placeholder="••••••••" maxlength="20" />
+      <button class="pw-toggle" id="pwToggle" aria-label="إظهار/إخفاء كلمة السر">
+        <svg id="eyeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+        </svg>
+      </button>
+    </div>
+    <div class="pw-error" id="pwError"></div>
+    <button class="btn btn-primary" style="width:100%;justify-content:center" id="pwSubmit">
+      دخول إلى لوحة التحكم
+    </button>
+  </div>
+</div>
+
+<!-- ═══ ADMIN PANEL ═══ -->
+<div class="admin-panel" id="adminPanel">
+  <div class="admin-header">
+    <h3><span></span> لوحة إدارة العروض</h3>
+    <button class="admin-close" id="adminClose">×</button>
+  </div>
+  <div class="admin-body">
+
+    <!-- Add Offer Toggle -->
+    <div class="add-offer-toggle" id="addOfferToggle">
+      <span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        إضافة عرض جديد
+      </span>
+      <div class="toggle-icon">+</div>
+    </div>
+
+    <!-- Add Offer Form -->
+    <div class="add-offer-form" id="addOfferForm">
+
+      <label class="field-label">عنوان العرض <span style="color:var(--crimson)">*</span></label>
+      <input type="text" class="field-input" id="f_title" placeholder="مثال: باقة موسم الأفراح" />
+
+      <label class="field-label">نص الخصم / العنوان الصغير <span style="color:var(--crimson)">*</span></label>
+      <input type="text" class="field-input" id="f_discount" placeholder="مثال: خصم 25% أو عرض خاص" />
+
+      <label class="field-label">وصف العرض</label>
+      <textarea class="field-textarea" id="f_desc" placeholder="اكتب تفاصيل العرض هنا..."></textarea>
+
+      <label class="field-label">مميزات العرض</label>
+      <div class="features-list" id="featuresList">
+        <div class="feature-item-row">
+          <input type="text" placeholder="ميزة 1" class="feature-input" />
+          <button class="remove-feature-btn" onclick="removeFeature(this)">×</button>
+        </div>
+        <div class="feature-item-row">
+          <input type="text" placeholder="ميزة 2" class="feature-input" />
+          <button class="remove-feature-btn" onclick="removeFeature(this)">×</button>
+        </div>
+      </div>
+      <button class="add-feature-btn" id="addFeatureBtn">+ إضافة ميزة</button>
+
+      <div class="field-row" style="margin-top:1rem">
+        <div>
+          <label class="field-label">السعر الجديد</label>
+          <input type="text" class="field-input" id="f_newPrice" placeholder="مثال: 3,375 ج.م" />
+        </div>
+        <div>
+          <label class="field-label">السعر القديم</label>
+          <input type="text" class="field-input" id="f_oldPrice" placeholder="مثال: 4,500 ج.م" />
+        </div>
+      </div>
+
+      <label class="field-label">نص التوفير</label>
+      <input type="text" class="field-input" id="f_saving" placeholder="مثال: وفر 1,125 ج.م" />
+
+      <label class="field-label">رسالة واتساب (اختياري)</label>
+      <input type="text" class="field-input" id="f_waMsg" placeholder="مثال: أريد الاستفادة من العرض" />
+
+      <label class="field-label">شارة العرض</label>
+      <div class="badge-select-group" id="badgeGroup">
+        <button class="badge-option" data-badge="">بدون شارة</button>
+        <button class="badge-option" data-badge="badge-hot">🔥 الأكثر حجزاً</button>
+        <button class="badge-option" data-badge="badge-new">✨ جديد</button>
+        <button class="badge-option" data-badge="badge-limited">⏳ محدود</button>
+        <button class="badge-option" data-badge="badge-free">🎁 مجاني</button>
+      </div>
+
+      <!-- Countdown Config -->
+      <label class="field-label" style="margin-top:0.5rem">نوع العداد التنازلي</label>
+      <div class="countdown-type-tabs">
+        <button class="cd-tab active" data-type="none">بدون عداد</button>
+        <button class="cd-tab" data-type="duration">مدة محددة</button>
+        <button class="cd-tab" data-type="datetime">تاريخ معين</button>
+      </div>
+
+      <!-- Duration picker -->
+      <div class="countdown-config" id="cfg_duration">
+        <label class="field-label">المدة المتبقية للعرض</label>
+        <div class="duration-picker">
+          <div class="duration-unit">
+            <label>أيام</label>
+            <input type="number" class="duration-input" id="f_days" min="0" max="365" value="7" />
+          </div>
+          <div class="duration-unit">
+            <label>ساعات</label>
+            <input type="number" class="duration-input" id="f_hours" min="0" max="23" value="0" />
+          </div>
+          <div class="duration-unit">
+            <label>دقائق</label>
+            <input type="number" class="duration-input" id="f_mins" min="0" max="59" value="0" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Datetime picker -->
+      <div class="countdown-config" id="cfg_datetime">
+        <label class="field-label">تاريخ ووقت انتهاء العرض</label>
+        <input type="datetime-local" class="field-input" id="f_datetime" />
+      </div>
+
+      <button class="save-offer-btn" id="saveOfferBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px"><polyline points="20 6 9 17 4 12"/></svg>
+        حفظ العرض
+      </button>
+    </div>
+
+    <!-- Existing Offers -->
+    <div style="font-size:0.78rem;font-weight:600;color:var(--white-50);text-transform:uppercase;letter-spacing:1px;margin-bottom:0.75rem">
+      العروض الحالية
+    </div>
+    <div class="admin-offers-list" id="adminOffersList">
+      <!-- Rendered by JS -->
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══ CONFIRM DELETE ═══ -->
+<div class="confirm-delete-overlay" id="confirmOverlay">
+  <div class="confirm-box">
+    <div style="font-size:2.5rem;margin-bottom:0.75rem">🗑️</div>
+    <h4>حذف العرض؟</h4>
+    <p>هل أنت متأكد من حذف هذا العرض؟ لن تتمكن من استعادته بعد الحذف.</p>
+    <div class="confirm-actions">
+      <button class="btn-cancel-confirm" id="cancelDeleteBtn">إلغاء</button>
+      <button class="btn-delete-confirm" id="confirmDeleteBtn">نعم، احذف</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ TOAST ═══ -->
+<div class="admin-toast" id="adminToast">
+  <span class="toast-dot green" id="toastDot"></span>
+  <span id="toastMsg">تم الحفظ بنجاح</span>
+</div>
+
+<script src="js/main.js"></script>
+<script>
+/* ════════════════════════════════════════════════
+   OFFERS MANAGER — Full Logic
+════════════════════════════════════════════════ */
+
+const ADMIN_PASSWORD = '1234'; // ← غيّر كلمة السر هنا
+const STORAGE_KEY = 'mp_offers_v2';
+const WHATSAPP_NUMBER = '201121044291';
+
+/* ── State ── */
+let offers = [];
+let selectedBadge = '';
+let selectedCountdownType = 'none';
+let pendingDeleteId = null;
+let isAdminOpen = false;
+let countdownIntervals = {};
+
+/* ── Load from localStorage ── */
+function loadOffers() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    offers = raw ? JSON.parse(raw) : [];
+  } catch { offers = []; }
+}
+
+/* ── Save to localStorage ── */
+function saveOffers() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(offers));
+}
+
+/* ── Generate ID ── */
+function genId() {
+  return 'offer_' + Date.now() + '_' + Math.random().toString(36).slice(2, 7);
+}
+
+/* ════ PASSWORD MODAL ════ */
+document.getElementById('adminTrigger').addEventListener('click', () => {
+  document.getElementById('pwModal').classList.add('active');
+  setTimeout(() => document.getElementById('pwInput').focus(), 300);
+});
+
+document.getElementById('pwModalClose').addEventListener('click', closePwModal);
+document.getElementById('pwModal').addEventListener('click', (e) => {
+  if (e.target === document.getElementById('pwModal')) closePwModal();
+});
+
+function closePwModal() {
+  document.getElementById('pwModal').classList.remove('active');
+  document.getElementById('pwInput').value = '';
+  document.getElementById('pwError').textContent = '';
+}
+
+document.getElementById('pwToggle').addEventListener('click', () => {
+  const inp = document.getElementById('pwInput');
+  const icon = document.getElementById('eyeIcon');
+  if (inp.type === 'password') {
+    inp.type = 'text';
+    icon.innerHTML = '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/>';
+  } else {
+    inp.type = 'password';
+    icon.innerHTML = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>';
+  }
+});
+
+function checkPassword() {
+  const val = document.getElementById('pwInput').value;
+  const errEl = document.getElementById('pwError');
+  const inp = document.getElementById('pwInput');
+  if (val === ADMIN_PASSWORD) {
+    closePwModal();
+    openAdminPanel();
+  } else {
+    errEl.textContent = 'كلمة السر غير صحيحة، حاول مجدداً';
+    inp.classList.add('error');
+    setTimeout(() => inp.classList.remove('error'), 500);
+  }
+}
+
+document.getElementById('pwSubmit').addEventListener('click', checkPassword);
+document.getElementById('pwInput').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') checkPassword();
+});
+
+/* ════ ADMIN PANEL ════ */
+function openAdminPanel() {
+  document.getElementById('adminPanel').classList.add('open');
+  renderAdminList();
+  isAdminOpen = true;
+}
+
+document.getElementById('adminClose').addEventListener('click', () => {
+  document.getElementById('adminPanel').classList.remove('open');
+  isAdminOpen = false;
+});
+
+/* ════ ADD OFFER FORM TOGGLE ════ */
+document.getElementById('addOfferToggle').addEventListener('click', () => {
+  const toggle = document.getElementById('addOfferToggle');
+  const form = document.getElementById('addOfferForm');
+  toggle.classList.toggle('open');
+  form.classList.toggle('visible');
+});
+
+/* ════ BADGE SELECT ════ */
+document.querySelectorAll('.badge-option').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.badge-option').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    selectedBadge = btn.dataset.badge;
+  });
+});
+document.querySelector('.badge-option').classList.add('selected');
+
+/* ════ COUNTDOWN TYPE TABS ════ */
+document.querySelectorAll('.cd-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.cd-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    selectedCountdownType = tab.dataset.type;
+    document.querySelectorAll('.countdown-config').forEach(c => c.classList.remove('visible'));
+    if (selectedCountdownType === 'duration') document.getElementById('cfg_duration').classList.add('visible');
+    if (selectedCountdownType === 'datetime') document.getElementById('cfg_datetime').classList.add('visible');
+  });
+});
+
+/* ════ FEATURES ════ */
+document.getElementById('addFeatureBtn').addEventListener('click', () => {
+  const list = document.getElementById('featuresList');
+  const row = document.createElement('div');
+  row.className = 'feature-item-row';
+  row.innerHTML = `
+    <input type="text" placeholder="ميزة جديدة" class="feature-input" />
+    <button class="remove-feature-btn" onclick="removeFeature(this)">×</button>
+  `;
+  list.appendChild(row);
+  row.querySelector('input').focus();
+});
+
+function removeFeature(btn) {
+  const list = document.getElementById('featuresList');
+  if (list.children.length > 1) {
+    btn.closest('.feature-item-row').remove();
+  } else {
+    btn.closest('.feature-item-row').querySelector('input').value = '';
+  }
+}
+
+/* ════ SAVE OFFER ════ */
+document.getElementById('saveOfferBtn').addEventListener('click', () => {
+  const title = document.getElementById('f_title').value.trim();
+  const discount = document.getElementById('f_discount').value.trim();
+  if (!title || !discount) {
+    showToast('يرجى ملء حقول العنوان والخصم على الأقل', 'red');
+    return;
+  }
+
+  const features = Array.from(document.querySelectorAll('.feature-input'))
+    .map(i => i.value.trim()).filter(Boolean);
+
+  // Build countdown end timestamp
+  let endTimestamp = null;
+  if (selectedCountdownType === 'duration') {
+    const d = parseInt(document.getElementById('f_days').value) || 0;
+    const h = parseInt(document.getElementById('f_hours').value) || 0;
+    const m = parseInt(document.getElementById('f_mins').value) || 0;
+    const ms = (d * 86400 + h * 3600 + m * 60) * 1000;
+    if (ms > 0) endTimestamp = Date.now() + ms;
+  } else if (selectedCountdownType === 'datetime') {
+    const dt = document.getElementById('f_datetime').value;
+    if (dt) endTimestamp = new Date(dt).getTime();
+  }
+
+  const offer = {
+    id: genId(),
+    title,
+    discount,
+    desc: document.getElementById('f_desc').value.trim(),
+    features,
+    newPrice: document.getElementById('f_newPrice').value.trim(),
+    oldPrice: document.getElementById('f_oldPrice').value.trim(),
+    saving: document.getElementById('f_saving').value.trim(),
+    waMsg: document.getElementById('f_waMsg').value.trim() || `أريد الاستفادة من عرض: ${title}`,
+    badge: selectedBadge,
+    endTimestamp,
+    visible: true,
+    createdAt: Date.now()
+  };
+
+  offers.unshift(offer);
+  saveOffers();
+  renderPublicOffers();
+  renderAdminList();
+  resetForm();
+  showToast('تم إضافة العرض بنجاح ✅', 'green');
+});
+
+function resetForm() {
+  document.getElementById('f_title').value = '';
+  document.getElementById('f_discount').value = '';
+  document.getElementById('f_desc').value = '';
+  document.getElementById('f_newPrice').value = '';
+  document.getElementById('f_oldPrice').value = '';
+  document.getElementById('f_saving').value = '';
+  document.getElementById('f_waMsg').value = '';
+  document.getElementById('f_days').value = 7;
+  document.getElementById('f_hours').value = 0;
+  document.getElementById('f_mins').value = 0;
+  document.getElementById('f_datetime').value = '';
+  document.getElementById('featuresList').innerHTML = `
+    <div class="feature-item-row">
+      <input type="text" placeholder="ميزة 1" class="feature-input" />
+      <button class="remove-feature-btn" onclick="removeFeature(this)">×</button>
+    </div>
+    <div class="feature-item-row">
+      <input type="text" placeholder="ميزة 2" class="feature-input" />
+      <button class="remove-feature-btn" onclick="removeFeature(this)">×</button>
+    </div>
+  `;
+  // Reset badge
+  document.querySelectorAll('.badge-option').forEach(b => b.classList.remove('selected'));
+  document.querySelector('.badge-option').classList.add('selected');
+  selectedBadge = '';
+  // Reset countdown
+  document.querySelectorAll('.cd-tab').forEach(t => t.classList.remove('active'));
+  document.querySelector('.cd-tab[data-type="none"]').classList.add('active');
+  selectedCountdownType = 'none';
+  document.querySelectorAll('.countdown-config').forEach(c => c.classList.remove('visible'));
+  // Close form
+  document.getElementById('addOfferToggle').classList.remove('open');
+  document.getElementById('addOfferForm').classList.remove('visible');
+}
+
+/* ════ DELETE OFFER ════ */
+function askDelete(id) {
+  pendingDeleteId = id;
+  document.getElementById('confirmOverlay').classList.add('active');
+}
+
+document.getElementById('cancelDeleteBtn').addEventListener('click', () => {
+  pendingDeleteId = null;
+  document.getElementById('confirmOverlay').classList.remove('active');
+});
+
+document.getElementById('confirmDeleteBtn').addEventListener('click', () => {
+  if (pendingDeleteId) {
+    offers = offers.filter(o => o.id !== pendingDeleteId);
+    saveOffers();
+    renderPublicOffers();
+    renderAdminList();
+    showToast('تم حذف العرض', 'red');
+    pendingDeleteId = null;
+  }
+  document.getElementById('confirmOverlay').classList.remove('active');
+});
+
+/* ════ TOGGLE VISIBILITY ════ */
+function toggleVisibility(id) {
+  const o = offers.find(o => o.id === id);
+  if (o) {
+    o.visible = !o.visible;
+    saveOffers();
+    renderPublicOffers();
+    renderAdminList();
+    showToast(o.visible ? 'تم إظهار العرض ✅' : 'تم إخفاء العرض 👁', o.visible ? 'green' : 'red');
+  }
+}
+
+/* ════ RENDER PUBLIC OFFERS ════ */
+function renderPublicOffers() {
+  // Clear old intervals
+  Object.values(countdownIntervals).forEach(clearInterval);
+  countdownIntervals = {};
+
+  const grid = document.getElementById('offersGrid');
+  const visibleOffers = offers.filter(o => o.visible);
+
+  if (visibleOffers.length === 0) {
+    grid.innerHTML = `
+      <div class="no-offers-msg">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="12" r="10"/><line x1="8" y1="15" x2="16" y2="15"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+        <h3>لا توجد عروض حالياً</h3>
+        <p>سيتم إضافة عروض جديدة قريباً. تابعنا!</p>
+      </div>`;
+    return;
+  }
+
+  grid.innerHTML = visibleOffers.map(o => renderOfferCard(o)).join('');
+
+  // Init countdown timers
+  visibleOffers.forEach(o => {
+    if (o.endTimestamp && o.endTimestamp > Date.now()) {
+      startOfferCountdown(o.id, o.endTimestamp);
+    }
+  });
+}
+
+function renderOfferCard(o) {
+  const isExpired = o.endTimestamp && o.endTimestamp <= Date.now();
+  const hasCountdown = o.endTimestamp && !isExpired;
+
+  const badgeHtml = o.badge
+    ? `<div class="offer-ribbon ${o.badge}">${badgeLabel(o.badge)}</div>` : '';
+
+  const countdownHtml = hasCountdown
+    ? `<div class="offer-countdown">
+        <span class="offer-countdown-label">ينتهي خلال</span>
+        <div class="cd-unit-sm"><span class="cd-num-sm" id="cd_${o.id}_d">--</span><span class="cd-lbl-sm">يوم</span></div>
+        <span class="cd-sep">:</span>
+        <div class="cd-unit-sm"><span class="cd-num-sm" id="cd_${o.id}_h">--</span><span class="cd-lbl-sm">ساعة</span></div>
+        <span class="cd-sep">:</span>
+        <div class="cd-unit-sm"><span class="cd-num-sm" id="cd_${o.id}_m">--</span><span class="cd-lbl-sm">دقيقة</span></div>
+        <span class="cd-sep">:</span>
+        <div class="cd-unit-sm"><span class="cd-num-sm" id="cd_${o.id}_s">--</span><span class="cd-lbl-sm">ثانية</span></div>
+      </div>`
+    : isExpired
+      ? `<div class="offer-expired-badge">⏰ انتهى هذا العرض</div>`
+      : `<div class="offer-no-countdown">⏳ العرض متاح بلا تحديد وقت</div>`;
+
+  const featuresHtml = o.features && o.features.length
+    ? `<ul class="offer-features">${o.features.map(f => `<li>${f}</li>`).join('')}</ul>` : '';
+
+  const priceHtml = (o.newPrice || o.oldPrice)
+    ? `<div class="offer-price-row">
+        ${o.newPrice ? `<span class="offer-new-price">${o.newPrice}</span>` : ''}
+        ${o.oldPrice ? `<span class="offer-old-price">${o.oldPrice}</span>` : ''}
+        ${o.saving ? `<span class="offer-saving">${o.saving}</span>` : ''}
+      </div>` : '';
+
+  const waMsg = encodeURIComponent(o.waMsg || `أريد الاستفادة من عرض: ${o.title}`);
+  const isHot = o.badge === 'badge-hot';
+
+  return `
+    <div class="offer-card ${isHot ? 'hot' : ''}" id="pub_${o.id}">
+      ${badgeHtml}
+      <div class="offer-header">
+        <div class="offer-discount">${o.discount}</div>
+        <h3 class="offer-title">${o.title}</h3>
+        ${countdownHtml}
+      </div>
+      <div class="offer-body">
+        ${o.desc ? `<p class="offer-desc">${o.desc}</p>` : ''}
+        ${featuresHtml}
+        ${priceHtml}
+        <a href="https://wa.me/${WHATSAPP_NUMBER}?text=${waMsg}" class="btn btn-primary" style="width:100%;justify-content:center" target="_blank">
+          احجز الآن عبر واتساب
+        </a>
+      </div>
+    </div>`;
+}
+
+function badgeLabel(badge) {
+  const labels = { 'badge-hot':'🔥 الأكثر حجزاً','badge-new':'✨ جديد','badge-limited':'⏳ محدود','badge-free':'🎁 مجاني' };
+  return labels[badge] || '';
+}
+
+/* ════ COUNTDOWN ════ */
+function startOfferCountdown(id, endTimestamp) {
+  function tick() {
+    const now = Date.now();
+    const diff = endTimestamp - now;
+    if (diff <= 0) {
+      clearInterval(countdownIntervals[id]);
+      delete countdownIntervals[id];
+      // Mark as expired in the rendered card
+      ['d','h','m','s'].forEach(u => {
+        const el = document.getElementById(`cd_${id}_${u}`);
+        if (el) el.textContent = '00';
+      });
+      return;
+    }
+    const days = Math.floor(diff / 86400000);
+    const hours = Math.floor((diff % 86400000) / 3600000);
+    const mins = Math.floor((diff % 3600000) / 60000);
+    const secs = Math.floor((diff % 60000) / 1000);
+    const set = (unit, val) => {
+      const el = document.getElementById(`cd_${id}_${unit}`);
+      if (el) el.textContent = String(val).padStart(2,'0');
+    };
+    set('d', days); set('h', hours); set('m', mins); set('s', secs);
+  }
+  tick();
+  countdownIntervals[id] = setInterval(tick, 1000);
+}
+
+/* ════ RENDER ADMIN LIST ════ */
+function renderAdminList() {
+  const list = document.getElementById('adminOffersList');
+  if (offers.length === 0) {
+    list.innerHTML = `
+      <div class="empty-state">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <p>لا يوجد عروض بعد.<br>أضف أول عرض الآن!</p>
+      </div>`;
+    return;
+  }
+  list.innerHTML = offers.map(o => {
+    const isExpired = o.endTimestamp && o.endTimestamp <= Date.now();
+    const hasCountdown = o.endTimestamp && !isExpired;
+    let cdStatus, cdClass;
+    if (hasCountdown) {
+      const diff = o.endTimestamp - Date.now();
+      const d = Math.floor(diff / 86400000);
+      const h = Math.floor((diff % 86400000) / 3600000);
+      cdStatus = `⏱ ${d}ي ${h}س متبقية`;
+      cdClass = 'cd-status';
+    } else if (isExpired) {
+      cdStatus = '⛔ انتهى العرض';
+      cdClass = 'cd-status expired';
+    } else {
+      cdStatus = '♾ بلا وقت محدد';
+      cdClass = 'cd-status no-cd';
+    }
+    const emoji = o.badge === 'badge-hot' ? '🔥' : o.badge === 'badge-new' ? '✨' : o.badge === 'badge-free' ? '🎁' : '📸';
+    return `
+      <div class="admin-offer-item ${o.visible ? '' : 'hidden-offer'}" id="adm_${o.id}">
+        <div class="admin-offer-thumb">${emoji}</div>
+        <div class="admin-offer-info">
+          <div class="admin-offer-title">${o.title}</div>
+          <div class="admin-offer-meta">
+            <span>${o.discount}</span> · 
+            <span class="${cdClass}">${cdStatus}</span>
+          </div>
+        </div>
+        <div class="admin-offer-actions">
+          <button class="action-btn toggle-vis" onclick="toggleVisibility('${o.id}')" title="${o.visible ? 'إخفاء' : 'إظهار'}">
+            ${o.visible
+              ? `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>`
+              : `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg>`}
+          </button>
+          <button class="action-btn delete" onclick="askDelete('${o.id}')" title="حذف">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+          </button>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+/* ════ TOAST ════ */
+function showToast(msg, type = 'green') {
+  const toast = document.getElementById('adminToast');
+  const dot = document.getElementById('toastDot');
+  document.getElementById('toastMsg').textContent = msg;
+  dot.className = `toast-dot ${type}`;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 3000);
+}
+
+/* ════ INIT ════ */
+loadOffers();
+renderPublicOffers();
+
+// Update admin countdown labels every minute
+setInterval(() => {
+  if (isAdminOpen) renderAdminList();
+}, 60000);
+</script>
+</body>
+</html>

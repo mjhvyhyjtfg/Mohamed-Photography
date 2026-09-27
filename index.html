@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mohamed Photography | مصور فوتوغرافي احترافي</title>
+  <meta name="description" content="Mohamed Photography - خدمات التصوير الفوتوغرافي الاحترافي لحفلات الأفراح والمناسبات والبورتريه والمنتجات والطبيعة. احجز جلسة تصوير مميزة الآن." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Cairo:wght@300;400;500;600;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+
+  <!-- ========== PRELOADER ========== -->
+  <div id="preloader">
+    <div class="preloader-inner">
+      <div class="lens-ring"></div>
+      <div class="lens-ring ring2"></div>
+      <div class="lens-ring ring3"></div>
+      <div class="aperture">
+        <div class="aperture-blade"></div>
+        <div class="aperture-blade"></div>
+        <div class="aperture-blade"></div>
+        <div class="aperture-blade"></div>
+        <div class="aperture-blade"></div>
+        <div class="aperture-blade"></div>
+      </div>
+      <p class="preloader-text">Mohamed Photography</p>
+    </div>
+  </div>
+
+  <!-- ========== NAV ========== -->
+  <nav id="navbar" class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        <span class="logo-icon">⬡</span>
+        <span class="logo-text">Mohamed <em>Photography</em></span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="القائمة">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html" class="nav-link active">الرئيسية</a></li>
+        <li><a href="gallery.html" class="nav-link">المعرض</a></li>
+        <li><a href="services.html" class="nav-link">الخدمات</a></li>
+        <li><a href="videos.html" class="nav-link">الفيديوهات</a></li>
+        <li><a href="offers.html" class="nav-link">العروض</a></li>
+        <li><a href="contact.html" class="nav-link nav-cta">احجز الآن</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ========== HERO ========== -->
+  <section id="hero" class="hero">
+    <canvas id="heroCanvas" class="hero-canvas"></canvas>
+    <div class="hero-bg" style="background-image: url('hero_bg.jpg')"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-particles" id="heroParticles"></div>
+
+    <div class="hero-content">
+      <div class="hero-badge reveal-fade">مصور فوتوغرافي احترافي</div>
+      <h1 class="hero-title reveal-up">
+        <span class="title-line">نلتقط</span>
+        <span class="title-line accent">اللحظات</span>
+        <span class="title-line">الخالدة</span>
+      </h1>
+      <p class="hero-subtitle reveal-up delay-2">
+        كل صورة قصة، وكل لحظة تستحق أن تُخلَّد بفن وإتقان
+      </p>
+      <div class="hero-actions reveal-up delay-3">
+        <a href="gallery.html" class="btn btn-primary">
+          <span>استكشف أعمالي</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <a href="contact.html" class="btn btn-outline">احجز جلسة</a>
+      </div>
+      <div class="hero-stats reveal-fade delay-4">
+        <div class="hero-stat">
+          <span class="stat-num" data-target="500">0</span>
+          <span class="stat-plus">+</span>
+          <span class="stat-label">عميل سعيد</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="hero-stat">
+          <span class="stat-num" data-target="8">0</span>
+          <span class="stat-plus">+</span>
+          <span class="stat-label">سنوات خبرة</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="hero-stat">
+          <span class="stat-num" data-target="50">0</span>
+          <span class="stat-plus">+</span>
+          <span class="stat-label">جلسة شهرياً</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-scroll-indicator">
+      <span>اكتشف المزيد</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- ========== ABOUT SECTION ========== -->
+  <section id="about" class="section about-section">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-visual">
+          <div class="about-img-wrapper">
+            <div class="about-img-3d">
+              <img src="gallery_portrait.jpg" alt="Mohamed - مصور فوتوغرافي" class="about-img" />
+            </div>
+            <div class="about-badge-float">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+              <span>Premium</span>
+            </div>
+            <div class="experience-card">
+              <span class="exp-num">8+</span>
+              <span class="exp-text">سنوات من الإبداع</span>
+            </div>
+          </div>
+        </div>
+        <div class="about-content">
+          <div class="section-tag">عني</div>
+          <h2 class="section-title">فن التصوير<br/><span class="accent-text">يبدأ من الرؤية</span></h2>
+          <p class="about-text">
+            أنا محمد، مصور فوتوغرافي شغوف بالتفاصيل وعاشق للضوء. أؤمن بأن الصورة الحقيقية ليست مجرد ضغطة على الزر، بل هي لحظة مشاعر مُجمَّدة في الزمن.
+          </p>
+          <p class="about-text">
+            بخبرة تمتد لأكثر من 8 سنوات في مجال التصوير الاحترافي، أقدم خدمات تصوير متكاملة تشمل حفلات الأفراح والمناسبات والبورتريه والمنتجات التجارية.
+          </p>
+          <div class="about-skills">
+            <div class="skill-item">
+              <span class="skill-name">تصوير الأفراح</span>
+              <div class="skill-bar"><div class="skill-fill" data-width="97"></div></div>
+            </div>
+            <div class="skill-item">
+              <span class="skill-name">البورتريه</span>
+              <div class="skill-bar"><div class="skill-fill" data-width="95"></div></div>
+            </div>
+            <div class="skill-item">
+              <span class="skill-name">التصوير التجاري</span>
+              <div class="skill-bar"><div class="skill-fill" data-width="90"></div></div>
+            </div>
+            <div class="skill-item">
+              <span class="skill-name">تصوير الفيديو</span>
+              <div class="skill-bar"><div class="skill-fill" data-width="88"></div></div>
+            </div>
+          </div>
+          <a href="gallery.html" class="btn btn-primary mt-2">شوف أعمالي</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== SERVICES PREVIEW ========== -->
+  <section class="section services-preview">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">الخدمات</div>
+        <h2 class="section-title">ماذا أقدم لك؟</h2>
+        <p class="section-subtitle">خدمات تصوير احترافية شاملة تناسب كل مناسبة</p>
+      </div>
+      <div class="services-grid">
+        <div class="service-card" id="service-wedding">
+          <div class="service-icon-3d">
+            <div class="icon-cube">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            </div>
+          </div>
+          <h3>تصوير الأفراح</h3>
+          <p>نلتقط أجمل لحظات يومك الاستثنائي بعدسة فنية راقية</p>
+          <a href="services.html#wedding" class="service-link">اعرف أكثر <span>←</span></a>
+        </div>
+        <div class="service-card" id="service-portrait">
+          <div class="service-icon-3d">
+            <div class="icon-cube">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M6 20v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/></svg>
+            </div>
+          </div>
+          <h3>البورتريه والفاشون</h3>
+          <p>جلسات تصوير بورتريه احترافية تبرز شخصيتك بأفضل صورة</p>
+          <a href="services.html#portrait" class="service-link">اعرف أكثر <span>←</span></a>
+        </div>
+        <div class="service-card" id="service-product">
+          <div class="service-icon-3d">
+            <div class="icon-cube">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+            </div>
+          </div>
+          <h3>التصوير التجاري</h3>
+          <p>تصوير منتجات وإعلانات تجارية تزيد مبيعاتك وتجذب عملاءك</p>
+          <a href="services.html#product" class="service-link">اعرف أكثر <span>←</span></a>
+        </div>
+        <div class="service-card" id="service-events">
+          <div class="service-icon-3d">
+            <div class="icon-cube">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/></svg>
+            </div>
+          </div>
+          <h3>المناسبات والفعاليات</h3>
+          <p>تغطية كاملة للمؤتمرات والحفلات والفعاليات الخاصة</p>
+          <a href="services.html#events" class="service-link">اعرف أكثر <span>←</span></a>
+        </div>
+        <div class="service-card" id="service-nature">
+          <div class="service-icon-3d">
+            <div class="icon-cube">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 17l4-8 4 5 3-3 5 6H3z"/><circle cx="17" cy="7" r="2"/></svg>
+            </div>
+          </div>
+          <h3>تصوير الطبيعة</h3>
+          <p>لقطات مذهلة من الطبيعة تجمع بين الجمال والفن الحقيقي</p>
+          <a href="services.html#nature" class="service-link">اعرف أكثر <span>←</span></a>
+        </div>
+        <div class="service-card" id="service-video">
+          <div class="service-icon-3d">
+            <div class="icon-cube">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+            </div>
+          </div>
+          <h3>تصوير الفيديو</h3>
+          <p>إنتاج مقاطع فيديو سينمائية عالية الجودة لكل المناسبات</p>
+          <a href="services.html#video" class="service-link">اعرف أكثر <span>←</span></a>
+        </div>
+      </div>
+      <div class="text-center mt-4">
+        <a href="services.html" class="btn btn-outline">عرض كل الخدمات والأسعار</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FEATURED GALLERY ========== -->
+  <section class="section featured-gallery">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">الأعمال</div>
+        <h2 class="section-title">من أعمالي المميزة</h2>
+        <p class="section-subtitle">نماذج من أحدث جلسات التصوير</p>
+      </div>
+    </div>
+    <div class="gallery-masonry">
+      <div class="gallery-item tall" data-category="wedding">
+        <img src="gallery_wedding.jpg" alt="تصوير زفاف" loading="lazy" />
+        <div class="gallery-overlay">
+          <span class="gallery-cat">أفراح</span>
+          <h4>جلسة زفاف رومانسية</h4>
+          <a href="gallery.html" class="gallery-zoom">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="gallery-item" data-category="portrait">
+        <img src="gallery_portrait.jpg" alt="بورتريه" loading="lazy" />
+        <div class="gallery-overlay">
+          <span class="gallery-cat">بورتريه</span>
+          <h4>بورتريه فاشون</h4>
+          <a href="gallery.html" class="gallery-zoom">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="gallery-item wide" data-category="events">
+        <div class="gallery-placeholder events-placeholder">
+          <div class="placeholder-content">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/></svg>
+            <span>تغطية المناسبات</span>
+          </div>
+        </div>
+        <div class="gallery-overlay">
+          <span class="gallery-cat">مناسبات</span>
+          <h4>حفل شركة كبرى</h4>
+          <a href="gallery.html" class="gallery-zoom">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="gallery-item" data-category="product">
+        <div class="gallery-placeholder product-placeholder">
+          <div class="placeholder-content">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+            <span>تصوير منتجات</span>
+          </div>
+        </div>
+        <div class="gallery-overlay">
+          <span class="gallery-cat">تجاري</span>
+          <h4>منتج فاخر</h4>
+          <a href="gallery.html" class="gallery-zoom">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="gallery-item tall" data-category="nature">
+        <div class="gallery-placeholder nature-placeholder">
+          <div class="placeholder-content">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M3 17l4-8 4 5 3-3 5 6H3z"/><circle cx="17" cy="7" r="2"/></svg>
+            <span>تصوير الطبيعة</span>
+          </div>
+        </div>
+        <div class="gallery-overlay">
+          <span class="gallery-cat">طبيعة</span>
+          <h4>غروب الشمس الذهبي</h4>
+          <a href="gallery.html" class="gallery-zoom">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="text-center mt-4">
+      <a href="gallery.html" class="btn btn-primary">عرض المعرض كاملاً</a>
+    </div>
+  </section>
+
+  <!-- ========== TESTIMONIALS ========== -->
+  <section class="section testimonials-section">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">آراء العملاء</div>
+        <h2 class="section-title">ماذا قالوا عني؟</h2>
+      </div>
+      <div class="testimonials-track" id="testimonialsTrack">
+        <div class="testimonial-card">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">"الصور جت أحسن من اللي تخيلناه! محمد محترف جداً وعنده حس فني عالي. كل صورة من الأفراح كانت تحفة."</p>
+          <div class="testimonial-author">
+            <div class="author-avatar">س</div>
+            <div>
+              <strong>سارة وأحمد</strong>
+              <span>عروسين - حفل زفاف 2024</span>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">"عملنا معاه جلسة تصوير للمنتجات وزادت المبيعات بشكل ملحوظ. الصور احترافية جداً وتعكس قيمة المنتج."</p>
+          <div class="testimonial-author">
+            <div class="author-avatar">ك</div>
+            <div>
+              <strong>كريم محمود</strong>
+              <span>صاحب علامة تجارية</span>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">"جلسة البورتريه كانت تجربة رائعة! محمد بيعرف كيف يريحك ويطلع أفضل ما فيك. النتيجة فاقت توقعاتي."</p>
+          <div class="testimonial-author">
+            <div class="author-avatar">ن</div>
+            <div>
+              <strong>نورهان علي</strong>
+              <span>جلسة بورتريه</span>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">"غطينا معاه مؤتمر شركتنا وكانت الصور والفيديو رائعين. دقيق في المواعيد ومحترف في التعامل."</p>
+          <div class="testimonial-author">
+            <div class="author-avatar">م</div>
+            <div>
+              <strong>محمد الصاوي</strong>
+              <span>مدير شركة</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonials-dots" id="testimonialsDots">
+        <button class="dot active" data-index="0"></button>
+        <button class="dot" data-index="1"></button>
+        <button class="dot" data-index="2"></button>
+        <button class="dot" data-index="3"></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== CTA SECTION ========== -->
+  <section class="section cta-section">
+    <div class="cta-bg-3d" id="ctaBg3d"></div>
+    <div class="container">
+      <div class="cta-content">
+        <div class="section-tag">ابدأ الآن</div>
+        <h2 class="cta-title">جاهز تلتقط لحظاتك<br/><span class="accent-text">الاستثنائية؟</span></h2>
+        <p class="cta-subtitle">تواصل معي الآن واحجز جلستك قبل امتلاء الأجندة</p>
+        <div class="cta-actions">
+          <a href="contact.html" class="btn btn-primary btn-lg">احجز جلسة الآن</a>
+          <a href="https://wa.me/201121044291?text=مرحباً، أريد الاستفسار عن خدمات التصوير" class="btn btn-whatsapp btn-lg" target="_blank">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            واتساب مباشر
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="footer">
+    <div class="footer-top">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <a href="index.html" class="nav-logo">
+              <span class="logo-icon">⬡</span>
+              <span class="logo-text">Mohamed <em>Photography</em></span>
+            </a>
+            <p>نلتقط لحظاتك الاستثنائية بعدسة فنية احترافية تخلد ذكرياتك للأبد.</p>
+            <div class="footer-social">
+              <a href="#" class="social-link" aria-label="Instagram">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+              </a>
+              <a href="https://wa.me/201121044291" class="social-link" aria-label="WhatsApp">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+              </a>
+              <a href="#" class="social-link" aria-label="Facebook">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+              </a>
+              <a href="#" class="social-link" aria-label="YouTube">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg>
+              </a>
+            </div>
+          </div>
+          <div class="footer-links">
+            <h4>روابط سريعة</h4>
+            <ul>
+              <li><a href="index.html">الرئيسية</a></li>
+              <li><a href="gallery.html">معرض الأعمال</a></li>
+              <li><a href="services.html">الخدمات والأسعار</a></li>
+              <li><a href="videos.html">الفيديوهات</a></li>
+              <li><a href="offers.html">العروض والبروموهات</a></li>
+              <li><a href="contact.html">تواصل معي</a></li>
+            </ul>
+          </div>
+          <div class="footer-links">
+            <h4>الخدمات</h4>
+            <ul>
+              <li><a href="services.html#wedding">تصوير الأفراح</a></li>
+              <li><a href="services.html#portrait">البورتريه والفاشون</a></li>
+              <li><a href="services.html#product">التصوير التجاري</a></li>
+              <li><a href="services.html#events">المناسبات</a></li>
+              <li><a href="services.html#nature">تصوير الطبيعة</a></li>
+              <li><a href="services.html#video">تصوير الفيديو</a></li>
+            </ul>
+          </div>
+          <div class="footer-contact">
+            <h4>تواصل معي</h4>
+            <div class="contact-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.63 3.18 2 2 0 0 1 3.6 1h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 8a16 16 0 0 0 7.86 7.86l.76-.76a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              <a href="tel:+201121044291">01121044291+</a>
+            </div>
+            <div class="contact-item">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+              <a href="https://wa.me/201121044291" target="_blank">واتساب: 01121044291</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container">
+        <p>© 2024 Mohamed Photography. جميع الحقوق محفوظة.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- WhatsApp Float -->
+  <a href="https://wa.me/201121044291?text=مرحباً، أريد الاستفسار عن خدمات التصوير" class="whatsapp-float" target="_blank" id="whatsappFloat" aria-label="تواصل عبر واتساب">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    <span class="wa-tooltip">تواصل الآن</span>
+  </a>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

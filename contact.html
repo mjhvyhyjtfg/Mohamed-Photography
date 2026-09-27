@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>تواصل واحجز | Mohamed Photography</title>
+  <meta name="description" content="تواصل مع Mohamed Photography لحجز جلسة تصوير احترافية. اترك طلبك وسيتم إرساله مباشرة على واتساب." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Cairo:wght@300;400;500;600;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+  <style>
+    .contact-hero {
+      padding: calc(var(--nav-height) + 80px) 0 80px;
+      text-align: center;
+      background: var(--black-mid);
+      position: relative;
+      overflow: hidden;
+    }
+    .contact-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 50% 100%, rgba(192,57,43,0.12) 0%, transparent 65%);
+    }
+
+    /* ---- CONTACT SECTION ---- */
+    .contact-section {
+      padding: 80px 0 100px;
+      background: var(--black);
+    }
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.3fr;
+      gap: 5rem;
+      align-items: start;
+    }
+
+    /* Info Panel */
+    .contact-info {
+      position: sticky;
+      top: calc(var(--nav-height) + 2rem);
+    }
+    .contact-info h2 {
+      font-family: var(--font-display);
+      font-size: 2rem; font-weight: 700;
+      margin-bottom: 0.75rem;
+      line-height: 1.3;
+    }
+    .contact-info > p {
+      color: var(--white-60, rgba(255,255,255,0.6));
+      line-height: 1.9;
+      margin-bottom: 2.5rem;
+    }
+
+    .contact-methods {
+      display: flex; flex-direction: column; gap: 1.25rem;
+      margin-bottom: 2.5rem;
+    }
+    .contact-method {
+      display: flex; align-items: center; gap: 16px;
+      background: var(--black-card);
+      border: 1px solid var(--black-border);
+      border-radius: var(--radius-lg);
+      padding: 1rem 1.25rem;
+      transition: var(--transition);
+      text-decoration: none;
+    }
+    .contact-method:hover {
+      border-color: rgba(192,57,43,0.3);
+      transform: translateX(-4px);
+    }
+    .method-icon {
+      width: 46px; height: 46px;
+      border-radius: var(--radius);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .method-icon.whatsapp { background: linear-gradient(135deg, #25d366, #128c7e); }
+    .method-icon.phone { background: linear-gradient(135deg, var(--crimson), var(--crimson-dark)); }
+    .method-icon.instagram { background: linear-gradient(135deg, #e1306c, #833ab4); }
+    .method-icon svg { width: 22px; height: 22px; color: white; }
+    .method-label {
+      font-size: 0.75rem; color: var(--white-50);
+      text-transform: uppercase; letter-spacing: 1px;
+      margin-bottom: 2px;
+    }
+    .method-value {
+      font-size: 0.95rem; color: var(--white); font-weight: 600;
+    }
+
+    .working-hours {
+      background: var(--black-card);
+      border: 1px solid var(--black-border);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+    }
+    .working-hours h4 {
+      font-size: 0.9rem; font-weight: 600; margin-bottom: 1rem;
+      color: var(--crimson-light);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .working-hours h4::before { content: '🕐'; }
+    .hours-row {
+      display: flex; justify-content: space-between;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--black-border);
+      font-size: 0.85rem;
+    }
+    .hours-row:last-child { border-bottom: none; }
+    .hours-row .day { color: var(--white-70); }
+    .hours-row .time { color: var(--white); font-weight: 500; }
+    .hours-row .closed { color: var(--crimson-light); font-weight: 600; }
+
+    /* Booking Form */
+    .booking-form-wrapper {
+      background: var(--black-card);
+      border: 1px solid var(--black-border);
+      border-radius: var(--radius-xl);
+      padding: 3rem;
+    }
+    .booking-form-wrapper h3 {
+      font-family: var(--font-display);
+      font-size: 1.5rem; font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    .booking-form-wrapper > p {
+      color: var(--white-50); font-size: 0.88rem;
+      margin-bottom: 2rem; line-height: 1.7;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    .form-label {
+      display: block;
+      font-size: 0.85rem; font-weight: 600;
+      color: var(--white-70);
+      margin-bottom: 0.5rem;
+    }
+    .form-label span { color: var(--crimson-light); }
+
+    .form-input, .form-select, .form-textarea {
+      width: 100%;
+      background: var(--black-soft);
+      border: 1px solid var(--black-border);
+      border-radius: var(--radius);
+      padding: 14px 18px;
+      font-family: var(--font-arabic);
+      font-size: 0.92rem;
+      color: var(--white);
+      transition: var(--transition);
+      outline: none;
+      -webkit-appearance: none;
+    }
+    .form-input::placeholder, .form-textarea::placeholder {
+      color: var(--white-30, rgba(255,255,255,0.3));
+    }
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      border-color: var(--crimson);
+      box-shadow: 0 0 0 3px rgba(192,57,43,0.15);
+      background: var(--black-soft);
+    }
+    .form-select {
+      cursor: pointer;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,0.5)' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: left 14px center;
+      background-size: 18px;
+      padding-left: 40px;
+    }
+    .form-select option { background: var(--black-soft); color: var(--white); }
+
+    .form-textarea {
+      min-height: 130px;
+      resize: vertical;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+    }
+
+    .form-submit-note {
+      display: flex; align-items: flex-start; gap: 10px;
+      background: rgba(37,211,102,0.08);
+      border: 1px solid rgba(37,211,102,0.2);
+      border-radius: var(--radius);
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .form-submit-note svg { width: 20px; height: 20px; color: #25d366; flex-shrink: 0; margin-top: 2px; }
+    .form-submit-note p { font-size: 0.82rem; color: var(--white-60, rgba(255,255,255,0.6)); line-height: 1.7; }
+
+    .btn-submit {
+      width: 100%;
+      justify-content: center;
+      font-size: 1rem;
+      padding: 16px;
+      border-radius: var(--radius);
+      background: linear-gradient(135deg, #25d366, #128c7e);
+      box-shadow: 0 8px 24px rgba(37,211,102,0.3);
+    }
+    .btn-submit:hover {
+      box-shadow: 0 16px 40px rgba(37,211,102,0.45);
+      transform: translateY(-3px);
+    }
+
+    /* Success Message */
+    .success-toast {
+      position: fixed; bottom: 30px; right: 30px;
+      background: var(--black-card);
+      border: 1px solid rgba(46,204,113,0.4);
+      border-radius: var(--radius-lg);
+      padding: 1.25rem 1.5rem;
+      display: flex; align-items: center; gap: 12px;
+      box-shadow: var(--shadow-lg);
+      z-index: 9999;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: var(--transition-spring);
+      max-width: 360px;
+    }
+    .success-toast.show { transform: translateY(0); opacity: 1; }
+    .success-toast-icon {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #25d366, #128c7e);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .success-toast-icon svg { width: 20px; height: 20px; color: white; }
+    .success-toast strong { display: block; margin-bottom: 2px; }
+    .success-toast span { font-size: 0.82rem; color: var(--white-60, rgba(255,255,255,0.6)); }
+
+    @media (max-width: 1024px) {
+      .contact-grid { grid-template-columns: 1fr; }
+      .contact-info { position: static; }
+    }
+    @media (max-width: 600px) {
+      .form-row { grid-template-columns: 1fr; }
+      .booking-form-wrapper { padding: 2rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="preloader">
+    <div class="preloader-inner">
+      <div class="lens-ring"></div><div class="lens-ring ring2"></div><div class="lens-ring ring3"></div>
+      <div class="aperture">
+        <div class="aperture-blade"></div><div class="aperture-blade"></div>
+        <div class="aperture-blade"></div><div class="aperture-blade"></div>
+        <div class="aperture-blade"></div><div class="aperture-blade"></div>
+      </div>
+      <p class="preloader-text">Mohamed Photography</p>
+    </div>
+  </div>
+
+  <nav id="navbar" class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        <span class="logo-icon">⬡</span>
+        <span class="logo-text">Mohamed <em>Photography</em></span>
+      </a>
+      <button class="nav-toggle" id="navToggle"><span></span><span></span><span></span></button>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html" class="nav-link">الرئيسية</a></li>
+        <li><a href="gallery.html" class="nav-link">المعرض</a></li>
+        <li><a href="services.html" class="nav-link">الخدمات</a></li>
+        <li><a href="videos.html" class="nav-link">الفيديوهات</a></li>
+        <li><a href="offers.html" class="nav-link">العروض</a></li>
+        <li><a href="contact.html" class="nav-link active nav-cta">احجز الآن</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <section class="contact-hero">
+    <div class="container">
+      <div class="section-tag">تواصل معي</div>
+      <h1 class="section-title">احجز جلستك الآن</h1>
+      <p style="color:var(--white-50); max-width:500px; margin: 0 auto;">أملأ النموذج وسيتم إرسال طلبك مباشرة على واتساب للتأكيد</p>
+    </div>
+  </section>
+
+  <section class="contact-section">
+    <div class="container">
+      <div class="contact-grid">
+
+        <!-- Info Panel -->
+        <div class="contact-info">
+          <h2>هنا لخدمتك<br/><span class="accent-text">في أي وقت</span></h2>
+          <p>لا تتردد في التواصل معي لأي استفسار أو لحجز موعد جلسة تصوير. سأرد عليك في أقرب وقت ممكن.</p>
+
+          <div class="contact-methods">
+            <a href="https://wa.me/201121044291" class="contact-method" target="_blank" id="contact-whatsapp">
+              <div class="method-icon whatsapp">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+              </div>
+              <div>
+                <div class="method-label">واتساب — رد سريع</div>
+                <div class="method-value">01121044291+</div>
+              </div>
+            </a>
+            <a href="tel:+201121044291" class="contact-method" id="contact-phone">
+              <div class="method-icon phone">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.63 3.18 2 2 0 0 1 3.6 1h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 8a16 16 0 0 0 7.86 7.86l.76-.76a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              </div>
+              <div>
+                <div class="method-label">اتصل مباشرة</div>
+                <div class="method-value">01121044291+</div>
+              </div>
+            </a>
+            <a href="#" class="contact-method" id="contact-instagram">
+              <div class="method-icon instagram">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+              </div>
+              <div>
+                <div class="method-label">انستجرام</div>
+                <div class="method-value">@MohamedPhotography</div>
+              </div>
+            </a>
+          </div>
+
+          <div class="working-hours">
+            <h4>مواعيد العمل</h4>
+            <div class="hours-row">
+              <span class="day">السبت — الأربعاء</span>
+              <span class="time">9:00 ص — 10:00 م</span>
+            </div>
+            <div class="hours-row">
+              <span class="day">الخميس</span>
+              <span class="time">9:00 ص — 12:00 م</span>
+            </div>
+            <div class="hours-row">
+              <span class="day">الجمعة</span>
+              <span class="closed">يوم إجازة</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Booking Form -->
+        <div class="booking-form-wrapper">
+          <h3>نموذج الحجز والتواصل</h3>
+          <p>أملأ التفاصيل وسيتم إرسال طلبك مباشرة على واتساب وسنتواصل معك خلال ساعات.</p>
+
+          <form id="bookingForm" novalidate>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="clientName">الاسم الكامل <span>*</span></label>
+                <input type="text" id="clientName" class="form-input" placeholder="اسمك هنا..." required />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="clientPhone">رقم الهاتف <span>*</span></label>
+                <input type="tel" id="clientPhone" class="form-input" placeholder="01xxxxxxxxx" required />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="serviceType">نوع الخدمة المطلوبة <span>*</span></label>
+              <select id="serviceType" class="form-select" required>
+                <option value="">اختر الخدمة...</option>
+                <option value="wedding">تصوير أفراح وخطوبة</option>
+                <option value="portrait">جلسة بورتريه / فاشون</option>
+                <option value="product">تصوير منتجات تجاري</option>
+                <option value="events">تغطية مناسبات وفعاليات</option>
+                <option value="nature">تصوير طبيعة / رحلات</option>
+                <option value="video">تصوير فيديو / كليب</option>
+                <option value="other">أخرى (اذكر في التفاصيل)</option>
+              </select>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="eventDate">تاريخ المناسبة / الجلسة <span>*</span></label>
+                <input type="date" id="eventDate" class="form-input" required />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="eventLocation">المكان / المدينة</label>
+                <input type="text" id="eventLocation" class="form-input" placeholder="القاهرة، الجيزة..." />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="packageType">الباقة المطلوبة</label>
+              <select id="packageType" class="form-select">
+                <option value="">اختر الباقة (اختياري)</option>
+                <option value="basic">الباقة الأساسية — 1,500 ج.م</option>
+                <option value="pro">الباقة الاحترافية — 4,500 ج.م</option>
+                <option value="premium">الباقة المميزة — 8,000 ج.م</option>
+                <option value="custom">باقة مخصصة</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="messageDetails">تفاصيل إضافية وملاحظات</label>
+              <textarea id="messageDetails" class="form-textarea" placeholder="أي تفاصيل إضافية تودّ إخباري بها عن مناسبتك أو متطلباتك الخاصة..."></textarea>
+            </div>
+
+            <div class="form-submit-note">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+              <p>بالنقر على "إرسال الطلب"، سيتم فتح واتساب تلقائياً مع تفاصيل طلبك كاملاً لإتمام عملية الحجز.</p>
+            </div>
+
+            <button type="submit" class="btn btn-submit" id="submitBtn">
+              <svg viewBox="0 0 24 24" fill="currentColor" style="width:20px;height:20px"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+              إرسال الطلب عبر واتساب ✉️
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Success Toast -->
+  <div class="success-toast" id="successToast">
+    <div class="success-toast-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+    <div>
+      <strong>تم إرسال الطلب! 🎉</strong>
+      <span>سيتم التواصل معك خلال ساعات قليلة</span>
+    </div>
+  </div>
+
+  <a href="https://wa.me/201121044291?text=مرحباً، أريد الاستفسار عن خدمات التصوير" class="whatsapp-float" target="_blank" aria-label="واتساب">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    <span class="wa-tooltip">تواصل الآن</span>
+  </a>
+
+  <script src="js/main.js"></script>
+  <script>
+    // Pre-fill service from URL param
+    const params = new URLSearchParams(window.location.search);
+    const svc = params.get('service');
+    if (svc) {
+      const sel = document.getElementById('serviceType');
+      if (sel) sel.value = svc;
+    }
+
+    // Form submission → WhatsApp
+    document.getElementById('bookingForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const name = document.getElementById('clientName').value.trim();
+      const phone = document.getElementById('clientPhone').value.trim();
+      const service = document.getElementById('serviceType');
+      const serviceText = service.options[service.selectedIndex]?.text || '';
+      const date = document.getElementById('eventDate').value;
+      const location = document.getElementById('eventLocation').value.trim();
+      const pkg = document.getElementById('packageType');
+      const pkgText = pkg.options[pkg.selectedIndex]?.text || '';
+      const notes = document.getElementById('messageDetails').value.trim();
+
+      if (!name || !phone || !service.value || !date) {
+        // Highlight empty required fields
+        [document.getElementById('clientName'), document.getElementById('clientPhone'), document.getElementById('serviceType'), document.getElementById('eventDate')].forEach(el => {
+          if (!el.value.trim()) {
+            el.style.borderColor = 'var(--crimson)';
+            el.style.boxShadow = '0 0 0 3px rgba(192,57,43,0.2)';
+            setTimeout(() => { el.style.borderColor = ''; el.style.boxShadow = ''; }, 3000);
+          }
+        });
+        return;
+      }
+
+      const msgLines = [
+        '🎯 *طلب حجز جديد*',
+        '━━━━━━━━━━━━━━━━━━',
+        `👤 *الاسم:* ${name}`,
+        `📱 *الهاتف:* ${phone}`,
+        `📸 *الخدمة:* ${serviceText}`,
+        `📅 *التاريخ:* ${date}`,
+      ];
+      if (location) msgLines.push(`📍 *المكان:* ${location}`);
+      if (pkgText && pkg.value) msgLines.push(`📦 *الباقة:* ${pkgText}`);
+      if (notes) msgLines.push(`💬 *ملاحظات:* ${notes}`);
+      msgLines.push('━━━━━━━━━━━━━━━━━━');
+      msgLines.push('تم إرسال الطلب من موقع Mohamed Photography 🌟');
+
+      const msg = msgLines.join('\n');
+      const url = `https://wa.me/201121044291?text=${encodeURIComponent(msg)}`;
+      window.open(url, '_blank');
+
+      // Show success toast
+      const toast = document.getElementById('successToast');
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 5000);
+
+      // Reset form
+      document.getElementById('bookingForm').reset();
+    });
+  </script>
+</body>
+</html>

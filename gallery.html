@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>معرض الأعمال | Mohamed Photography</title>
+  <meta name="description" content="معرض أعمال Mohamed Photography - أعمال تصوير احترافية في الأفراح والبورتريه والمنتجات والمناسبات والطبيعة." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Cairo:wght@300;400;500;600;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+  <style>
+    /* ---- GALLERY PAGE ---- */
+    .gallery-hero {
+      padding: calc(var(--nav-height) + 80px) 0 80px;
+      text-align: center;
+      background: var(--black-mid);
+      position: relative;
+      overflow: hidden;
+    }
+    .gallery-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 50% 100%, rgba(192,57,43,0.1) 0%, transparent 65%);
+    }
+    .gallery-hero .section-title { margin: 0 auto 1rem; }
+    .gallery-hero p { color: var(--white-50); max-width: 500px; margin: 0 auto; }
+
+    /* Filter tabs */
+    .filter-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin: 3rem 0 2rem;
+      padding: 0 2rem;
+    }
+    .filter-tab {
+      padding: 10px 24px;
+      border-radius: 100px;
+      border: 1px solid var(--black-border);
+      background: var(--black-card);
+      color: var(--white-50);
+      font-family: var(--font-arabic);
+      font-size: 0.88rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .filter-tab:hover { border-color: rgba(192,57,43,0.3); color: var(--white); }
+    .filter-tab.active {
+      background: linear-gradient(135deg, var(--crimson), var(--crimson-dark));
+      border-color: transparent;
+      color: var(--white);
+      box-shadow: var(--shadow-crimson);
+    }
+
+    /* Gallery grid */
+    .gallery-page-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 2rem 6rem;
+    }
+
+    .gallery-page-item {
+      position: relative;
+      border-radius: var(--radius);
+      overflow: hidden;
+      cursor: pointer;
+      aspect-ratio: 4/3;
+      background: var(--black-card);
+      transition: transform var(--transition-slow), box-shadow var(--transition-slow);
+    }
+    .gallery-page-item.portrait { aspect-ratio: 3/4; }
+    .gallery-page-item img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.8s cubic-bezier(0.4,0,0.2,1);
+    }
+    .gallery-page-item:hover { transform: scale(1.02); box-shadow: var(--shadow-lg); }
+    .gallery-page-item:hover img { transform: scale(1.08); }
+
+    .gallery-page-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(8,8,8,0.95) 0%, transparent 60%);
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 1.5rem; opacity: 0; transition: opacity var(--transition-slow);
+    }
+    .gallery-page-item:hover .gallery-page-overlay { opacity: 1; }
+    .gallery-page-overlay .gallery-cat { font-size: 0.72rem; letter-spacing: 2px; text-transform: uppercase; color: var(--crimson-light); margin-bottom: 4px; }
+    .gallery-page-overlay h4 { font-family: var(--font-display); font-size: 1rem; color: white; }
+
+    /* Placeholder styles */
+    .ph-events { background: linear-gradient(135deg, #1a0808, #2a0a0a, #3d0d0d); }
+    .ph-product { background: linear-gradient(135deg, #080818, #0a0a2a, #0d0d3d); }
+    .ph-nature { background: linear-gradient(135deg, #081508, #0a2a0a, #0d3d0d); }
+    .ph-content { display:flex; flex-direction:column; align-items:center; justify-content:center; height:100%; gap:12px; }
+    .ph-content svg { width:48px; height:48px; color:rgba(255,255,255,0.2); }
+    .ph-content span { font-size:0.78rem; color:rgba(255,255,255,0.3); letter-spacing:2px; text-transform:uppercase; }
+
+    /* Hidden items for filtering */
+    .gallery-page-item[data-hidden="true"] { display: none; }
+
+    @media (max-width: 768px) {
+      .gallery-page-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 480px) {
+      .gallery-page-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="preloader">
+    <div class="preloader-inner">
+      <div class="lens-ring"></div>
+      <div class="lens-ring ring2"></div>
+      <div class="lens-ring ring3"></div>
+      <div class="aperture">
+        <div class="aperture-blade"></div><div class="aperture-blade"></div>
+        <div class="aperture-blade"></div><div class="aperture-blade"></div>
+        <div class="aperture-blade"></div><div class="aperture-blade"></div>
+      </div>
+      <p class="preloader-text">Mohamed Photography</p>
+    </div>
+  </div>
+
+  <nav id="navbar" class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        <span class="logo-icon">⬡</span>
+        <span class="logo-text">Mohamed <em>Photography</em></span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="القائمة">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html" class="nav-link">الرئيسية</a></li>
+        <li><a href="gallery.html" class="nav-link active">المعرض</a></li>
+        <li><a href="services.html" class="nav-link">الخدمات</a></li>
+        <li><a href="videos.html" class="nav-link">الفيديوهات</a></li>
+        <li><a href="offers.html" class="nav-link">العروض</a></li>
+        <li><a href="contact.html" class="nav-link nav-cta">احجز الآن</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <section class="gallery-hero">
+    <div class="container">
+      <div class="section-tag">معرض الأعمال</div>
+      <h1 class="section-title">أعمالي الفوتوغرافية</h1>
+      <p>مجموعة مختارة من أجمل اللحظات التي التقطتها بعدستي</p>
+    </div>
+  </section>
+
+  <div class="filter-tabs">
+    <button class="filter-tab active" data-filter="all" id="filter-all">الكل</button>
+    <button class="filter-tab" data-filter="wedding" id="filter-wedding">أفراح</button>
+    <button class="filter-tab" data-filter="portrait" id="filter-portrait">بورتريه</button>
+    <button class="filter-tab" data-filter="events" id="filter-events">مناسبات</button>
+    <button class="filter-tab" data-filter="product" id="filter-product">تجاري</button>
+    <button class="filter-tab" data-filter="nature" id="filter-nature">طبيعة</button>
+  </div>
+
+  <div class="gallery-page-grid" id="galleryGrid">
+
+    <!-- Wedding Photos -->
+    <div class="gallery-page-item portrait" data-category="wedding" id="gitem-1">
+      <img src="gallery_wedding.jpg" alt="زفاف رومانسي" loading="lazy" />
+      <div class="gallery-page-overlay">
+        <span class="gallery-cat">أفراح</span>
+        <h4>جلسة زفاف رومانسية</h4>
+      </div>
+    </div>
+    <div class="gallery-page-item" data-category="wedding" id="gitem-2">
+      <div class="ph-events ph-content" style="height:100%">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        <span>زفاف كلاسيكي</span>
+      </div>
+      <div class="gallery-page-overlay">
+        <span class="gallery-cat">أفراح</span>
+        <h4>حفل زفاف كلاسيكي</h4>
+      </div>
+    </div>
+    <div class="gallery-page-item" data-category="wedding" id="gitem-3">
+      <div class="ph-events ph-content" style="height:100%; background: linear-gradient(135deg,#1a0808,#2d1010);">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        <span>عقد قران</span>
+      </div>
+      <div class="gallery-page-overlay">
+        <span class="gallery-cat">أفراح</span>
+        <h4>ليلة عقد القران</h4>
+      </div>
+    </div>
+
+    <!-- Portrait -->
+    <div class="gallery-page-item portrait" data-category="portrait" id="gitem-4">
+      <img src="gallery_portrait.jpg" alt="بورتريه فاشون" loading="lazy" />
+      <div class="gallery-page-overlay">
+        <span class="gallery-cat">بورتريه</span>
+        <h4>بورتريه فاشون</h4>
+      </div>
+    </div>
+    <div class="gallery-page-item" data-category="portrait" id="gitem-5">
+      <div class="ph-content" style="height:100%; background: linear-gradient(135deg,#0d0808,#1d0a12);">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="8" r="4"/><path d="M6 20v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/></svg>
+        <span>بورتريه استوديو</span>
+      </div>
+      <div class="gallery-page-overlay">
+        <span class="gallery-cat">بورتريه</span>
+        <h4>جلسة استوديو احترافية</h4>
+      </div>
+    </div>
+    <div class="gallery-page-item" data-category="portrait" id="gitem-6">
+      <div class="ph-content" style="height:100%; background: linear-gradient(135deg,#100810,#1d0a1d);">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="8" r="4"/><path d="M6 20v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/></svg>
+        <span>بورتريه خارجي</span>
+      </div>
+      <div class="gallery-page-overlay">
+        <span class="gallery-cat">بورتريه</span>
+        <h4>بورتريه في الطبيعة</h4>
+      </div>
+    </div>
+
+    <!-- Events -->
+    <div class="gallery-page-item" data-category="events" id="gitem-7">
+      <div class="ph-events" style="height:100%; display:flex;">
+        <div class="ph-content" style="width:100%">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/></svg>
+          <span>حفل شركة</span>
+        </div>
+      </div>
+      <div class="gallery-page-overlay">
+        <span class="gallery-cat">مناسبات</span>
+        <h4>حفل سنوي لشركة كبرى</h4>
+      </div>
+    </div>
+    <div class="gallery-page-item" data-category="events" id="gitem-8">
+      <div class="ph-events" style="height:100%; display:flex; background: linear-gradient(135deg,#1a0d00,#2d1a00);">
+        <div class="ph-content" style="width:100%">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/></svg>
+          <span>مؤتمر</span>
+        </div>
+      </div>
+      <div class="gallery-page-overlay">
+        <span class="gallery-cat">مناسبات</span>
+        <h4>تغطية مؤتمر دولي</h4>
+      </div>
+    </div>
+    <div class="gallery-page-item" data-category="events" id="gitem-9">
+      <div class="ph-events" style="height:100%; display:flex; background: linear-gradient(135deg,#12000a,#20000f);">
+        <div class="ph-content" style="width:100%">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/></svg>
+          <span>فعالية</span>
+        </div>
+      </div>
+      <div class="gallery-page-overlay">
+        <span class="gallery-cat">مناسبات</span>
+        <h4>فعالية ثقافية</h4>
+      </div>
+    </div>
+
+    <!-- Product -->
+    <div class="gallery-page-item" data-category="product" id="gitem-10">
+      <div class="ph-product" style="height:100%; display:flex;">
+        <div class="ph-content" style="width:100%">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+          <span>عطر فاخر</span>
+        </div>
+      </div>
+      <div class="gallery-page-overlay">
+        <span class="gallery-cat">تجاري</span>
+        <h4>تصوير عطور فاخرة</h4>
+      </div>
+    </div>
+    <div class="gallery-page-item" data-category="product" id="gitem-11">
+      <div class="ph-product" style="height:100%; display:flex; background: linear-gradient(135deg,#00080a,#000d18);">
+        <div class="ph-content" style="width:100%">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+          <span>منتجات غذائية</span>
+        </div>
+      </div>
+      <div class="gallery-page-overlay">
+        <span class="gallery-cat">تجاري</span>
+        <h4>تصوير منتجات غذائية</h4>
+      </div>
+    </div>
+    <div class="gallery-page-item" data-category="product" id="gitem-12">
+      <div class="ph-product" style="height:100%; display:flex; background: linear-gradient(135deg,#08000a,#15001a);">
+        <div class="ph-content" style="width:100%">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+          <span>إكسسوارات</span>
+        </div>
+      </div>
+      <div class="gallery-page-overlay">
+        <span class="gallery-cat">تجاري</span>
+        <h4>إكسسوارات فاخرة</h4>
+      </div>
+    </div>
+
+    <!-- Nature -->
+    <div class="gallery-page-item" data-category="nature" id="gitem-13">
+      <div class="ph-nature" style="height:100%; display:flex;">
+        <div class="ph-content" style="width:100%">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M3 17l4-8 4 5 3-3 5 6H3z"/><circle cx="17" cy="7" r="2"/></svg>
+          <span>غروب الشمس</span>
+        </div>
+      </div>
+      <div class="gallery-page-overlay">
+        <span class="gallery-cat">طبيعة</span>
+        <h4>غروب شمس ساحر</h4>
+      </div>
+    </div>
+    <div class="gallery-page-item" data-category="nature" id="gitem-14">
+      <div class="ph-nature" style="height:100%; display:flex; background: linear-gradient(135deg,#001208,#001f0d);">
+        <div class="ph-content" style="width:100%">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M3 17l4-8 4 5 3-3 5 6H3z"/><circle cx="17" cy="7" r="2"/></svg>
+          <span>الصحراء</span>
+        </div>
+      </div>
+      <div class="gallery-page-overlay">
+        <span class="gallery-cat">طبيعة</span>
+        <h4>رمال الصحراء الذهبية</h4>
+      </div>
+    </div>
+    <div class="gallery-page-item" data-category="nature" id="gitem-15">
+      <div class="ph-nature" style="height:100%; display:flex; background: linear-gradient(135deg,#001a15,#002a20);">
+        <div class="ph-content" style="width:100%">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M3 17l4-8 4 5 3-3 5 6H3z"/><circle cx="17" cy="7" r="2"/></svg>
+          <span>البحر</span>
+        </div>
+      </div>
+      <div class="gallery-page-overlay">
+        <span class="gallery-cat">طبيعة</span>
+        <h4>أمواج البحر الهادئة</h4>
+      </div>
+    </div>
+
+  </div>
+
+  <a href="https://wa.me/201121044291?text=مرحباً، أريد الاستفسار عن خدمات التصوير" class="whatsapp-float" target="_blank" id="whatsappFloat" aria-label="تواصل عبر واتساب">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    <span class="wa-tooltip">تواصل الآن</span>
+  </a>
+
+  <script src="js/main.js"></script>
+  <script>
+    // Filter functionality
+    const filterTabs = document.querySelectorAll('.filter-tab');
+    const galleryItems = document.querySelectorAll('.gallery-page-item');
+
+    filterTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const filter = tab.dataset.filter;
+        filterTabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+
+        galleryItems.forEach((item, i) => {
+          const cat = item.dataset.category;
+          const show = filter === 'all' || cat === filter;
+          if (show) {
+            item.style.display = '';
+            setTimeout(() => {
+              item.style.opacity = '1';
+              item.style.transform = 'scale(1) translateY(0)';
+            }, i * 60);
+          } else {
+            item.style.opacity = '0';
+            item.style.transform = 'scale(0.95) translateY(20px)';
+            setTimeout(() => { item.style.display = 'none'; }, 300);
+          }
+        });
+      });
+    });
+
+    // Lightbox
+    galleryItems.forEach(item => {
+      item.addEventListener('click', () => {
+        const img = item.querySelector('img');
+        const title = item.querySelector('h4')?.textContent || '';
+        if (img) {
+          openLightbox(img.src, title);
+        }
+      });
+    });
+
+    function openLightbox(src, title) {
+      const lb = document.createElement('div');
+      lb.style.cssText = `position:fixed;inset:0;background:rgba(0,0,0,0.96);z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;animation:scaleIn 0.3s ease;`;
+      lb.innerHTML = `<button style="position:absolute;top:20px;right:20px;width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:white;font-size:1.5rem;cursor:pointer;display:flex;align-items:center;justify-content:center;" id="lb-close">×</button><img src="${src}" style="max-width:90vw;max-height:85vh;object-fit:contain;border-radius:8px;box-shadow:0 40px 80px rgba(0,0,0,0.8)" /><p style="margin-top:1rem;color:rgba(255,255,255,0.7);font-family:'Cairo',sans-serif;">${title}</p>`;
+      document.body.appendChild(lb);
+      lb.querySelector('#lb-close').addEventListener('click', () => { lb.remove(); });
+      lb.addEventListener('click', e => { if (e.target === lb) lb.remove(); });
+    }
+  </script>
+</body>
+</html>

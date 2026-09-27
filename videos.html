@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>الفيديوهات | Mohamed Photography</title>
+  <meta name="description" content="فيديوهات سينمائية احترافية من Mohamed Photography - كليبات أفراح ومناسبات وإعلانات تجارية." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Cairo:wght@300;400;500;600;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+  <style>
+    .page-hero {
+      padding: calc(var(--nav-height) + 80px) 0 80px;
+      text-align: center;
+      background: var(--black-mid);
+      position: relative;
+      overflow: hidden;
+    }
+    .page-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 50% 100%, rgba(192,57,43,0.1) 0%, transparent 65%);
+    }
+
+    /* Videos Grid */
+    .videos-section {
+      padding: 80px 0 100px;
+      background: var(--black);
+    }
+
+    .video-filter {
+      display: flex;
+      justify-content: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-bottom: 3rem;
+    }
+    .video-filter-btn {
+      padding: 10px 24px;
+      border-radius: 100px;
+      border: 1px solid var(--black-border);
+      background: var(--black-card);
+      color: var(--white-50);
+      font-family: var(--font-arabic);
+      font-size: 0.88rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .video-filter-btn:hover { border-color: rgba(192,57,43,0.3); color: var(--white); }
+    .video-filter-btn.active {
+      background: linear-gradient(135deg, var(--crimson), var(--crimson-dark));
+      border-color: transparent;
+      color: white;
+      box-shadow: var(--shadow-crimson);
+    }
+
+    .videos-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+
+    .video-card {
+      background: var(--black-card);
+      border: 1px solid var(--black-border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      transition: var(--transition-slow);
+    }
+    .video-card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-lg);
+      border-color: rgba(192,57,43,0.25);
+    }
+
+    .video-thumb {
+      position: relative;
+      aspect-ratio: 16/9;
+      background: var(--black-soft);
+      overflow: hidden;
+      cursor: pointer;
+    }
+    .video-thumb-bg {
+      width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .video-thumb-bg.wedding-vid { background: linear-gradient(135deg, #1a0808, #2d1010); }
+    .video-thumb-bg.event-vid { background: linear-gradient(135deg, #0a0818, #141028); }
+    .video-thumb-bg.product-vid { background: linear-gradient(135deg, #081218, #0d1c28); }
+
+    .play-btn {
+      width: 72px; height: 72px;
+      border-radius: 50%;
+      background: rgba(192,57,43,0.85);
+      border: 3px solid rgba(192,57,43,0.4);
+      display: flex; align-items: center; justify-content: center;
+      transition: var(--transition-spring);
+      box-shadow: 0 0 40px rgba(192,57,43,0.4);
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+    }
+    .play-btn:hover {
+      background: var(--crimson);
+      transform: scale(1.15);
+      box-shadow: 0 0 60px rgba(192,57,43,0.6);
+    }
+    .play-btn svg { width: 28px; height: 28px; color: white; margin-right: -4px; }
+
+    .video-duration {
+      position: absolute; bottom: 10px; right: 12px;
+      background: rgba(0,0,0,0.75);
+      color: white; font-size: 0.75rem; font-weight: 600;
+      padding: 3px 8px; border-radius: 4px;
+      font-family: monospace;
+    }
+
+    .video-info {
+      padding: 1.5rem;
+    }
+    .video-category {
+      font-size: 0.72rem; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--crimson-light); margin-bottom: 6px;
+    }
+    .video-title {
+      font-family: var(--font-display);
+      font-size: 1.05rem; font-weight: 600;
+      margin-bottom: 0.5rem; color: white;
+    }
+    .video-desc {
+      font-size: 0.85rem; color: var(--white-50);
+      line-height: 1.7; margin-bottom: 1rem;
+    }
+    .video-meta {
+      display: flex; align-items: center; gap: 1rem;
+      font-size: 0.78rem; color: var(--white-40, rgba(255,255,255,0.4));
+    }
+    .video-meta span { display: flex; align-items: center; gap: 4px; }
+
+    /* Video Modal */
+    .video-modal {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.97);
+      z-index: 99999;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; visibility: hidden;
+      transition: var(--transition);
+    }
+    .video-modal.active { opacity: 1; visibility: visible; }
+    .video-modal-inner {
+      width: 90vw; max-width: 900px;
+      position: relative;
+    }
+    .video-modal-close {
+      position: absolute; top: -50px; right: 0;
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: white; font-size: 1.3rem;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: var(--transition);
+    }
+    .video-modal-close:hover { background: var(--crimson); }
+    .video-placeholder-large {
+      width: 100%; aspect-ratio: 16/9;
+      background: var(--black-card);
+      border-radius: var(--radius-lg);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 1rem; border: 1px solid var(--black-border);
+    }
+    .video-placeholder-large p {
+      color: var(--white-50); font-size: 0.95rem; text-align: center;
+      padding: 0 2rem; line-height: 1.8;
+    }
+
+    @media (max-width: 1024px) {
+      .videos-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 640px) {
+      .videos-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="preloader">
+    <div class="preloader-inner">
+      <div class="lens-ring"></div><div class="lens-ring ring2"></div><div class="lens-ring ring3"></div>
+      <div class="aperture">
+        <div class="aperture-blade"></div><div class="aperture-blade"></div>
+        <div class="aperture-blade"></div><div class="aperture-blade"></div>
+        <div class="aperture-blade"></div><div class="aperture-blade"></div>
+      </div>
+      <p class="preloader-text">Mohamed Photography</p>
+    </div>
+  </div>
+
+  <nav id="navbar" class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        <span class="logo-icon">⬡</span>
+        <span class="logo-text">Mohamed <em>Photography</em></span>
+      </a>
+      <button class="nav-toggle" id="navToggle"><span></span><span></span><span></span></button>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html" class="nav-link">الرئيسية</a></li>
+        <li><a href="gallery.html" class="nav-link">المعرض</a></li>
+        <li><a href="services.html" class="nav-link">الخدمات</a></li>
+        <li><a href="videos.html" class="nav-link active">الفيديوهات</a></li>
+        <li><a href="offers.html" class="nav-link">العروض</a></li>
+        <li><a href="contact.html" class="nav-link nav-cta">احجز الآن</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <section class="page-hero">
+    <div class="container">
+      <div class="section-tag">إنتاج فيديو</div>
+      <h1 class="section-title">الفيديوهات السينمائية</h1>
+      <p style="color:var(--white-50); max-width:500px; margin: 0 auto;">مقاطع فيديو احترافية تنقل المشاعر وتخلد اللحظات بأسلوب سينمائي مميز</p>
+    </div>
+  </section>
+
+  <section class="videos-section">
+    <div class="container">
+      <div class="video-filter">
+        <button class="video-filter-btn active" data-filter="all">الكل</button>
+        <button class="video-filter-btn" data-filter="wedding">أفراح</button>
+        <button class="video-filter-btn" data-filter="events">مناسبات</button>
+        <button class="video-filter-btn" data-filter="product">تجاري</button>
+        <button class="video-filter-btn" data-filter="portrait">بورتريه</button>
+      </div>
+
+      <div class="videos-grid" id="videosGrid">
+
+        <div class="video-card" data-category="wedding" id="vid-1">
+          <div class="video-thumb" onclick="openVideoModal('فيلم زفاف سينمائي', 'wedding-vid')">
+            <div class="video-thumb-bg wedding-vid">
+              <div class="play-btn">
+                <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              </div>
+            </div>
+            <span class="video-duration">4:32</span>
+          </div>
+          <div class="video-info">
+            <div class="video-category">أفراح</div>
+            <h3 class="video-title">فيلم زفاف سينمائي — سارة وأحمد</h3>
+            <p class="video-desc">كليب هايلايت لحفل زفاف رومانسي تم تصويره في قصر فاخر مع إضاءة احترافية.</p>
+            <div class="video-meta">
+              <span>👁 1,240 مشاهدة</span>
+              <span>📅 مارس 2024</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="video-card" data-category="wedding" id="vid-2">
+          <div class="video-thumb" onclick="openVideoModal('عقد قران كلاسيكي', 'wedding-vid')">
+            <div class="video-thumb-bg wedding-vid" style="background: linear-gradient(135deg, #2d1010, #1a0808);">
+              <div class="play-btn">
+                <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              </div>
+            </div>
+            <span class="video-duration">3:15</span>
+          </div>
+          <div class="video-info">
+            <div class="video-category">أفراح</div>
+            <h3 class="video-title">عقد قران كلاسيكي — نور وعمر</h3>
+            <p class="video-desc">فيديو عقد قران بأسلوب تصوير أنيق وموسيقى هادئة تعبر عن المشاعر.</p>
+            <div class="video-meta">
+              <span>👁 986 مشاهدة</span>
+              <span>📅 فبراير 2024</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="video-card" data-category="events" id="vid-3">
+          <div class="video-thumb" onclick="openVideoModal('مؤتمر شركة كبرى', 'event-vid')">
+            <div class="video-thumb-bg event-vid">
+              <div class="play-btn">
+                <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              </div>
+            </div>
+            <span class="video-duration">2:48</span>
+          </div>
+          <div class="video-info">
+            <div class="video-category">مناسبات</div>
+            <h3 class="video-title">مؤتمر سنوي لشركة رائدة</h3>
+            <p class="video-desc">تغطية فيديو كاملة لمؤتمر أعمال دولي مع مونتاج ديناميكي وإيقاع سريع.</p>
+            <div class="video-meta">
+              <span>👁 2,100 مشاهدة</span>
+              <span>📅 يناير 2024</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="video-card" data-category="product" id="vid-4">
+          <div class="video-thumb" onclick="openVideoModal('إعلان منتج فاخر', 'product-vid')">
+            <div class="video-thumb-bg product-vid">
+              <div class="play-btn">
+                <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              </div>
+            </div>
+            <span class="video-duration">1:20</span>
+          </div>
+          <div class="video-info">
+            <div class="video-category">تجاري</div>
+            <h3 class="video-title">إعلان تجاري لمنتج فاخر</h3>
+            <p class="video-desc">فيديو إعلاني بجودة سينمائية عالية لعلامة تجارية فاخرة مع إضاءة درامية.</p>
+            <div class="video-meta">
+              <span>👁 3,500 مشاهدة</span>
+              <span>📅 ديسمبر 2023</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="video-card" data-category="portrait" id="vid-5">
+          <div class="video-thumb" onclick="openVideoModal('جلسة بورتريه فيديو', 'wedding-vid')">
+            <div class="video-thumb-bg" style="background: linear-gradient(135deg, #100810,#1d0a1d);">
+              <div class="play-btn">
+                <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              </div>
+            </div>
+            <span class="video-duration">2:05</span>
+          </div>
+          <div class="video-info">
+            <div class="video-category">بورتريه</div>
+            <h3 class="video-title">كليب بورتريه فاشون</h3>
+            <p class="video-desc">فيديو قصير يجسد جمال جلسة البورتريه مع إضاءة سينمائية وموسيقى هادئة.</p>
+            <div class="video-meta">
+              <span>👁 1,850 مشاهدة</span>
+              <span>📅 نوفمبر 2023</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="video-card" data-category="events" id="vid-6">
+          <div class="video-thumb" onclick="openVideoModal('حفل تخرج', 'event-vid')">
+            <div class="video-thumb-bg event-vid" style="background: linear-gradient(135deg, #141028, #0a0818);">
+              <div class="play-btn">
+                <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              </div>
+            </div>
+            <span class="video-duration">5:18</span>
+          </div>
+          <div class="video-info">
+            <div class="video-category">مناسبات</div>
+            <h3 class="video-title">حفل تخرج جامعي</h3>
+            <p class="video-desc">توثيق كامل لحفل التخرج مع لحظات العائلة والأصدقاء والاحتفالات.</p>
+            <div class="video-meta">
+              <span>👁 4,200 مشاهدة</span>
+              <span>📅 يونيو 2023</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section cta-section" style="padding: 80px 0;">
+    <div class="container" style="text-align:center;">
+      <div class="section-tag">اطلب الآن</div>
+      <h2 class="section-title">تريد فيديو لمناسبتك؟</h2>
+      <p style="color:var(--white-50);margin-bottom:2rem">تواصل معي لمناقشة تفاصيل مشروعك والحصول على سعر مناسب</p>
+      <a href="https://wa.me/201121044291?text=أريد الاستفسار عن خدمات تصوير الفيديو" class="btn btn-whatsapp btn-lg" target="_blank">
+        <svg viewBox="0 0 24 24" fill="currentColor" style="width:20px;height:20px"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        تواصل عبر واتساب
+      </a>
+    </div>
+  </section>
+
+  <!-- Video Modal -->
+  <div class="video-modal" id="videoModal">
+    <div class="video-modal-inner">
+      <button class="video-modal-close" id="closeModal">×</button>
+      <div class="video-placeholder-large" id="videoContent">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" style="width:64px;height:64px;color:var(--crimson);"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+        <p id="videoModalTitle">الفيديو</p>
+        <p>سيتم إضافة الفيديوهات الحقيقية هنا.<br/>تواصل معنا للحصول على نماذج فيديو حقيقية.</p>
+        <a href="https://wa.me/201121044291?text=أريد مشاهدة نماذج الفيديو" class="btn btn-primary" target="_blank">اطلب نماذج الفيديو</a>
+      </div>
+    </div>
+  </div>
+
+  <a href="https://wa.me/201121044291?text=مرحباً، أريد الاستفسار عن خدمات التصوير" class="whatsapp-float" target="_blank" aria-label="واتساب">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    <span class="wa-tooltip">تواصل الآن</span>
+  </a>
+
+  <script src="js/main.js"></script>
+  <script>
+    // Filter
+    const filterBtns = document.querySelectorAll('.video-filter-btn');
+    const videoCards = document.querySelectorAll('.video-card');
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const f = btn.dataset.filter;
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        videoCards.forEach(card => {
+          const show = f === 'all' || card.dataset.category === f;
+          card.style.display = show ? '' : 'none';
+        });
+      });
+    });
+
+    // Modal
+    function openVideoModal(title, type) {
+      document.getElementById('videoModalTitle').textContent = '🎬 ' + title;
+      const modal = document.getElementById('videoModal');
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    document.getElementById('closeModal').addEventListener('click', () => {
+      document.getElementById('videoModal').classList.remove('active');
+      document.body.style.overflow = '';
+    });
+    document.getElementById('videoModal').addEventListener('click', (e) => {
+      if (e.target === document.getElementById('videoModal')) {
+        document.getElementById('videoModal').classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>الأسئلة الشائعة | Mohamed Photography</title>
+  <meta name="description" content="إجابات على أكثر الأسئلة شيوعاً عن خدمات Mohamed Photography — التصوير، الأسعار، المواعيد والتسليم." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Cairo:wght@300;400;500;600;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+  <style>
+.page-hero {
+  padding: calc(var(--nav-height) + 80px) 0 70px;
+  background: var(--black-mid); text-align: center;
+  position: relative; overflow: hidden;
+}
+.page-hero::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 50% 100%, rgba(192,57,43,0.1) 0%, transparent 65%);
+}
+
+/* Search */
+.faq-search-wrap {
+  max-width: 560px; margin: 2rem auto 0;
+  position: relative; z-index: 2;
+}
+.faq-search {
+  width: 100%;
+  background: var(--black-card);
+  border: 1px solid var(--black-border);
+  border-radius: 100px;
+  padding: 16px 28px 16px 60px;
+  font-family: var(--font-arabic); font-size: 0.95rem;
+  color: var(--white); outline: none; transition: var(--transition);
+}
+.faq-search::placeholder { color: var(--white-40, rgba(255,255,255,0.4)); }
+.faq-search:focus { border-color: var(--crimson); box-shadow: 0 0 0 3px rgba(192,57,43,0.15); }
+.faq-search-icon {
+  position: absolute; left: 20px; top: 50%; transform: translateY(-50%);
+  color: var(--white-50); pointer-events: none;
+}
+.faq-search-icon svg { width: 20px; height: 20px; }
+
+/* Categories */
+.faq-section { padding: 80px 0 100px; background: var(--black); }
+.faq-cats {
+  display: flex; gap: 0.75rem; flex-wrap: wrap;
+  justify-content: center; margin-bottom: 3rem;
+}
+.faq-cat-btn {
+  padding: 9px 22px; border-radius: 100px;
+  border: 1px solid var(--black-border);
+  background: var(--black-card); color: var(--white-50);
+  font-family: var(--font-arabic); font-size: 0.86rem; font-weight: 500;
+  cursor: pointer; transition: var(--transition);
+}
+.faq-cat-btn:hover { color: var(--white); border-color: rgba(192,57,43,0.3); }
+.faq-cat-btn.active {
+  background: linear-gradient(135deg, var(--crimson), var(--crimson-dark));
+  border-color: transparent; color: white;
+  box-shadow: var(--shadow-crimson);
+}
+
+/* FAQ columns layout */
+.faq-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; }
+.faq-col-title {
+  font-family: var(--font-display); font-size: 1.1rem; font-weight: 700;
+  color: var(--crimson-light); margin-bottom: 1.5rem;
+  display: flex; align-items: center; gap: 8px;
+}
+
+/* Accordion */
+.faq-item {
+  border: 1px solid var(--black-border);
+  border-radius: var(--radius-lg); margin-bottom: 0.75rem;
+  overflow: hidden; transition: var(--transition-slow);
+  background: var(--black-card);
+}
+.faq-item:hover { border-color: rgba(192,57,43,0.2); }
+.faq-item.open { border-color: rgba(192,57,43,0.35); }
+
+.faq-question {
+  width: 100%; padding: 1.25rem 1.5rem;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 1rem; cursor: pointer; background: none; border: none;
+  font-family: var(--font-arabic); font-size: 0.92rem; font-weight: 600;
+  color: var(--white); text-align: right; transition: var(--transition);
+}
+.faq-question:hover { color: var(--crimson-light); }
+.faq-item.open .faq-question { color: var(--crimson-light); }
+
+.faq-chevron {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--white-5); flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  transition: var(--transition-spring);
+}
+.faq-chevron svg { width: 14px; height: 14px; color: var(--white-50); transition: var(--transition); }
+.faq-item.open .faq-chevron { background: var(--crimson); transform: rotate(180deg); }
+.faq-item.open .faq-chevron svg { color: white; }
+
+.faq-answer {
+  max-height: 0; overflow: hidden;
+  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease;
+  padding: 0 1.5rem;
+}
+.faq-item.open .faq-answer { max-height: 400px; padding: 0 1.5rem 1.25rem; }
+.faq-answer p { font-size: 0.88rem; color: var(--white-60, rgba(255,255,255,0.6)); line-height: 2; }
+
+/* No results */
+.faq-no-results {
+  text-align: center; padding: 3rem;
+  color: rgba(255,255,255,0.3); display: none;
+}
+.faq-no-results svg { width: 48px; height: 48px; margin: 0 auto 1rem; display: block; }
+.faq-no-results.visible { display: block; }
+
+/* Admin panel */
+.faq-admin-trigger {
+  position: fixed; bottom: 30px; right: 30px;
+  width: 52px; height: 52px; border-radius: 50%;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; z-index: 990; transition: var(--transition-spring);
+  backdrop-filter: blur(8px);
+}
+.faq-admin-trigger:hover { background: rgba(192,57,43,0.2); border-color: rgba(192,57,43,0.4); transform: scale(1.1); }
+.faq-admin-trigger svg { width: 20px; height: 20px; color: rgba(255,255,255,0.4); }
+
+/* Admin modal */
+.faq-admin-modal {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.85); backdrop-filter: blur(12px);
+  z-index: 10000; display: flex; align-items: center; justify-content: center;
+  opacity: 0; visibility: hidden; transition: var(--transition-slow);
+}
+.faq-admin-modal.active { opacity: 1; visibility: visible; }
+.faq-admin-box {
+  background: var(--black-card); border: 1px solid var(--black-border);
+  border-radius: var(--radius-xl); width: 90%; max-width: 600px;
+  max-height: 88vh; display: flex; flex-direction: column;
+  transform: scale(0.9); transition: var(--transition-spring);
+}
+.faq-admin-modal.active .faq-admin-box { transform: scale(1); }
+.faq-admin-header {
+  padding: 1.5rem 2rem; border-bottom: 1px solid var(--black-border);
+  display: flex; align-items: center; justify-content: space-between; flex-shrink: 0;
+}
+.faq-admin-header h3 { font-family: var(--font-display); font-size: 1.1rem; font-weight: 700; }
+.faq-admin-close {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08);
+  color: white; font-size: 1.1rem;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: var(--transition);
+}
+.faq-admin-close:hover { background: var(--crimson); }
+.faq-admin-body {
+  flex: 1; overflow-y: auto; padding: 1.5rem 2rem;
+  scrollbar-width: thin; scrollbar-color: rgba(192,57,43,0.3) transparent;
+}
+
+/* Add question form */
+.add-faq-form { background: var(--black-soft); border: 1px solid var(--black-border); border-radius: var(--radius-lg); padding: 1.5rem; margin-bottom: 2rem; }
+.add-faq-form label { font-size: 0.78rem; font-weight: 600; color: var(--white-50); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; display: block; }
+.add-faq-form input, .add-faq-form textarea, .add-faq-form select {
+  width: 100%; background: var(--black-card); border: 1px solid var(--black-border);
+  border-radius: var(--radius-sm); padding: 10px 14px;
+  font-family: var(--font-arabic); font-size: 0.88rem; color: var(--white);
+  outline: none; transition: var(--transition); margin-bottom: 1rem;
+}
+.add-faq-form input:focus, .add-faq-form textarea:focus, .add-faq-form select:focus { border-color: var(--crimson); }
+.add-faq-form textarea { min-height: 90px; resize: vertical; }
+.add-faq-form select option { background: var(--black-card); }
+.add-faq-btn { width: 100%; padding: 12px; background: linear-gradient(135deg, var(--crimson), var(--crimson-dark)); border: none; border-radius: var(--radius); color: white; font-family: var(--font-arabic); font-size: 0.9rem; font-weight: 700; cursor: pointer; transition: var(--transition-spring); }
+.add-faq-btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-crimson); }
+
+/* Existing FAQs in admin */
+.admin-faq-list { display: flex; flex-direction: column; gap: 0.6rem; }
+.admin-faq-item {
+  background: var(--black-card); border: 1px solid var(--black-border);
+  border-radius: var(--radius); padding: 0.9rem 1.1rem;
+  display: flex; align-items: center; gap: 10px;
+}
+.admin-faq-q { flex: 1; font-size: 0.86rem; color: var(--white-70); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.admin-faq-cat { font-size: 0.7rem; color: var(--crimson-light); background: var(--crimson-subtle); border-radius: 100px; padding: 2px 8px; flex-shrink: 0; }
+.admin-faq-del { width: 28px; height: 28px; border-radius: 50%; background: rgba(231,76,60,0.1); border: 1px solid rgba(231,76,60,0.15); color: #e74c3c; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: var(--transition); flex-shrink: 0; }
+.admin-faq-del:hover { background: #e74c3c; color: white; }
+.admin-faq-del svg { width: 12px; height: 12px; }
+
+/* Admin pw */
+.pw-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(12px);
+  z-index: 10001; display: flex; align-items: center; justify-content: center;
+  opacity: 0; visibility: hidden; transition: var(--transition-slow);
+}
+.pw-overlay.active { opacity: 1; visibility: visible; }
+.pw-box {
+  background: var(--black-card); border: 1px solid var(--black-border);
+  border-radius: var(--radius-xl); padding: 2.5rem;
+  max-width: 400px; width: 90%; text-align: center;
+  transform: scale(0.9); transition: var(--transition-spring);
+}
+.pw-overlay.active .pw-box { transform: scale(1); }
+.pw-box h3 { font-family: var(--font-display); font-size: 1.3rem; margin-bottom: 0.5rem; }
+.pw-box p { color: var(--white-50); font-size: 0.85rem; margin-bottom: 1.5rem; }
+.pw-inp {
+  width: 100%; background: var(--black-soft); border: 1px solid var(--black-border);
+  border-radius: var(--radius); padding: 12px; font-family: var(--font-arabic);
+  font-size: 1rem; color: var(--white); outline: none; text-align: center;
+  letter-spacing: 4px; margin-bottom: 0.75rem; transition: var(--transition);
+}
+.pw-inp:focus { border-color: var(--crimson); }
+.pw-inp.err { border-color: #e74c3c; animation: shake 0.4s ease; }
+.pw-err { font-size: 0.8rem; color: #e74c3c; min-height: 1.1rem; margin-bottom: 0.75rem; }
+.pw-sub { width: 100%; padding: 12px; background: linear-gradient(135deg, var(--crimson), var(--crimson-dark)); border: none; border-radius: var(--radius); color: white; font-family: var(--font-arabic); font-size: 0.9rem; font-weight: 700; cursor: pointer; }
+.pw-cancel { background: none; border: none; color: var(--white-50); font-family: var(--font-arabic); font-size: 0.82rem; cursor: pointer; margin-top: 0.75rem; transition: var(--transition); }
+.pw-cancel:hover { color: var(--white); }
+
+/* Toast */
+.faq-toast {
+  position: fixed; top: 80px; left: 50%; transform: translateX(-50%) translateY(-80px);
+  background: var(--black-card); border: 1px solid var(--black-border);
+  border-radius: var(--radius-lg); padding: 0.9rem 1.4rem;
+  display: flex; align-items: center; gap: 8px;
+  box-shadow: var(--shadow-lg); z-index: 99999;
+  transition: transform var(--transition-spring), opacity var(--transition);
+  opacity: 0;
+}
+.faq-toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+.faq-toast .td { width: 8px; height: 8px; border-radius: 50%; }
+.faq-toast span { font-size: 0.85rem; color: var(--white-70); }
+
+/* CTA */
+.faq-cta { margin-top: 4rem; text-align: center; }
+.faq-cta p { color: var(--white-50); margin-bottom: 1.25rem; font-size: 0.92rem; }
+
+@media (max-width: 768px) {
+  .faq-cols { grid-template-columns: 1fr; }
+}
+  </style>
+</head>
+<body>
+
+<div id="preloader">
+  <div class="preloader-inner">
+    <div class="lens-ring"></div><div class="lens-ring ring2"></div><div class="lens-ring ring3"></div>
+    <div class="aperture">
+      <div class="aperture-blade"></div><div class="aperture-blade"></div>
+      <div class="aperture-blade"></div><div class="aperture-blade"></div>
+      <div class="aperture-blade"></div><div class="aperture-blade"></div>
+    </div>
+    <p class="preloader-text">Mohamed Photography</p>
+  </div>
+</div>
+
+<nav id="navbar" class="navbar">
+  <div class="nav-container">
+    <a href="index.html" class="nav-logo">
+      <span class="logo-icon">⬡</span>
+      <span class="logo-text">Mohamed <em>Photography</em></span>
+    </a>
+    <button class="nav-toggle" id="navToggle"><span></span><span></span><span></span></button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html" class="nav-link">الرئيسية</a></li>
+      <li><a href="about.html" class="nav-link">عني</a></li>
+      <li><a href="gallery.html" class="nav-link">المعرض</a></li>
+      <li><a href="services.html" class="nav-link">الخدمات</a></li>
+      <li><a href="videos.html" class="nav-link">الفيديوهات</a></li>
+      <li><a href="offers.html" class="nav-link">العروض</a></li>
+      <li><a href="faq.html" class="nav-link active">الأسئلة</a></li>
+      <li><a href="contact.html" class="nav-link nav-cta">احجز الآن</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section class="page-hero">
+  <div class="container" style="position:relative;z-index:2">
+    <div class="section-tag">❓ مركز المساعدة</div>
+    <h1 class="section-title">الأسئلة الشائعة</h1>
+    <p style="color:var(--white-50);max-width:480px;margin:0 auto">إجابات على أكثر الأسئلة اللي بتتكرر من عملائي</p>
+    <div class="faq-search-wrap">
+      <div class="faq-search-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </div>
+      <input type="search" class="faq-search" id="faqSearch" placeholder="ابحث في الأسئلة..." />
+    </div>
+  </div>
+</section>
+
+<section class="faq-section">
+  <div class="container">
+    <div class="faq-cats" id="faqCats">
+      <button class="faq-cat-btn active" data-cat="all">الكل</button>
+      <button class="faq-cat-btn" data-cat="booking">الحجز والمواعيد</button>
+      <button class="faq-cat-btn" data-cat="pricing">الأسعار والدفع</button>
+      <button class="faq-cat-btn" data-cat="delivery">التسليم والملفات</button>
+      <button class="faq-cat-btn" data-cat="session">الجلسة والتصوير</button>
+      <button class="faq-cat-btn" data-cat="general">عام</button>
+    </div>
+
+    <div class="faq-no-results" id="faqNoResults">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <p>لا توجد نتائج لـ "<span id="searchTerm"></span>"</p>
+    </div>
+
+    <div id="faqContainer">
+      <!-- Rendered by JS -->
+    </div>
+
+    <div class="faq-cta">
+      <p>لم تجد إجابة لسؤالك؟ تواصل معي مباشرة وسأرد عليك في أقرب وقت</p>
+      <a href="https://wa.me/201121044291?text=لدي سؤال عن خدمات التصوير" class="btn btn-whatsapp btn-lg" target="_blank">
+        <svg viewBox="0 0 24 24" fill="currentColor" style="width:20px;height:20px"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        اسألني على واتساب
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Admin trigger -->
+<button class="faq-admin-trigger" id="faqAdminTrigger" title="إدارة الأسئلة">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+</button>
+
+<!-- Password overlay -->
+<div class="pw-overlay" id="pwOverlay">
+  <div class="pw-box">
+    <div style="font-size:2rem;margin-bottom:0.75rem">🔐</div>
+    <h3>لوحة إدارة الأسئلة</h3>
+    <p>أدخل كلمة السر للوصول</p>
+    <input type="password" class="pw-inp" id="faqPwInp" placeholder="••••••••" maxlength="20" />
+    <div class="pw-err" id="faqPwErr"></div>
+    <button class="pw-sub" id="faqPwSubmit">دخول</button><br/>
+    <button class="pw-cancel" id="faqPwCancel">إلغاء</button>
+  </div>
+</div>
+
+<!-- FAQ Admin Modal -->
+<div class="faq-admin-modal" id="faqAdminModal">
+  <div class="faq-admin-box">
+    <div class="faq-admin-header">
+      <h3>⚙️ إدارة الأسئلة الشائعة</h3>
+      <button class="faq-admin-close" id="faqAdminClose">×</button>
+    </div>
+    <div class="faq-admin-body">
+      <div class="add-faq-form">
+        <h4 style="font-family:var(--font-display);font-size:0.95rem;margin-bottom:1rem;color:var(--white-70)">➕ إضافة سؤال جديد</h4>
+        <label>السؤال <span style="color:var(--crimson)">*</span></label>
+        <input type="text" id="newQ" placeholder="اكتب السؤال هنا..." />
+        <label>الإجابة <span style="color:var(--crimson)">*</span></label>
+        <textarea id="newA" placeholder="اكتب الإجابة الكاملة هنا..."></textarea>
+        <label>الفئة</label>
+        <select id="newCat">
+          <option value="booking">الحجز والمواعيد</option>
+          <option value="pricing">الأسعار والدفع</option>
+          <option value="delivery">التسليم والملفات</option>
+          <option value="session">الجلسة والتصوير</option>
+          <option value="general">عام</option>
+        </select>
+        <button class="add-faq-btn" id="addFaqBtn">حفظ السؤال</button>
+      </div>
+      <div style="font-size:0.75rem;font-weight:600;color:var(--white-50);text-transform:uppercase;letter-spacing:1px;margin-bottom:0.75rem">الأسئلة الحالية (<span id="faqCount">0</span>)</div>
+      <div class="admin-faq-list" id="adminFaqList"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="faq-toast" id="faqToast">
+  <span class="td" id="faqToastDot"></span>
+  <span id="faqToastMsg"></span>
+</div>
+
+<a href="https://wa.me/201121044291" class="whatsapp-float" target="_blank">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  <span class="wa-tooltip">تواصل الآن</span>
+</a>
+
+<script src="js/main.js"></script>
+<script>
+const ADMIN_PW = '1234';
+const FAQ_KEY = 'mp_faqs_v1';
+const catLabels = { booking:'الحجز والمواعيد', pricing:'الأسعار والدفع', delivery:'التسليم والملفات', session:'الجلسة والتصوير', general:'عام' };
+
+const defaultFAQs = [
+  { id:'d1', q:'كيف أحجز جلسة تصوير؟', a:'احجز عبر نموذج الحجز في صفحة التواصل أو تواصل معي مباشرة على واتساب على 01121044291. سيتم تأكيد الحجز بعد دفع عربون بسيط.', cat:'booking' },
+  { id:'d2', q:'كم مدة الرد على الحجز؟', a:'أرد على كل الطلبات خلال ساعات قليلة في أيام العمل. في أيام العطل قد يمتد الرد لـ 24 ساعة.', cat:'booking' },
+  { id:'d3', q:'هل يمكن تغيير موعد الجلسة؟', a:'نعم، يمكن تغيير الموعد قبل 48 ساعة على الأقل من الجلسة بدون أي رسوم إضافية.', cat:'booking' },
+  { id:'d4', q:'ما هي طرق الدفع المتاحة؟', a:'أقبل الدفع نقداً أو تحويل بنكي أو محافظ إلكترونية (فودافون كاش، انستاباي). يُطلب عربون 30-50% لتأكيد الحجز.', cat:'pricing' },
+  { id:'d5', q:'هل الأسعار قابلة للتفاوض؟', a:'الأسعار المعروضة هي أسعار تقريبية. أرحب بالتفاوض لباقات مخصصة تناسب احتياجاتك وميزانيتك.', cat:'pricing' },
+  { id:'d6', q:'ماذا يحدث إذا ألغيت الحجز؟', a:'إلغاء قبل أسبوع: استرداد كامل. إلغاء قبل 48 ساعة: استرداد 50%. إلغاء بعد 24 ساعة: لا يوجد استرداد.', cat:'pricing' },
+  { id:'d7', q:'كم عدد الصور التي أحصل عليها؟', a:'يعتمد على الباقة المختارة. الباقة الأساسية: 30+ صورة. الاحترافية: 300+ صورة. المميزة: 500+ صورة. كل الصور معدّلة بشكل احترافي.', cat:'delivery' },
+  { id:'d8', q:'متى أستلم الصور؟', a:'الاستلم العادي خلال 5-7 أيام عمل. التسليم السريع خلال 24-48 ساعة متاح بتكلفة إضافية بسيطة.', cat:'delivery' },
+  { id:'d9', q:'بأي صيغة تُسلَّم الصور؟', a:'تُسلَّم الصور بصيغة JPEG بدقة عالية عبر Google Drive أو WeTransfer. يمكن تسليمها على فلاشة USB بطلب مسبق.', cat:'delivery' },
+  { id:'d10', q:'هل أحتاج لمكياج قبل الجلسة؟', a:'لجلسات البورتريه، يُفضَّل المكياج لكنه ليس إلزامياً. أقدم توجيهات مسبقة عن الملابس والمكياج المناسب لكل نوع جلسة.', cat:'session' },
+  { id:'d11', q:'كم مدة جلسة التصوير؟', a:'تتراوح بين 1-3 ساعات للجلسات الفردية، و4-12 ساعة للأفراح والمناسبات الكبيرة. المدة تحدد حسب الباقة المختارة.', cat:'session' },
+  { id:'d12', q:'هل يمكن التصوير خارج الاستوديو؟', a:'بالطبع! أصور في أي مكان تختاره — في الهواء الطلق، في منزلك، أو في أي لوكيشن تفضله. تكاليف السفر خارج المدينة إضافية.', cat:'session' },
+  { id:'d13', q:'هل تصور الأفراح بمفردك؟', a:'لباقات الأفراح الاحترافية والمميزة، أعمل مع مصور مساعد لضمان تغطية كاملة ولا تفوتنا أي لحظة مهمة.', cat:'general' },
+  { id:'d14', q:'هل يمكن طلب عرض سعر مخصص؟', a:'بالتأكيد! تواصل معي على واتساب وسأعدّ لك عرضاً مخصصاً يناسب احتياجاتك وميزانيتك تماماً.', cat:'general' },
+];
+
+let faqs = [];
+let currentCat = 'all';
+let searchQuery = '';
+
+function loadFAQs() {
+  try {
+    const raw = localStorage.getItem(FAQ_KEY);
+    const custom = raw ? JSON.parse(raw) : [];
+    faqs = [...defaultFAQs, ...custom];
+  } catch { faqs = [...defaultFAQs]; }
+}
+
+function saveFAQs() {
+  const custom = faqs.filter(f => !f.id.startsWith('d'));
+  localStorage.setItem(FAQ_KEY, JSON.stringify(custom));
+}
+
+function getFiltered() {
+  return faqs.filter(f => {
+    const catMatch = currentCat === 'all' || f.cat === currentCat;
+    const search = searchQuery.toLowerCase();
+    const textMatch = !search || f.q.toLowerCase().includes(search) || f.a.toLowerCase().includes(search);
+    return catMatch && textMatch;
+  });
+}
+
+function groupByCategory(items) {
+  const groups = {};
+  items.forEach(f => {
+    if (!groups[f.cat]) groups[f.cat] = [];
+    groups[f.cat].push(f);
+  });
+  return groups;
+}
+
+function renderFAQs() {
+  const container = document.getElementById('faqContainer');
+  const noResults = document.getElementById('faqNoResults');
+  const filtered = getFiltered();
+
+  if (filtered.length === 0) {
+    container.innerHTML = '';
+    noResults.classList.add('visible');
+    document.getElementById('searchTerm').textContent = searchQuery;
+    return;
+  }
+  noResults.classList.remove('visible');
+
+  const groups = groupByCategory(filtered);
+  const isSingleCat = currentCat !== 'all';
+
+  if (isSingleCat) {
+    const items = filtered;
+    container.innerHTML = `<div class="faq-list">${items.map(renderItem).join('')}</div>`;
+  } else {
+    // Two-column layout
+    const catKeys = Object.keys(groups);
+    const mid = Math.ceil(catKeys.length / 2);
+    const left = catKeys.slice(0, mid);
+    const right = catKeys.slice(mid);
+    container.innerHTML = `
+      <div class="faq-cols">
+        <div>${left.map(cat => `
+          <div style="margin-bottom:2rem">
+            <div class="faq-col-title">${catEmoji(cat)} ${catLabels[cat]}</div>
+            ${groups[cat].map(renderItem).join('')}
+          </div>`).join('')}</div>
+        <div>${right.map(cat => `
+          <div style="margin-bottom:2rem">
+            <div class="faq-col-title">${catEmoji(cat)} ${catLabels[cat]}</div>
+            ${groups[cat].map(renderItem).join('')}
+          </div>`).join('')}</div>
+      </div>`;
+  }
+
+  // Bind accordions
+  document.querySelectorAll('.faq-question').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.closest('.faq-item');
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+}
+
+function renderItem(f) {
+  return `
+    <div class="faq-item" id="faq_${f.id}">
+      <button class="faq-question">
+        <span>${f.q}</span>
+        <span class="faq-chevron">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </span>
+      </button>
+      <div class="faq-answer"><p>${f.a}</p></div>
+    </div>`;
+}
+
+function catEmoji(cat) {
+  const e = { booking:'📅', pricing:'💰', delivery:'📦', session:'📸', general:'💬' };
+  return e[cat] || '❓';
+}
+
+// Category filter
+document.querySelectorAll('.faq-cat-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.faq-cat-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentCat = btn.dataset.cat;
+    renderFAQs();
+  });
+});
+
+// Search
+document.getElementById('faqSearch').addEventListener('input', (e) => {
+  searchQuery = e.target.value.trim();
+  renderFAQs();
+});
+
+// ── ADMIN ──
+document.getElementById('faqAdminTrigger').addEventListener('click', () => {
+  document.getElementById('pwOverlay').classList.add('active');
+  setTimeout(() => document.getElementById('faqPwInp').focus(), 300);
+});
+
+document.getElementById('faqPwCancel').addEventListener('click', () => {
+  document.getElementById('pwOverlay').classList.remove('active');
+  document.getElementById('faqPwInp').value = '';
+  document.getElementById('faqPwErr').textContent = '';
+});
+
+function checkFaqPw() {
+  const v = document.getElementById('faqPwInp').value;
+  if (v === ADMIN_PW) {
+    document.getElementById('pwOverlay').classList.remove('active');
+    document.getElementById('faqPwInp').value = '';
+    document.getElementById('faqAdminModal').classList.add('active');
+    renderAdminList();
+  } else {
+    document.getElementById('faqPwErr').textContent = 'كلمة سر خاطئة';
+    document.getElementById('faqPwInp').classList.add('err');
+    setTimeout(() => document.getElementById('faqPwInp').classList.remove('err'), 500);
+  }
+}
+document.getElementById('faqPwSubmit').addEventListener('click', checkFaqPw);
+document.getElementById('faqPwInp').addEventListener('keydown', e => { if (e.key === 'Enter') checkFaqPw(); });
+
+document.getElementById('faqAdminClose').addEventListener('click', () => {
+  document.getElementById('faqAdminModal').classList.remove('active');
+});
+
+document.getElementById('faqAdminModal').addEventListener('click', e => {
+  if (e.target === document.getElementById('faqAdminModal')) document.getElementById('faqAdminModal').classList.remove('active');
+});
+
+document.getElementById('addFaqBtn').addEventListener('click', () => {
+  const q = document.getElementById('newQ').value.trim();
+  const a = document.getElementById('newA').value.trim();
+  const cat = document.getElementById('newCat').value;
+  if (!q || !a) { showFaqToast('يرجى ملء السؤال والإجابة', 'red'); return; }
+  const newFaq = { id: 'c_' + Date.now(), q, a, cat };
+  faqs.push(newFaq);
+  saveFAQs();
+  renderFAQs();
+  renderAdminList();
+  document.getElementById('newQ').value = '';
+  document.getElementById('newA').value = '';
+  showFaqToast('تم إضافة السؤال ✅', 'green');
+});
+
+function deleteFaq(id) {
+  if (id.startsWith('d')) { showFaqToast('لا يمكن حذف الأسئلة الافتراضية', 'red'); return; }
+  faqs = faqs.filter(f => f.id !== id);
+  saveFAQs();
+  renderFAQs();
+  renderAdminList();
+  showFaqToast('تم الحذف', 'red');
+}
+
+function renderAdminList() {
+  const list = document.getElementById('adminFaqList');
+  document.getElementById('faqCount').textContent = faqs.length;
+  list.innerHTML = faqs.map(f => `
+    <div class="admin-faq-item">
+      <span class="admin-faq-q">${f.q}</span>
+      <span class="admin-faq-cat">${catLabels[f.cat]}</span>
+      ${!f.id.startsWith('d') ? `<button class="admin-faq-del" onclick="deleteFaq('${f.id}')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+      </button>` : `<span style="font-size:0.7rem;color:rgba(255,255,255,0.2);flex-shrink:0">افتراضي</span>`}
+    </div>`).join('');
+}
+
+function showFaqToast(msg, type) {
+  const t = document.getElementById('faqToast');
+  document.getElementById('faqToastMsg').textContent = msg;
+  document.getElementById('faqToastDot').style.background = type === 'green' ? '#2ecc71' : '#e74c3c';
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// Init
+loadFAQs();
+renderFAQs();
+</script>
+</body>
+</html>

@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>الخدمات والأسعار | Mohamed Photography</title>
+  <meta name="description" content="خدمات التصوير الاحترافي من Mohamed Photography - أفراح، بورتريه، تصوير تجاري، مناسبات، طبيعة، فيديو. اعرف الأسعار واحجز الآن." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Cairo:wght@300;400;500;600;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+  <style>
+    .page-hero {
+      padding: calc(var(--nav-height) + 80px) 0 80px;
+      text-align: center;
+      background: var(--black-mid);
+      position: relative;
+      overflow: hidden;
+    }
+    .page-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 50% 100%, rgba(192,57,43,0.1) 0%, transparent 65%);
+    }
+
+    /* ---- Service Detail Sections ---- */
+    .service-detail {
+      padding: 100px 0;
+      border-bottom: 1px solid var(--black-border);
+    }
+    .service-detail:nth-child(even) { background: var(--black-mid); }
+
+    .service-detail-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: center;
+    }
+    .service-detail:nth-child(even) .service-detail-grid { direction: rtl; }
+
+    .service-detail-visual {
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      position: relative;
+      aspect-ratio: 4/3;
+      background: var(--black-card);
+    }
+    .service-detail-visual img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+    }
+    .service-detail-visual:hover img { transform: scale(1.05); }
+
+    .service-detail-ph {
+      width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column; gap: 16px;
+    }
+    .service-detail-ph svg { width: 64px; height: 64px; color: var(--crimson); opacity: 0.5; }
+    .service-detail-ph span { color: var(--white-30, rgba(255,255,255,0.3)); font-size: 0.85rem; letter-spacing: 2px; text-transform: uppercase; }
+
+    .service-detail-badge {
+      position: absolute; top: 20px; right: 20px;
+      background: var(--crimson); color: white;
+      font-size: 0.78rem; font-weight: 700;
+      padding: 6px 14px; border-radius: 100px;
+    }
+
+    .service-detail-content {}
+    .service-detail-content h2 {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 3vw, 2.5rem);
+      font-weight: 700;
+      margin: 1rem 0;
+    }
+    .service-detail-content p {
+      color: var(--white-60, rgba(255,255,255,0.6));
+      line-height: 2;
+      margin-bottom: 1.5rem;
+    }
+
+    .service-features {
+      display: flex; flex-direction: column; gap: 0.75rem;
+      margin: 1.5rem 0 2rem;
+    }
+    .service-feature {
+      display: flex; align-items: center; gap: 12px;
+      font-size: 0.92rem; color: var(--white-70);
+    }
+    .service-feature::before {
+      content: '✓';
+      width: 22px; height: 22px;
+      background: linear-gradient(135deg, var(--crimson), var(--crimson-dark));
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.7rem; color: white; font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    /* Pricing Cards */
+    .pricing-section {
+      padding: 100px 0;
+      background: var(--black);
+    }
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      margin-top: 4rem;
+    }
+    .pricing-card {
+      background: var(--black-card);
+      border: 1px solid var(--black-border);
+      border-radius: var(--radius-xl);
+      padding: 3rem 2.5rem;
+      position: relative;
+      transition: var(--transition-slow);
+    }
+    .pricing-card.featured {
+      border-color: var(--crimson);
+      background: linear-gradient(135deg, rgba(192,57,43,0.08), var(--black-card));
+      box-shadow: 0 0 60px rgba(192,57,43,0.15), var(--shadow-lg);
+      transform: scale(1.04);
+    }
+    .pricing-card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-lg);
+    }
+    .pricing-card.featured:hover { transform: scale(1.04) translateY(-8px); }
+
+    .pricing-badge {
+      position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
+      background: linear-gradient(135deg, var(--crimson), var(--crimson-dark));
+      color: white; font-size: 0.75rem; font-weight: 700;
+      padding: 6px 20px; border-radius: 100px;
+      white-space: nowrap;
+    }
+
+    .pricing-name {
+      font-family: var(--font-display);
+      font-size: 1.3rem; font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+    .pricing-desc {
+      font-size: 0.85rem; color: var(--white-50);
+      margin-bottom: 2rem; line-height: 1.7;
+    }
+    .pricing-price {
+      margin-bottom: 2rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--black-border);
+    }
+    .price-amount {
+      font-family: var(--font-display);
+      font-size: 2.8rem; font-weight: 700;
+      color: var(--crimson-light);
+      line-height: 1;
+    }
+    .price-currency {
+      font-size: 1.2rem; color: var(--crimson);
+      font-weight: 600; margin-right: 4px;
+    }
+    .price-period {
+      font-size: 0.8rem; color: var(--white-50);
+      margin-top: 4px; display: block;
+    }
+    .pricing-features {
+      list-style: none;
+      display: flex; flex-direction: column; gap: 0.85rem;
+      margin-bottom: 2.5rem;
+    }
+    .pricing-features li {
+      font-size: 0.88rem; color: var(--white-70);
+      display: flex; align-items: center; gap: 10px;
+    }
+    .pricing-features li::before {
+      content: '✓';
+      width: 20px; height: 20px;
+      background: linear-gradient(135deg, var(--crimson), var(--crimson-dark));
+      border-radius: 50%;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 0.65rem; color: white; font-weight: 700;
+      flex-shrink: 0;
+    }
+    .pricing-features li.unavailable { color: var(--white-30, rgba(255,255,255,0.3)); }
+    .pricing-features li.unavailable::before {
+      content: '×'; background: var(--white-10);
+    }
+
+    @media (max-width: 1024px) {
+      .service-detail-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .pricing-grid { grid-template-columns: 1fr; }
+      .pricing-card.featured { transform: none; }
+    }
+    @media (max-width: 768px) {
+      .pricing-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="preloader">
+    <div class="preloader-inner">
+      <div class="lens-ring"></div><div class="lens-ring ring2"></div><div class="lens-ring ring3"></div>
+      <div class="aperture">
+        <div class="aperture-blade"></div><div class="aperture-blade"></div>
+        <div class="aperture-blade"></div><div class="aperture-blade"></div>
+        <div class="aperture-blade"></div><div class="aperture-blade"></div>
+      </div>
+      <p class="preloader-text">Mohamed Photography</p>
+    </div>
+  </div>
+
+  <nav id="navbar" class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        <span class="logo-icon">⬡</span>
+        <span class="logo-text">Mohamed <em>Photography</em></span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="القائمة"><span></span><span></span><span></span></button>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html" class="nav-link">الرئيسية</a></li>
+        <li><a href="gallery.html" class="nav-link">المعرض</a></li>
+        <li><a href="services.html" class="nav-link active">الخدمات</a></li>
+        <li><a href="videos.html" class="nav-link">الفيديوهات</a></li>
+        <li><a href="offers.html" class="nav-link">العروض</a></li>
+        <li><a href="contact.html" class="nav-link nav-cta">احجز الآن</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <section class="page-hero">
+    <div class="container">
+      <div class="section-tag">ما أقدمه لك</div>
+      <h1 class="section-title">الخدمات والأسعار</h1>
+      <p style="color:var(--white-50); max-width:500px; margin: 0 auto;">خدمات تصوير احترافية متكاملة تناسب كل مناسبة وكل ميزانية</p>
+    </div>
+  </section>
+
+  <!-- Wedding -->
+  <section class="service-detail" id="wedding">
+    <div class="container">
+      <div class="service-detail-grid">
+        <div class="service-detail-visual">
+          <img src="gallery_wedding.jpg" alt="تصوير أفراح" />
+          <span class="service-detail-badge">الأكثر طلباً</span>
+        </div>
+        <div class="service-detail-content">
+          <div class="section-tag">تصوير الأفراح</div>
+          <h2>يومك الاستثنائي<br/><span class="accent-text">يستحق الخلود</span></h2>
+          <p>نلتقط كل لحظة من لحظات يومك الكبير بعدسة فنية راقية. من أول نظرة حتى آخر رقصة، نحن معك لنخلد ذكرياتك للأبد.</p>
+          <div class="service-features">
+            <div class="service-feature">تصوير كامل ليوم الفرح (8-12 ساعة)</div>
+            <div class="service-feature">مصورين اثنين بأحدث المعدات</div>
+            <div class="service-feature">تسليم 400-600 صورة معدّلة احترافياً</div>
+            <div class="service-feature">ألبوم فاخر مطبوع (اختياري)</div>
+            <div class="service-feature">كليب هايلايت للفيديو</div>
+          </div>
+          <a href="contact.html?service=wedding" class="btn btn-primary">احجز الآن عبر واتساب</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Portrait -->
+  <section class="service-detail" id="portrait">
+    <div class="container">
+      <div class="service-detail-grid">
+        <div class="service-detail-content">
+          <div class="section-tag">البورتريه والفاشون</div>
+          <h2>أبرز<br/><span class="accent-text">أفضل ما فيك</span></h2>
+          <p>جلسات تصوير بورتريه فردية أو عائلية تخرج أجمل ما في شخصيتك بإضاءة احترافية ومكياج اختياري.</p>
+          <div class="service-features">
+            <div class="service-feature">جلسة 2-3 ساعات في الاستوديو أو خارجه</div>
+            <div class="service-feature">إرشاد للأوضاع والملابس</div>
+            <div class="service-feature">تسليم 30-80 صورة معدّلة</div>
+            <div class="service-feature">خلفيات متعددة واختيار الإضاءة</div>
+            <div class="service-feature">ريتش للصور رقمياً عالية الجودة</div>
+          </div>
+          <a href="contact.html?service=portrait" class="btn btn-primary">احجز جلسة الآن</a>
+        </div>
+        <div class="service-detail-visual">
+          <img src="gallery_portrait.jpg" alt="بورتريه" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Product -->
+  <section class="service-detail" id="product">
+    <div class="container">
+      <div class="service-detail-grid">
+        <div class="service-detail-visual">
+          <div class="service-detail-ph" style="background: linear-gradient(135deg,#080818,#0a0a2a);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+            <span>تصوير تجاري</span>
+          </div>
+        </div>
+        <div class="service-detail-content">
+          <div class="section-tag">التصوير التجاري</div>
+          <h2>صور تبيع<br/><span class="accent-text">قبل أن تتكلم</span></h2>
+          <p>تصوير منتجات ومنيو وإعلانات تجارية بجودة سينمائية تعكس قيمة منتجك وتزيد مبيعاتك.</p>
+          <div class="service-features">
+            <div class="service-feature">تصوير على خلفيات بيضاء أو سوداء أو ملونة</div>
+            <div class="service-feature">إضاءة استوديو احترافية</div>
+            <div class="service-feature">ريتش وتعديل ألوان احترافي</div>
+            <div class="service-feature">صور لكل زوايا المنتج</div>
+            <div class="service-feature">تسليم سريع 24-48 ساعة</div>
+          </div>
+          <a href="contact.html?service=product" class="btn btn-primary">احجز الآن</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Events -->
+  <section class="service-detail" id="events">
+    <div class="container">
+      <div class="service-detail-grid">
+        <div class="service-detail-content">
+          <div class="section-tag">المناسبات والفعاليات</div>
+          <h2>لحظات<br/><span class="accent-text">لا تُنسى</span></h2>
+          <p>تغطية احترافية كاملة للمؤتمرات والحفلات والفعاليات التجارية والخاصة بكل تفاصيلها.</p>
+          <div class="service-features">
+            <div class="service-feature">تغطية الحدث من البداية للنهاية</div>
+            <div class="service-feature">صور للمتحدثين والحضور والتفاصيل</div>
+            <div class="service-feature">تسليم صور مُعدَّلة في نفس اليوم</div>
+            <div class="service-feature">رزمة للسوشيال ميديا</div>
+            <div class="service-feature">تقرير فوتوغرافي كامل</div>
+          </div>
+          <a href="contact.html?service=events" class="btn btn-primary">احجز الآن</a>
+        </div>
+        <div class="service-detail-visual">
+          <div class="service-detail-ph" style="background: linear-gradient(135deg,#1a0808,#2d0c0c);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/></svg>
+            <span>تغطية المناسبات</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Nature -->
+  <section class="service-detail" id="nature">
+    <div class="container">
+      <div class="service-detail-grid">
+        <div class="service-detail-visual">
+          <div class="service-detail-ph" style="background: linear-gradient(135deg,#051205,#0a1f0a);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 17l4-8 4 5 3-3 5 6H3z"/><circle cx="17" cy="7" r="2"/></svg>
+            <span>تصوير الطبيعة</span>
+          </div>
+        </div>
+        <div class="service-detail-content">
+          <div class="section-tag">تصوير الطبيعة</div>
+          <h2>جمال الطبيعة<br/><span class="accent-text">بعدسة فنية</span></h2>
+          <p>رحلات تصوير في أجمل المواقع الطبيعية لالتقاط أروع اللحظات والمناظر بتقنيات متقدمة.</p>
+          <div class="service-features">
+            <div class="service-feature">رحلات تصوير خارجية منظمة</div>
+            <div class="service-feature">تصوير الغروب والشروق</div>
+            <div class="service-feature">استخدام طائرة درون (اختياري)</div>
+            <div class="service-feature">تعديل ألوان سينمائي</div>
+            <div class="service-feature">طباعة على كانفاس عالي الجودة</div>
+          </div>
+          <a href="contact.html?service=nature" class="btn btn-primary">احجز جلسة طبيعة</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Video -->
+  <section class="service-detail" id="video">
+    <div class="container">
+      <div class="service-detail-grid">
+        <div class="service-detail-content">
+          <div class="section-tag">تصوير الفيديو</div>
+          <h2>قصص<br/><span class="accent-text">بالصوت والصورة</span></h2>
+          <p>إنتاج مقاطع فيديو سينمائية احترافية بمستوى عالمي لحفلات الأفراح والإعلانات التجارية والمناسبات.</p>
+          <div class="service-features">
+            <div class="service-feature">تصوير 4K بأحدث الكاميرات</div>
+            <div class="service-feature">تعليق موسيقي مصاحب</div>
+            <div class="service-feature">مونتاج احترافي وcolor grading</div>
+            <div class="service-feature">كليب هايلايت 3-5 دقائق</div>
+            <div class="service-feature">فيديو كامل للمناسبة</div>
+          </div>
+          <a href="contact.html?service=video" class="btn btn-primary">احجز الآن</a>
+        </div>
+        <div class="service-detail-visual">
+          <div class="service-detail-ph" style="background: linear-gradient(135deg,#0a0808,#1a0808);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+            <span>فيديو سينمائي</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section class="pricing-section">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">الأسعار</div>
+        <h2 class="section-title">باقات التصوير</h2>
+        <p class="section-subtitle">اختر الباقة المناسبة لك أو تواصل معي لباقة مخصصة</p>
+      </div>
+      <div class="pricing-grid">
+        <div class="pricing-card">
+          <div class="pricing-name">الباقة الأساسية</div>
+          <div class="pricing-desc">مثالية لجلسات البورتريه والمناسبات الصغيرة</div>
+          <div class="pricing-price">
+            <div>
+              <span class="price-currency">ج.م</span>
+              <span class="price-amount">1,500</span>
+            </div>
+            <span class="price-period">جلسة واحدة — 2 ساعة</span>
+          </div>
+          <ul class="pricing-features">
+            <li>جلسة تصوير 2 ساعة</li>
+            <li>30 صورة معدّلة</li>
+            <li>تسليم خلال 5 أيام</li>
+            <li>ملف رقمي عالي الجودة</li>
+            <li class="unavailable">فيديو هايلايت</li>
+            <li class="unavailable">ألبوم مطبوع</li>
+          </ul>
+          <a href="https://wa.me/201121044291?text=أريد الاستفسار عن الباقة الأساسية" class="btn btn-outline" style="width:100%; justify-content:center" target="_blank">احجز الآن</a>
+        </div>
+
+        <div class="pricing-card featured">
+          <div class="pricing-badge">⭐ الأكثر طلباً</div>
+          <div class="pricing-name">الباقة الاحترافية</div>
+          <div class="pricing-desc">الخيار الأمثل لحفلات الأفراح والمناسبات الكبيرة</div>
+          <div class="pricing-price">
+            <div>
+              <span class="price-currency">ج.م</span>
+              <span class="price-amount">4,500</span>
+            </div>
+            <span class="price-period">يوم كامل — حتى 10 ساعات</span>
+          </div>
+          <ul class="pricing-features">
+            <li>تصوير 10 ساعات متواصلة</li>
+            <li>300+ صورة معدّلة احترافياً</li>
+            <li>مصور مساعد</li>
+            <li>كليب هايلايت 3 دقائق</li>
+            <li>تسليم خلال 3 أيام</li>
+            <li>ملف رقمي عالي الجودة</li>
+          </ul>
+          <a href="https://wa.me/201121044291?text=أريد الاستفسار عن الباقة الاحترافية" class="btn btn-primary" style="width:100%; justify-content:center" target="_blank">احجز الآن</a>
+        </div>
+
+        <div class="pricing-card">
+          <div class="pricing-name">الباقة المميزة</div>
+          <div class="pricing-desc">تجربة تصوير فاخرة شاملة لكل التفاصيل</div>
+          <div class="pricing-price">
+            <div>
+              <span class="price-currency">ج.م</span>
+              <span class="price-amount">8,000</span>
+            </div>
+            <span class="price-period">يومان — مع فيديو كامل</span>
+          </div>
+          <ul class="pricing-features">
+            <li>تصوير يومين كاملين</li>
+            <li>500+ صورة معدّلة</li>
+            <li>فيديو سينمائي كامل</li>
+            <li>ألبوم فاخر مطبوع</li>
+            <li>تسليم خلال 48 ساعة</li>
+            <li>طائرة درون (اختياري)</li>
+          </ul>
+          <a href="https://wa.me/201121044291?text=أريد الاستفسار عن الباقة المميزة" class="btn btn-outline" style="width:100%; justify-content:center" target="_blank">احجز الآن</a>
+        </div>
+      </div>
+      <div class="text-center mt-4">
+        <p style="color:var(--white-50); font-size:0.9rem; margin-bottom:1.5rem">الأسعار تقريبية ويمكن التفاوض حسب طبيعة المشروع</p>
+        <a href="https://wa.me/201121044291?text=أريد باقة تصوير مخصصة" class="btn btn-primary" target="_blank">تواصل لباقة مخصصة</a>
+      </div>
+    </div>
+  </section>
+
+  <a href="https://wa.me/201121044291?text=مرحباً، أريد الاستفسار عن خدمات التصوير" class="whatsapp-float" target="_blank" aria-label="تواصل عبر واتساب">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    <span class="wa-tooltip">تواصل الآن</span>
+  </a>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-top">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <a href="index.html" class="nav-logo">
+              <span class="logo-icon">⬡</span>
+              <span class="logo-text">Mohamed <em>Photography</em></span>
+            </a>
+            <p>نلتقط لحظاتك الاستثنائية بعدسة فنية احترافية تخلد ذكرياتك للأبد.</p>
+            <div class="footer-social">
+              <a href="#" class="social-link" aria-label="Instagram">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+              </a>
+              <a href="https://wa.me/201121044291" class="social-link" aria-label="WhatsApp">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+              </a>
+              <a href="#" class="social-link" aria-label="Facebook">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+              </a>
+              <a href="#" class="social-link" aria-label="YouTube">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg>
+              </a>
+            </div>
+          </div>
+          <div class="footer-links">
+            <h4>روابط سريعة</h4>
+            <ul>
+              <li><a href="index.html">الرئيسية</a></li>
+              <li><a href="gallery.html">معرض الأعمال</a></li>
+              <li><a href="services.html">الخدمات والأسعار</a></li>
+              <li><a href="videos.html">الفيديوهات</a></li>
+              <li><a href="offers.html">العروض والبروموهات</a></li>
+              <li><a href="contact.html">تواصل معي</a></li>
+            </ul>
+          </div>
+          <div class="footer-links">
+            <h4>الخدمات</h4>
+            <ul>
+              <li><a href="#wedding">تصوير الأفراح</a></li>
+              <li><a href="#portrait">البورتريه والفاشون</a></li>
+              <li><a href="#product">التصوير التجاري</a></li>
+              <li><a href="#events">المناسبات</a></li>
+              <li><a href="#nature">تصوير الطبيعة</a></li>
+              <li><a href="#video">تصوير الفيديو</a></li>
+            </ul>
+          </div>
+          <div class="footer-contact">
+            <h4>تواصل معي</h4>
+            <div class="contact-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.63 3.18 2 2 0 0 1 3.6 1h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 8a16 16 0 0 0 7.86 7.86l.76-.76a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              <a href="tel:+201121044291">01121044291+</a>
+            </div>
+            <div class="contact-item">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+              <a href="https://wa.me/201121044291" target="_blank">واتساب: 01121044291</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container">
+        <p>© 2024 Mohamed Photography. جميع الحقوق محفوظة.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
