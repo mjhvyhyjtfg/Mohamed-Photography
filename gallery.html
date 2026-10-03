@@ -127,8 +127,9 @@
       .gallery-page-item { grid-column: span 1 !important; grid-row: span 1 !important; }
     }
   </style>
+  <link rel="stylesheet" href="css/media-manager.css" />
 </head>
-<body>
+<body data-mm-page="gallery">
 
   <div id="preloader">
     <div class="preloader-inner">
@@ -452,25 +453,34 @@
       });
     });
 
-    // Lightbox
-    galleryItems.forEach(item => {
-      item.addEventListener('click', () => {
-        const img = item.querySelector('img');
-        const title = item.querySelector('h4')?.textContent || '';
-        if (img) {
-          openLightbox(img.src, title);
-        }
-      });
+    // Lightbox via delegation to support dynamic items
+    document.getElementById('galleryGrid').addEventListener('click', (e) => {
+      const item = e.target.closest('.gallery-page-item');
+      if (!item || e.target.closest('.mm-del') || e.target.closest('.mm-trigger')) return;
+      const img = item.querySelector('img');
+      const title = item.querySelector('h4')?.textContent || '';
+      if (img) openLightbox(img.src, title, item.dataset.mmId);
     });
 
-    function openLightbox(src, title) {
+    function openLightbox(src, title, mmId) {
       const lb = document.createElement('div');
       lb.style.cssText = `position:fixed;inset:0;background:rgba(0,0,0,0.96);z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;animation:scaleIn 0.3s ease;`;
-      lb.innerHTML = `<button style="position:absolute;top:20px;right:20px;width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:white;font-size:1.5rem;cursor:pointer;display:flex;align-items:center;justify-content:center;" id="lb-close">×</button><img src="${src}" style="max-width:90vw;max-height:85vh;object-fit:contain;border-radius:8px;box-shadow:0 40px 80px rgba(0,0,0,0.8)" /><p style="margin-top:1rem;color:rgba(255,255,255,0.7);font-family:'Cairo',sans-serif;">${title}</p>`;
+      lb.innerHTML = `<button style="position:absolute;top:20px;right:20px;width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:white;font-size:1.5rem;cursor:pointer;display:flex;align-items:center;justify-content:center;" id="lb-close">×</button><img id="lb-img" src="${src}" style="max-width:90vw;max-height:85vh;object-fit:contain;border-radius:8px;box-shadow:0 40px 80px rgba(0,0,0,0.8)" /><p style="margin-top:1rem;color:rgba(255,255,255,0.7);font-family:'Cairo',sans-serif;">${title}</p>`;
       document.body.appendChild(lb);
+      
+      if (mmId && window.mmGetFullImage) {
+        window.mmGetFullImage(mmId).then(fullSrc => {
+          const lbImg = lb.querySelector('#lb-img');
+          if (lbImg) lbImg.src = fullSrc;
+        }).catch(e => console.error(e));
+      }
+
       lb.querySelector('#lb-close').addEventListener('click', () => { lb.remove(); });
       lb.addEventListener('click', e => { if (e.target === lb) lb.remove(); });
     }
   </script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+  <script src="js/media-manager.js"></script>
 </body>
 </html>

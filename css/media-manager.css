@@ -1,0 +1,258 @@
+/* ════════════════════════════════════════════════
+   MEDIA MANAGER — admin upload / delete UI
+   All classes are prefixed with "mm-" so nothing
+   here can affect the existing site styles.
+════════════════════════════════════════════════ */
+
+/* Small, subtle trigger button (bottom-left) */
+.mm-trigger {
+  position: fixed;
+  bottom: 30px;
+  left: 30px;
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: var(--black-card);
+  border: 1px solid var(--black-border);
+  color: var(--white-50);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  z-index: 990;
+  opacity: 0.45;
+  transition: var(--transition);
+}
+.mm-trigger:hover { opacity: 1; color: #fff; border-color: rgba(192,57,43,0.5); background: var(--crimson); }
+.mm-trigger svg { width: 16px; height: 16px; }
+body.mm-admin .mm-trigger { display: none; }
+
+/* Admin toolbar (visible only after login) */
+.mm-toolbar {
+  position: fixed;
+  bottom: 24px; left: 50%;
+  transform: translateX(-50%) translateY(140%);
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px;
+  background: rgba(17,17,17,0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--black-border);
+  border-radius: 100px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+  z-index: 995;
+  transition: transform 0.5s cubic-bezier(0.34,1.56,0.64,1);
+}
+.mm-toolbar.mm-show { transform: translateX(-50%) translateY(0); }
+.mm-toolbar-label {
+  font-family: var(--font-arabic); font-size: 0.8rem;
+  color: var(--white-50); padding: 0 10px 0 6px; white-space: nowrap;
+}
+.mm-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  height: 42px; padding: 0 20px;
+  border-radius: 100px; border: 1px solid transparent;
+  font-family: var(--font-arabic); font-size: 0.88rem; font-weight: 700;
+  cursor: pointer; white-space: nowrap;
+  transition: var(--transition);
+}
+.mm-btn svg { width: 16px; height: 16px; }
+.mm-btn-primary {
+  background: linear-gradient(135deg, var(--crimson), var(--crimson-dark));
+  color: #fff; box-shadow: 0 4px 18px rgba(192,57,43,0.35);
+}
+.mm-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 26px rgba(192,57,43,0.5); }
+.mm-btn-ghost { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.12); color: #fff; }
+.mm-btn-ghost:hover { background: rgba(255,255,255,0.12); }
+.mm-btn[disabled] { opacity: 0.55; cursor: not-allowed; transform: none !important; }
+
+/* Delete button on every item (admin mode only) */
+.mm-del {
+  position: absolute; top: 10px; left: 10px;
+  width: 38px; height: 38px; border-radius: 50%;
+  background: rgba(192,57,43,0.92);
+  border: 2px solid rgba(255,255,255,0.85);
+  color: #fff; cursor: pointer;
+  display: none; align-items: center; justify-content: center;
+  z-index: 20;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+  transition: transform 0.25s ease, background 0.25s ease;
+}
+.mm-del svg { width: 17px; height: 17px; }
+.mm-del:hover { transform: scale(1.12); background: #e74c3c; }
+body.mm-admin .mm-del { display: flex; }
+.video-card { position: relative; }
+
+/* Deleted built-in items stay hidden no matter what the filters do */
+.mm-removed { display: none !important; }
+
+/* Badge for newly uploaded items (admin mode) */
+.mm-new-badge {
+  position: absolute; top: 12px; right: 12px; z-index: 19;
+  background: rgba(39,174,96,0.9); color: #fff;
+  font-family: var(--font-arabic); font-size: 0.7rem; font-weight: 700;
+  padding: 3px 10px; border-radius: 100px;
+  display: none;
+}
+body.mm-admin .mm-new-badge { display: block; }
+
+/* ── Modals ── */
+.mm-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 100000;
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px;
+  opacity: 0; visibility: hidden;
+  transition: opacity 0.35s ease, visibility 0.35s ease;
+}
+.mm-overlay.mm-open { opacity: 1; visibility: visible; }
+.mm-box {
+  background: var(--black-card);
+  border: 1px solid var(--black-border);
+  border-radius: var(--radius-xl, 24px);
+  padding: 2.25rem;
+  width: 100%; max-width: 480px;
+  max-height: calc(100vh - 40px); overflow-y: auto;
+  position: relative;
+  transform: scale(0.92) translateY(20px);
+  transition: transform 0.45s cubic-bezier(0.34,1.56,0.64,1);
+  font-family: var(--font-arabic);
+  color: var(--white);
+  text-align: right;
+}
+.mm-overlay.mm-open .mm-box { transform: scale(1) translateY(0); }
+.mm-close {
+  position: absolute; top: 14px; left: 14px;
+  width: 36px; height: 36px; border-radius: 50%;
+  background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1);
+  color: #fff; font-size: 1.15rem; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: var(--transition);
+}
+.mm-close:hover { background: var(--crimson); }
+.mm-icon {
+  width: 58px; height: 58px; border-radius: var(--radius-lg, 16px);
+  background: var(--crimson-subtle, rgba(192,57,43,0.12));
+  border: 1px solid rgba(192,57,43,0.25);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 1.25rem;
+}
+.mm-icon svg { width: 26px; height: 26px; color: var(--crimson-light); }
+.mm-box h3 {
+  font-family: var(--font-display); font-size: 1.35rem; font-weight: 700;
+  text-align: center; margin-bottom: 0.4rem;
+}
+.mm-sub { text-align: center; color: var(--white-50); font-size: 0.86rem; line-height: 1.7; margin-bottom: 1.6rem; }
+
+.mm-field { margin-bottom: 1.1rem; }
+.mm-field label { display: block; font-size: 0.82rem; color: var(--white-50); margin-bottom: 6px; font-weight: 600; }
+.mm-input, .mm-select, .mm-textarea {
+  width: 100%;
+  background: var(--black-soft, #111);
+  border: 1px solid var(--black-border);
+  border-radius: var(--radius-sm, 10px);
+  padding: 12px 14px;
+  font-family: var(--font-arabic); font-size: 0.92rem; color: var(--white);
+  outline: none; transition: var(--transition);
+}
+.mm-textarea { min-height: 80px; resize: vertical; line-height: 1.6; }
+.mm-input:focus, .mm-select:focus, .mm-textarea:focus { border-color: var(--crimson); box-shadow: 0 0 0 3px rgba(192,57,43,0.15); }
+.mm-select option { background: var(--black-card); }
+.mm-input.mm-pw { text-align: center; letter-spacing: 4px; font-size: 1rem; }
+.mm-input.mm-shake { border-color: #e74c3c; animation: mmShake 0.4s ease; }
+.mm-error { color: #e74c3c; font-size: 0.82rem; text-align: center; min-height: 1.2rem; margin: -4px 0 10px; }
+@keyframes mmShake {
+  0%,100% { transform: translateX(0); } 20% { transform: translateX(-8px); }
+  40% { transform: translateX(8px); } 60% { transform: translateX(-6px); } 80% { transform: translateX(6px); }
+}
+
+/* Tabs (file / link) */
+.mm-tabs { display: flex; gap: 6px; background: var(--black-soft, #111); padding: 5px; border-radius: 100px; margin-bottom: 1.2rem; border: 1px solid var(--black-border); }
+.mm-tab {
+  flex: 1; height: 38px; border-radius: 100px; border: none;
+  background: transparent; color: var(--white-50);
+  font-family: var(--font-arabic); font-size: 0.85rem; font-weight: 700; cursor: pointer;
+  transition: var(--transition);
+}
+.mm-tab.mm-active { background: var(--crimson); color: #fff; }
+
+/* Drop zone */
+.mm-drop {
+  border: 2px dashed rgba(255,255,255,0.15);
+  border-radius: var(--radius, 14px);
+  padding: 1.6rem 1rem;
+  text-align: center; cursor: pointer;
+  transition: var(--transition);
+  background: rgba(255,255,255,0.02);
+}
+.mm-drop:hover, .mm-drop.mm-over { border-color: var(--crimson); background: rgba(192,57,43,0.06); }
+.mm-drop svg { width: 34px; height: 34px; color: var(--crimson-light); margin-bottom: 8px; }
+.mm-drop strong { display: block; font-size: 0.95rem; margin-bottom: 4px; }
+.mm-drop span { font-size: 0.78rem; color: var(--white-50); }
+.mm-drop input { display: none; }
+
+.mm-previews { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 12px; }
+.mm-previews:empty { display: none; }
+.mm-previews img, .mm-previews video { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 8px; border: 1px solid var(--black-border); background: #000; }
+.mm-previews.mm-single { grid-template-columns: 1fr; }
+.mm-previews.mm-single video, .mm-previews.mm-single img { aspect-ratio: 16/9; object-fit: contain; }
+
+.mm-hint { font-size: 0.76rem; color: var(--white-50); line-height: 1.7; margin-top: 6px; }
+
+/* Progress */
+.mm-progress { margin: 1rem 0 0.25rem; display: none; }
+.mm-progress.mm-show { display: block; }
+.mm-progress-bar { height: 8px; background: rgba(255,255,255,0.08); border-radius: 100px; overflow: hidden; }
+.mm-progress-fill { height: 100%; width: 0; background: linear-gradient(90deg, var(--crimson), var(--crimson-light)); border-radius: 100px; transition: width 0.3s ease; }
+.mm-progress-text { font-size: 0.8rem; color: var(--white-50); margin-top: 6px; text-align: center; }
+
+.mm-actions { display: flex; gap: 10px; margin-top: 1.4rem; }
+.mm-actions .mm-btn { flex: 1; height: 46px; }
+
+/* Toast */
+.mm-toast {
+  position: fixed; bottom: 100px; left: 50%;
+  transform: translateX(-50%) translateY(30px);
+  background: rgba(17,17,17,0.95); border: 1px solid var(--black-border);
+  color: #fff; font-family: var(--font-arabic); font-size: 0.9rem;
+  padding: 12px 22px; border-radius: 100px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+  z-index: 100001; opacity: 0; visibility: hidden;
+  transition: all 0.35s ease;
+  display: flex; align-items: center; gap: 10px; white-space: nowrap;
+}
+.mm-toast.mm-show { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
+.mm-toast-dot { width: 9px; height: 9px; border-radius: 50%; background: #27ae60; flex-shrink: 0; }
+.mm-toast.mm-err .mm-toast-dot { background: #e74c3c; }
+
+/* Loading spinner (video modal while a video loads) */
+.mm-loading {
+  position: absolute; inset: 0;
+  display: none; flex-direction: column; align-items: center; justify-content: center; gap: 14px;
+  background: rgba(0,0,0,0.75); border-radius: var(--radius-lg, 16px);
+  color: var(--white-50); font-family: var(--font-arabic); font-size: 0.9rem;
+  z-index: 3;
+}
+.mm-loading.mm-show { display: flex; }
+.mm-spinner {
+  width: 44px; height: 44px; border-radius: 50%;
+  border: 3px solid rgba(255,255,255,0.12); border-top-color: var(--crimson);
+  animation: mmSpin 0.9s linear infinite;
+}
+@keyframes mmSpin { to { transform: rotate(360deg); } }
+
+/* Embedded (YouTube / Drive) player */
+.mm-embed {
+  width: 100%; aspect-ratio: 16/9; border: 0; display: block;
+  border-radius: var(--radius-lg, 16px); background: #000;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+}
+
+@media (max-width: 640px) {
+  .mm-trigger { bottom: 24px; left: 16px; width: 36px; height: 36px; }
+  .mm-toolbar { bottom: 16px; width: calc(100% - 24px); justify-content: center; flex-wrap: wrap; border-radius: 22px; }
+  .mm-toolbar-label { width: 100%; text-align: center; padding: 2px 0 0; }
+  .mm-btn { padding: 0 16px; font-size: 0.84rem; }
+  .mm-box { padding: 1.75rem 1.25rem; }
+  .mm-previews { grid-template-columns: repeat(3, 1fr); }
+}

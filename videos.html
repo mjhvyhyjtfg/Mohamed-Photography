@@ -219,8 +219,9 @@
       .videos-grid { grid-template-columns: 1fr; }
     }
   </style>
+  <link rel="stylesheet" href="css/media-manager.css" />
 </head>
-<body>
+<body data-mm-page="videos">
 
   <div id="preloader">
     <div class="preloader-inner">
@@ -397,5 +398,8 @@
     modal.addEventListener('click', (e) => { if (e.target === modal) closeVideoModal(); });
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.classList.contains('active')) closeVideoModal(); });
   </script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+  <script src="js/media-manager.js"></script>
 </body>
 </html>
