@@ -178,6 +178,40 @@
       padding: 0 2rem; line-height: 1.8;
     }
 
+    /* Real video thumbnails */
+    .video-thumb-img {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1), filter 0.5s ease;
+      filter: brightness(0.82);
+    }
+    .video-card:hover .video-thumb-img { transform: scale(1.06); filter: brightness(0.65); }
+    .video-thumb .video-thumb-bg { position: relative; z-index: 1; background: transparent; }
+    .video-thumb .video-duration { z-index: 2; }
+
+    /* Lone / featured card: show it large and centered */
+    .video-card.featured {
+      grid-column: 1 / -1;
+      width: 100%;
+      max-width: 900px;
+      justify-self: center;
+    }
+    .video-card.featured .video-info { padding: 1.75rem 2rem; }
+    .video-card.featured .video-title { font-size: 1.35rem; }
+
+    .video-player {
+      width: 100%;
+      max-height: 80vh;
+      aspect-ratio: 16/9;
+      background: #000;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--black-border);
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+      display: block;
+      outline: none;
+    }
+
     @media (max-width: 1024px) {
       .videos-grid { grid-template-columns: repeat(2, 1fr); }
     }
@@ -239,121 +273,22 @@
       <div class="videos-grid" id="videosGrid">
 
         <div class="video-card" data-category="wedding" id="vid-1">
-          <div class="video-thumb" onclick="openVideoModal('فيلم زفاف سينمائي', 'wedding-vid')">
-            <div class="video-thumb-bg wedding-vid">
+          <div class="video-thumb" onclick="openVideoModal('videos/video1.mp4', 'videos/video1-poster.jpg', 'دعوة زفاف — عبدالمؤمن ورندة')">
+            <img class="video-thumb-img" src="videos/video1-poster.jpg" alt="فيديو دعوة زفاف عبدالمؤمن ورندة" loading="lazy" />
+            <div class="video-thumb-bg">
               <div class="play-btn">
                 <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
               </div>
             </div>
-            <span class="video-duration">4:32</span>
+            <span class="video-duration" id="vid-1-duration"></span>
           </div>
           <div class="video-info">
             <div class="video-category">أفراح</div>
-            <h3 class="video-title">فيلم زفاف سينمائي — سارة وأحمد</h3>
-            <p class="video-desc">كليب هايلايت لحفل زفاف رومانسي تم تصويره في قصر فاخر مع إضاءة احترافية.</p>
+            <h3 class="video-title">دعوة زفاف — عبدالمؤمن ورندة</h3>
+            <p class="video-desc">فيديو سينمائي لتفاصيل دعوة الزفاف ورسالة العمر، بإضاءة ناعمة ولقطات قريبة تُبرز جمال التفاصيل.</p>
             <div class="video-meta">
-              <span>👁 1,240 مشاهدة</span>
-              <span>📅 مارس 2024</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="video-card" data-category="wedding" id="vid-2">
-          <div class="video-thumb" onclick="openVideoModal('عقد قران كلاسيكي', 'wedding-vid')">
-            <div class="video-thumb-bg wedding-vid" style="background: linear-gradient(135deg, #2d1010, #1a0808);">
-              <div class="play-btn">
-                <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-              </div>
-            </div>
-            <span class="video-duration">3:15</span>
-          </div>
-          <div class="video-info">
-            <div class="video-category">أفراح</div>
-            <h3 class="video-title">عقد قران كلاسيكي — نور وعمر</h3>
-            <p class="video-desc">فيديو عقد قران بأسلوب تصوير أنيق وموسيقى هادئة تعبر عن المشاعر.</p>
-            <div class="video-meta">
-              <span>👁 986 مشاهدة</span>
-              <span>📅 فبراير 2024</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="video-card" data-category="events" id="vid-3">
-          <div class="video-thumb" onclick="openVideoModal('مؤتمر شركة كبرى', 'event-vid')">
-            <div class="video-thumb-bg event-vid">
-              <div class="play-btn">
-                <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-              </div>
-            </div>
-            <span class="video-duration">2:48</span>
-          </div>
-          <div class="video-info">
-            <div class="video-category">مناسبات</div>
-            <h3 class="video-title">مؤتمر سنوي لشركة رائدة</h3>
-            <p class="video-desc">تغطية فيديو كاملة لمؤتمر أعمال دولي مع مونتاج ديناميكي وإيقاع سريع.</p>
-            <div class="video-meta">
-              <span>👁 2,100 مشاهدة</span>
-              <span>📅 يناير 2024</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="video-card" data-category="product" id="vid-4">
-          <div class="video-thumb" onclick="openVideoModal('إعلان منتج فاخر', 'product-vid')">
-            <div class="video-thumb-bg product-vid">
-              <div class="play-btn">
-                <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-              </div>
-            </div>
-            <span class="video-duration">1:20</span>
-          </div>
-          <div class="video-info">
-            <div class="video-category">تجاري</div>
-            <h3 class="video-title">إعلان تجاري لمنتج فاخر</h3>
-            <p class="video-desc">فيديو إعلاني بجودة سينمائية عالية لعلامة تجارية فاخرة مع إضاءة درامية.</p>
-            <div class="video-meta">
-              <span>👁 3,500 مشاهدة</span>
-              <span>📅 ديسمبر 2023</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="video-card" data-category="portrait" id="vid-5">
-          <div class="video-thumb" onclick="openVideoModal('جلسة بورتريه فيديو', 'wedding-vid')">
-            <div class="video-thumb-bg" style="background: linear-gradient(135deg, #100810,#1d0a1d);">
-              <div class="play-btn">
-                <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-              </div>
-            </div>
-            <span class="video-duration">2:05</span>
-          </div>
-          <div class="video-info">
-            <div class="video-category">بورتريه</div>
-            <h3 class="video-title">كليب بورتريه فاشون</h3>
-            <p class="video-desc">فيديو قصير يجسد جمال جلسة البورتريه مع إضاءة سينمائية وموسيقى هادئة.</p>
-            <div class="video-meta">
-              <span>👁 1,850 مشاهدة</span>
-              <span>📅 نوفمبر 2023</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="video-card" data-category="events" id="vid-6">
-          <div class="video-thumb" onclick="openVideoModal('حفل تخرج', 'event-vid')">
-            <div class="video-thumb-bg event-vid" style="background: linear-gradient(135deg, #141028, #0a0818);">
-              <div class="play-btn">
-                <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-              </div>
-            </div>
-            <span class="video-duration">5:18</span>
-          </div>
-          <div class="video-info">
-            <div class="video-category">مناسبات</div>
-            <h3 class="video-title">حفل تخرج جامعي</h3>
-            <p class="video-desc">توثيق كامل لحفل التخرج مع لحظات العائلة والأصدقاء والاحتفالات.</p>
-            <div class="video-meta">
-              <span>👁 4,200 مشاهدة</span>
-              <span>📅 يونيو 2023</span>
+              <span>🎬 تصوير ومونتاج Mohamed Photography</span>
+              <span>📅 أغسطس 2026</span>
             </div>
           </div>
         </div>
@@ -379,12 +314,8 @@
   <div class="video-modal" id="videoModal">
     <div class="video-modal-inner">
       <button class="video-modal-close" id="closeModal">×</button>
-      <div class="video-placeholder-large" id="videoContent">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" style="width:64px;height:64px;color:var(--crimson);"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
-        <p id="videoModalTitle">الفيديو</p>
-        <p>سيتم إضافة الفيديوهات الحقيقية هنا.<br/>تواصل معنا للحصول على نماذج فيديو حقيقية.</p>
-        <a href="https://wa.me/201121044291?text=أريد مشاهدة نماذج الفيديو" class="btn btn-primary" target="_blank">اطلب نماذج الفيديو</a>
-      </div>
+      <video class="video-player" id="videoPlayer" controls playsinline preload="none" controlsList="nodownload"></video>
+      <p id="videoModalTitle" style="color:var(--white);text-align:center;margin-top:1rem;font-weight:600;"></p>
     </div>
   </div>
 
@@ -398,6 +329,22 @@
     // Filter
     const filterBtns = document.querySelectorAll('.video-filter-btn');
     const videoCards = document.querySelectorAll('.video-card');
+
+    // Hide filter buttons for categories that have no videos yet
+    filterBtns.forEach(btn => {
+      const f = btn.dataset.filter;
+      if (f !== 'all' && !document.querySelector('.video-card[data-category="' + f + '"]')) {
+        btn.style.display = 'none';
+      }
+    });
+
+    // If only one card is visible, show it large & centered
+    function updateFeatured() {
+      const visible = [...videoCards].filter(c => c.style.display !== 'none');
+      videoCards.forEach(c => c.classList.toggle('featured', visible.length === 1 && visible[0] === c));
+    }
+    updateFeatured();
+
     filterBtns.forEach(btn => {
       btn.addEventListener('click', () => {
         const f = btn.dataset.filter;
@@ -407,26 +354,48 @@
           const show = f === 'all' || card.dataset.category === f;
           card.style.display = show ? '' : 'none';
         });
+        updateFeatured();
+      });
+    });
+
+    // Fill in real durations automatically
+    document.querySelectorAll('.video-thumb[onclick]').forEach(thumb => {
+      const m = thumb.getAttribute('onclick').match(/openVideoModal\('([^']+)'/);
+      const label = thumb.querySelector('.video-duration');
+      if (!m || !label) return;
+      const probe = document.createElement('video');
+      probe.preload = 'metadata';
+      probe.muted = true;
+      probe.src = m[1];
+      probe.addEventListener('loadedmetadata', () => {
+        const s = Math.round(probe.duration);
+        if (isFinite(s)) label.textContent = Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0');
+        probe.removeAttribute('src'); probe.load();
       });
     });
 
     // Modal
-    function openVideoModal(title, type) {
+    const modal = document.getElementById('videoModal');
+    const player = document.getElementById('videoPlayer');
+    function openVideoModal(src, poster, title) {
       document.getElementById('videoModalTitle').textContent = '🎬 ' + title;
-      const modal = document.getElementById('videoModal');
+      player.poster = poster || '';
+      player.src = src;
       modal.classList.add('active');
       document.body.style.overflow = 'hidden';
+      const p = player.play();
+      if (p && p.catch) p.catch(() => {});
     }
-    document.getElementById('closeModal').addEventListener('click', () => {
-      document.getElementById('videoModal').classList.remove('active');
+    function closeVideoModal() {
+      modal.classList.remove('active');
       document.body.style.overflow = '';
-    });
-    document.getElementById('videoModal').addEventListener('click', (e) => {
-      if (e.target === document.getElementById('videoModal')) {
-        document.getElementById('videoModal').classList.remove('active');
-        document.body.style.overflow = '';
-      }
-    });
+      player.pause();
+      player.removeAttribute('src');
+      player.load();
+    }
+    document.getElementById('closeModal').addEventListener('click', closeVideoModal);
+    modal.addEventListener('click', (e) => { if (e.target === modal) closeVideoModal(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.classList.contains('active')) closeVideoModal(); });
   </script>
 </body>
 </html>
