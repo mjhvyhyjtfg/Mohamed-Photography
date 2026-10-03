@@ -343,23 +343,37 @@
     const d = videoData[id];
     if (!d) return;
     const title = d.title || '';
-    if (d.type === 'youtube') return window.mmOpenEmbed && window.mmOpenEmbed('https://www.youtube.com/embed/' + d.ref + '?autoplay=1&rel=0&playsinline=1', title);
-    if (d.type === 'drive') return window.mmOpenEmbed && window.mmOpenEmbed('https://drive.google.com/file/d/' + d.ref + '/preview', title);
-    if (!window.mmOpenLoading || !window.openVideoModal) return;
+    
+    // If YouTube or Drive, just use the existing openVideoModal or simple iframe
+    if (d.type === 'youtube' || d.type === 'drive') {
+      const url = d.type === 'youtube' 
+        ? 'https://www.youtube.com/embed/' + d.ref + '?autoplay=1&rel=0&playsinline=1'
+        : 'https://drive.google.com/file/d/' + d.ref + '/preview';
+        
+      if (window.openVideoModal) return window.openVideoModal(url, '', title);
+      return window.open(url, '_blank');
+    }
+
+    if (!window.openVideoModal) return;
+
     if (blobCache[id]) return window.openVideoModal(blobCache[id], d.poster || '', title);
-    const token = window.mmOpenLoading(title, d.poster || '');
+    
+    // Show a loading toast
+    toast('جاري تجهيز الفيديو، ثواني...', false);
+    
     try {
       const snap = await ROOT.child('videoChunks/' + id).once('value');
       const raw = snap.val();
       const parts = Array.isArray(raw) ? raw : Object.keys(raw || {}).sort((a, b) => a - b).map(k => raw[k]);
       if (!parts.length) throw new Error('no chunks');
+      
       const blobs = await Promise.all(parts.map(b64 => fetch('data:application/octet-stream;base64,' + b64).then(r => r.blob())));
       const url = URL.createObjectURL(new Blob(blobs, { type: d.mime || 'video/mp4' }));
       blobCache[id] = url;
-      if (window.mmLoadingToken === token) window.openVideoModal(url, d.poster || '', title);
+      
+      window.openVideoModal(url, d.poster || '', title);
     } catch (err) {
       console.error(err);
-      if (window.mmLoadingToken === token && window.mmCloseVideo) window.mmCloseVideo();
       toast('مقدرناش نشغل الفيديو، جرب تاني', true);
     }
   }
