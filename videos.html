@@ -315,7 +315,9 @@
   <div class="video-modal" id="videoModal">
     <div class="video-modal-inner">
       <button class="video-modal-close" id="closeModal">×</button>
-      <video class="video-player" id="videoPlayer" controls playsinline preload="none" controlsList="nodownload"></video>
+      <div id="videoModalContent" style="width:100%; border-radius:var(--radius-lg); overflow:hidden; background:#000; box-shadow:0 30px 80px rgba(0,0,0,0.6);">
+        <!-- content injected here (video or iframe) -->
+      </div>
       <p id="videoModalTitle" style="color:var(--white);text-align:center;margin-top:1rem;font-weight:600;"></p>
     </div>
   </div>
@@ -331,27 +333,17 @@
     const filterBtns = document.querySelectorAll('.video-filter-btn');
     const videoCards = document.querySelectorAll('.video-card');
 
-    // Hide filter buttons for categories that have no videos yet
-    filterBtns.forEach(btn => {
-      const f = btn.dataset.filter;
-      if (f !== 'all' && !document.querySelector('.video-card[data-category="' + f + '"]')) {
-        btn.style.display = 'none';
-      }
-    });
-
-    // If only one card is visible, show it large & centered
     function updateFeatured() {
-      const visible = [...videoCards].filter(c => c.style.display !== 'none');
-      videoCards.forEach(c => c.classList.toggle('featured', visible.length === 1 && visible[0] === c));
+      const visible = [...document.querySelectorAll('.video-card')].filter(c => c.style.display !== 'none');
+      document.querySelectorAll('.video-card').forEach(c => c.classList.toggle('featured', visible.length === 1 && visible[0] === c));
     }
-    updateFeatured();
 
     filterBtns.forEach(btn => {
       btn.addEventListener('click', () => {
         const f = btn.dataset.filter;
         filterBtns.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-        videoCards.forEach(card => {
+        document.querySelectorAll('.video-card').forEach(card => {
           const show = f === 'all' || card.dataset.category === f;
           card.style.display = show ? '' : 'none';
         });
@@ -359,15 +351,13 @@
       });
     });
 
-    // Fill in real durations automatically
+    // Fill durations for static videos
     document.querySelectorAll('.video-thumb[onclick]').forEach(thumb => {
       const m = thumb.getAttribute('onclick').match(/openVideoModal\('([^']+)'/);
       const label = thumb.querySelector('.video-duration');
       if (!m || !label) return;
       const probe = document.createElement('video');
-      probe.preload = 'metadata';
-      probe.muted = true;
-      probe.src = m[1];
+      probe.preload = 'metadata'; probe.muted = true; probe.src = m[1];
       probe.addEventListener('loadedmetadata', () => {
         const s = Math.round(probe.duration);
         if (isFinite(s)) label.textContent = Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0');
@@ -375,25 +365,33 @@
       });
     });
 
-    // Modal
+    // Modal logic (handles normal video AND iframe embeds)
     const modal = document.getElementById('videoModal');
-    const player = document.getElementById('videoPlayer');
-    function openVideoModal(src, poster, title) {
+    const modalContent = document.getElementById('videoModalContent');
+    
+    window.openVideoModal = function(src, poster, title, isEmbed = false) {
       document.getElementById('videoModalTitle').textContent = '🎬 ' + title;
-      player.poster = poster || '';
-      player.src = src;
+      
+      if (isEmbed || src.includes('youtube.com') || src.includes('drive.google.com')) {
+        modalContent.innerHTML = `<iframe src="${src}" allow="autoplay; fullscreen" style="width:100%; aspect-ratio:16/9; border:none; display:block;"></iframe>`;
+      } else {
+        modalContent.innerHTML = `<video class="video-player" controls playsinline preload="auto" style="width:100%; aspect-ratio:16/9; display:block; outline:none;" poster="${poster || ''}" src="${src}"></video>`;
+        const player = modalContent.querySelector('video');
+        player.load();
+        const p = player.play();
+        if (p && p.catch) p.catch(() => {});
+      }
+      
       modal.classList.add('active');
       document.body.style.overflow = 'hidden';
-      const p = player.play();
-      if (p && p.catch) p.catch(() => {});
-    }
+    };
+    
     function closeVideoModal() {
       modal.classList.remove('active');
       document.body.style.overflow = '';
-      player.pause();
-      player.removeAttribute('src');
-      player.load();
+      modalContent.innerHTML = ''; // destroys video or iframe to stop playback
     }
+    
     document.getElementById('closeModal').addEventListener('click', closeVideoModal);
     modal.addEventListener('click', (e) => { if (e.target === modal) closeVideoModal(); });
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.classList.contains('active')) closeVideoModal(); });
