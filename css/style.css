@@ -1266,3 +1266,34 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   transition: transform var(--transition);
 }
 .nav-logo:hover .logo-img { transform: scale(1.08) rotate(-4deg); }
+
+/* ===== Matted frame around about photo ===== */
+.about-img-3d {
+  padding: 22px !important;
+  border-radius: 20px !important;
+  overflow: visible !important;
+  background:
+    linear-gradient(145deg, #2a2a2a, #0e0e0e) padding-box,
+    linear-gradient(135deg, var(--gold), var(--crimson) 45%, #3a0f0b 70%, var(--gold-light)) border-box;
+  border: 3px solid transparent;
+  box-shadow:
+    0 25px 60px rgba(0,0,0,0.6),
+    0 0 40px var(--crimson-glow),
+    inset 0 0 0 1px rgba(255,255,255,0.06),
+    inset 0 8px 18px rgba(0,0,0,0.8);
+  position: relative;
+}
+.about-img-3d::before {
+  content: "";
+  position: absolute;
+  inset: 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(212,175,55,0.45);
+  pointer-events: none;
+  z-index: 2;
+}
+.about-img-3d .about-img {
+  border-radius: 8px;
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.9), 0 6px 16px rgba(0,0,0,0.7);
+  display: block;
+}
